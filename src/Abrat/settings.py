@@ -10,10 +10,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('Secret_Key')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('Debug_Status', cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['*', ]
 
@@ -73,11 +73,35 @@ WSGI_APPLICATION = 'Abrat.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+SQL_LITE_DATABASE = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': BASE_DIR / 'db.sqlite3',
+}
+
+if config('USE_MYSQL', default=False, cast=bool):
+    MYSQL_DATABASE = {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('MYSQL_NAME'),
+        'USER': config('MYSQL_USER'),
+        'PASSWORD': config('MYSQL_PASS'),
+        'HOST': config('MYSQL_HOST'),
+        'PORT': config('MYSQL_PORT', cast=int),
     }
+
+if config('USE_POSTGRES', default=False, cast=bool):
+    POSTGRE_SQL_DATABASE = {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('POSTGRES_NAME'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASS'),
+        'HOST': config('POSTGRES_HOST'),
+        'PORT': config('POSTGRES_PORT', cast=int),
+    }
+
+DEFAULT_DATABASE = config('DEFAULT_DATABASE_NAME', default="")
+
+DATABASES = {
+    'default': SQL_LITE_DATABASE if DEBUG else MYSQL_DATABASE if DEFAULT_DATABASE.upper() == "MYSQL" else POSTGRE_SQL_DATABASE if DEFAULT_DATABASE.upper() == "POSTGRESQL" else SQL_LITE_DATABASE
 }
 
 # Password validation
@@ -124,9 +148,9 @@ REST_FRAMEWORK = {
 }
 
 # ___Redis settings___ #
-Redis_host = config('Redis_Host')
-Redis_port = config('Redis_port', cast=int)
-Redis_db = config('Redis_db', cast=int)
+Redis_host = config('REDIS_HOST', default="localhost")
+Redis_port = config('REDIS_PORT', default=6379, cast=int)
+Redis_db = config('REDIS_DB', default=0, cast=int)
 
 # ___Request Api Options___ #
 CORS_ORIGIN_ALLOW_ALL = True
