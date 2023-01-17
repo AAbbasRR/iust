@@ -6,5 +6,7 @@ from .general_models import (
 from .versioning import BaseVersioning
 from .base_errors import BaseErrors
 from .classes import (
-    Redis
+    Redis,
+    ManageMailService
 )
+from .data_list import RedisKeys

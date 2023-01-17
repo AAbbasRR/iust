@@ -4,7 +4,12 @@ from django.contrib.auth import get_user_model
 from rest_framework import exceptions, serializers
 from rest_framework.validators import UniqueValidator
 
-from utils import Redis, BaseErrors
+from utils import (
+    Redis,
+    BaseErrors,
+    RedisKeys,
+    ManageMailService
+)
 
 User = get_user_model()
 
@@ -66,7 +71,7 @@ class UserVerifyRegisterSerializer(serializers.Serializer):
         return value
 
     def validate(self, attrs):
-        redis_management = Redis(self.user.email, 'account_activation')
+        redis_management = Redis(self.user.email, f'{RedisKeys.activate_account}_otp_code')
         result_check_validate = redis_management.validate(attrs['otp_code'])
         if result_check_validate is None:
             raise exceptions.ParseError(BaseErrors.otp_code_expired)
@@ -96,11 +101,13 @@ class UserReSendRegisterOTPCodeSerializer(serializers.Serializer):
         return value
 
     def validate(self, attrs):
-        redis_management = Redis(self.user.email, 'sms_verification')
+        redis_management = Redis(self.user.email, f'{RedisKeys.activate_account}_otp_code')
         if redis_management.exists():
             raise exceptions.ParseError({
                 'message': BaseErrors.otp_code_has_already_been_sent,
                 'time': redis_management.get_expire()
             })
         else:
+            manage_email_obj = ManageMailService(self.user.email)
+            manage_email_obj.send_otp_code(RedisKeys.activate_account)
             return True

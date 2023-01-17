@@ -4,6 +4,8 @@ from django.dispatch import receiver
 
 from rest_framework.authtoken.models import Token
 
+from utils import ManageMailService, RedisKeys
+
 User = get_user_model()
 
 
@@ -14,5 +16,5 @@ def create_user_handler(sender, instance, **kwargs):
             user=instance
         )
         if instance.is_active is False:
-            manage_sms_obj = Manage_SMS_Portal(instance.mobile_number)
-            manage_sms_obj.send_otp_code()
+            manage_email_obj = ManageMailService(instance.email)
+            manage_email_obj.send_otp_code(RedisKeys.activate_account)

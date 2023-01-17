@@ -132,3 +132,16 @@ Redis_db = config('Redis_db', cast=int)
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_REGEX_WHITELIST = ['*', ]
+
+# __Email Settings__ #
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_HOST_USER = ''
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = config('EMAIL_HOST')
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = config('EMAIL_PORT', cast=int)
+    EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
+    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')

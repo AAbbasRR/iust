@@ -195,3 +195,7 @@ country = [
     ('Zambia', 'Zambia'),
     ('Zimbabwe', 'Zimbabwe'),
 ]
+
+
+class RedisKeys:
+    activate_account = "activate_account"

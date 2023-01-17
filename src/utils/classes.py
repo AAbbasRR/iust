@@ -1,3 +1,8 @@
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.utils.translation import gettext as _
+
 from Abrat import settings
 
 from .functions import create_otp_code
@@ -16,6 +21,9 @@ class Redis:
         port=settings.Redis_port,
         db=settings.Redis_db
     )  # config redis system cache
+    expire_times = {
+        "otp_code": 300
+    }
 
     def __init__(self, mobile, key):  # For the key to be unique, we use the user's email to access the key and a string for the key to be unique and clear.
         self.key = mobile + key
@@ -29,6 +37,7 @@ class Redis:
     def create_and_set_otp_key(self, length=5):
         otp_code = create_otp_code(length)
         self.set_value(otp_code)
+        self.set_expire(self.expire_times['otp_code'])
         return otp_code
 
     def get_value(self):  # Returns the internal value of the key
@@ -68,9 +77,39 @@ class Redis:
 
 
 class ManageMailService:
+    subjects = {
+        "activate_account": _("Active Your Account")
+    }
+
     def __init__(self, receiver_email):
         self.receiver_email = receiver_email
 
+    def send_email_to_user(self, subject, content):
+        target_email = self.receiver_email
+        # content = json.loads(content)
+        html_content = render_to_string(
+            "email/email.html",
+            {
+                "content": content
+            }
+        )
+        text_content = strip_tags(html_content)
+        email = EmailMultiAlternatives(
+            subject,
+            text_content,
+            settings.EMAIL_HOST_USER,
+            [target_email]
+        )
+        email.attach_alternative(html_content, 'text/html')
+        email.send()
+        return True
 
-    def send_email_to_user(self):
-        pass
+    def send_otp_code(self, title):
+        redis_management = Redis(self.receiver_email, f'{title}_otp_code')
+        otp_code = redis_management.create_and_set_otp_key()
+        content = {
+            "title": title,
+            "otp_code": otp_code
+        }
+        self.send_email_to_user(self.subjects[title], content)
+        return otp_code
