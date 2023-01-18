@@ -86,7 +86,6 @@ class ManageMailService:
 
     def send_email_to_user(self, subject, content):
         target_email = self.receiver_email
-        # content = json.loads(content)
         html_content = render_to_string(
             "email/email.html",
             {

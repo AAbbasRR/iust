@@ -25,7 +25,7 @@ class UserVerifyRegisterView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         ser = self.serializer_class(data=self.request.data)
         ser.is_valid(raise_exception=True)
-        return Response(ser)
+        return Response(ser.validated_data)
 
 
 class UserReSendRegisterOTPCodeView(generics.GenericAPIView):
@@ -36,4 +36,4 @@ class UserReSendRegisterOTPCodeView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         ser = self.serializer_class(data=self.request.data)
         ser.is_valid(raise_exception=True)
-        return Response(ser)
+        return Response(ser.validated_data)

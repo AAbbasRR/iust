@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager, update_last_login
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import gettext as _
 
 from utils import BaseErrors
@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
         )
         user.set_password(password)
-        user.staff = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
 
@@ -34,9 +34,18 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
         )
         user.set_password(password)
-        user.staff = True
+        user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
+        return user
+
+    def register_user(self, email=None, password=None):
+        if not email:
+            raise ValueError(BaseErrors.user_must_have_email)
+        if not password:
+            raise ValueError(BaseErrors.user_must_have_password)
+        with transaction.atomic():
+            user = self.create_user(email, password)
         return user
 
     def find_by_email(self, email=None):
@@ -71,8 +80,9 @@ class User(AbstractUser):
         """
         :return: active user account after email account validate
         """
-        self.is_active = True
-        self.save()
+        with transaction.atomic():
+            self.is_active = True
+            self.save()
         return self
 
     def set_last_login(self):

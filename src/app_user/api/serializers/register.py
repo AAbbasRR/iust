@@ -43,11 +43,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.create(
+        user = User.objects.register_user(
             email=validated_data['email'],
+            password=validated_data['password'],
         )
-        user.set_password(validated_data['password'])
-        user.save()
         return user
 
 
@@ -101,6 +100,8 @@ class UserReSendRegisterOTPCodeSerializer(serializers.Serializer):
         return value
 
     def validate(self, attrs):
+        if self.user.is_active:
+            raise exceptions.ParseError(BaseErrors.user_account_is_active)
         redis_management = Redis(self.user.email, f'{RedisKeys.activate_account}_otp_code')
         if redis_management.exists():
             raise exceptions.ParseError({

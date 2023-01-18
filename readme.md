@@ -37,3 +37,7 @@ How To Run:
     pip install -r requirements.txt
     python manage.py migrate
     python manage.py runserver
+
+For Run Test Project Service:
+
+    python manage.py test --pattern="tests_*.py"

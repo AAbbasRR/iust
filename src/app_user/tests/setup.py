@@ -1,0 +1,18 @@
+from django.test import Client
+from django.urls import reverse
+
+from rest_framework.test import APITestCase
+
+
+class TestUserSetUp(APITestCase):
+    def setUp(self):
+        self.client = Client()
+        self.register_api = reverse('app_user:user_register', kwargs={"version": "v1"})
+        self.active_account_api = reverse('app_user:user_active_account', kwargs={"version": "v1"})
+        self.resend_activation_otp_api = reverse('app_user:user_resent_active_code', kwargs={"version": "v1"})
+        self.login_api = reverse('app_user:user_login', kwargs={"version": "v1"})
+
+        super(TestUserSetUp, self).setUp()
+
+    def tearDown(self):
+        super(TestUserSetUp, self).tearDown()
