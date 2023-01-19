@@ -15,3 +15,4 @@ class BaseErrors:
     otp_code_has_already_been_sent = _('OTP Code Has Already Been Sent.')
     user_account_not_active = _('User Account Not Active.')
     user_account_is_active = _('User Account Is Active.')
+    user_dont_have_forget_password_permission = _('You Do Not Have Access To Change The Password, Please Try Again First Step.')

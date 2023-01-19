@@ -91,3 +91,12 @@ class User(AbstractUser):
         """
         update_last_login(None, self)
         return self
+
+    def change_password(self, new_pass):
+        """
+        :return: update user password
+        """
+        with transaction.atomic():
+            self.set_password(new_pass)
+            self.save()
+        return self

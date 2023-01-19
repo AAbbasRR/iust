@@ -90,7 +90,7 @@ class UserLoginApiTestCase(TestUserSetUp):
         self.assertTrue(redis_management.exists())
         try:
             self.assertEqual(type(int(redis_management.get_value())), int().__class__)
-            self.assertNotEqual(redis_management.get_expire(), -1)
+            self.assertLessEqual(0, redis_management.get_expire())
         except TypeError:
             self.assertTrue(False)
 

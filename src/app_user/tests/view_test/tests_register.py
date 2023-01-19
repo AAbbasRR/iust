@@ -61,7 +61,7 @@ class UserRegisterApiTestCase(TestUserSetUp):
     def test_methods(self):
         self.register_api_test()
         self.active_account_api_test()
-        self.resend_activation_code()
+        self.resend_activation_code_api_test()
 
     def register_api_test(self):
         # check method error
@@ -153,7 +153,7 @@ class UserRegisterApiTestCase(TestUserSetUp):
         redis_management = Redis(self.success_register['email'], f'{RedisKeys.activate_account}_otp_code')
         redis_management.delete()
         self.assertFalse(redis_management.exists())
-        self.assertNotEqual(redis_management.get_expire(), -1)
+        self.assertLessEqual(redis_management.get_expire(), -1)
         response = self.client.post(self.active_account_api, self.success_register)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
@@ -172,7 +172,7 @@ class UserRegisterApiTestCase(TestUserSetUp):
         self.assertTrue(self.success_user_obj.is_active)
         self.assertFalse(redis_management.exists())
 
-    def resend_activation_code(self):
+    def resend_activation_code_api_test(self):
         # check method error
         response = self.client.get(self.resend_activation_otp_api)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -212,7 +212,7 @@ class UserRegisterApiTestCase(TestUserSetUp):
         self.assertTrue(redis_management.exists())
         try:
             self.assertEqual(type(int(redis_management.get_value())), int().__class__)
-            self.assertNotEqual(redis_management.get_expire(), -1)
+            self.assertLessEqual(0, redis_management.get_expire())
         except TypeError:
             self.assertTrue(False)
 

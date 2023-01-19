@@ -6,3 +6,8 @@ from .register import (
 from .login import (
     UserLoginView
 )
+from .forget_password import (
+    ForgetPasswordView,
+    ValidateForgetPasswordOTPView,
+    CompleteForgetPasswordView
+)

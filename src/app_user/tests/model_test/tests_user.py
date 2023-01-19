@@ -17,7 +17,8 @@ class UserTestCase(TestUserSetUp):
         self.user_model_data = {
             "success": {
                 "email": "mail@mail.com",
-                "password": "123456"
+                "password": "123456",
+                "new_password": "1234567"
             },
             "not_found": {
                 "email": "notmail@mail.com",
@@ -31,6 +32,7 @@ class UserTestCase(TestUserSetUp):
         self.unique_user_email_test()
         self.method_find_by_email_test()
         self.method_activate_test()
+        self.method_change_password_test()
 
     def empty_token_model_test(self):
         tokens = Token.objects.all()
@@ -80,7 +82,7 @@ class UserTestCase(TestUserSetUp):
         self.assertTrue(redis_management.exists())
         try:
             self.assertEqual(type(int(redis_management.get_value())), int().__class__)
-            self.assertNotEqual(redis_management.get_expire(), -1)
+            self.assertLessEqual(0, redis_management.get_expire())
         except TypeError:
             self.assertTrue(False)
 
@@ -126,3 +128,14 @@ class UserTestCase(TestUserSetUp):
         self.assertFalse(user_obj.is_staff)
         self.assertFalse(user_obj.is_superuser)
         self.assertTrue(user_obj.check_password(self.user_model_data['success']['password']))
+
+    def method_change_password_test(self):
+        user_obj = User.objects.find_by_email(
+            email=self.user_model_data['success']['email']
+        )
+        user_obj.change_password(self.user_model_data['success']['new_password'])
+        self.assertFalse(user_obj.check_password(self.user_model_data['success']['password']))
+        self.assertTrue(user_obj.check_password(self.user_model_data['success']['new_password']))
+        self.assertTrue(user_obj.is_active)
+        self.assertFalse(user_obj.is_staff)
+        self.assertFalse(user_obj.is_superuser)

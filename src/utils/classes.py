@@ -22,7 +22,8 @@ class Redis:
         db=settings.Redis_db
     )  # config redis system cache
     expire_times = {
-        "otp_code": 300
+        "otp_code": 300,  # 5Min
+        "forget_password": 900,  # 15Min
     }
 
     def __init__(self, mobile, key):  # For the key to be unique, we use the user's email to access the key and a string for the key to be unique and clear.
@@ -33,6 +34,9 @@ class Redis:
 
     def set_json_value(self, value):  # Set a value on the key in Redis when data is dict or json
         self.set_value(json.dumps(value))
+
+    def set_status_value(self, value):  # Set a bool value on the key in redis
+        self.set_value(str(value))
 
     def create_and_set_otp_key(self, length=5):
         otp_code = create_otp_code(length)
@@ -51,6 +55,13 @@ class Redis:
             return json.loads(self.get_value())
         except TypeError:
             return None
+
+    def get_status_value(self):  # Returns the True or False status value of the key
+        the_value = self.get_value()
+        if the_value is not None and str(the_value).upper() == "TRUE":
+            return True
+        else:
+            return False
 
     def set_expire(self, time=300):  # Set a time for the key to expire (time is in seconds)
         self.cache.expire(self.key, time)
@@ -78,7 +89,8 @@ class Redis:
 
 class ManageMailService:
     subjects = {
-        "activate_account": _("Active Your Account")
+        "activate_account": _("Active Your Account"),
+        "forget_password": _("Forget Your Account Password")
     }
 
     def __init__(self, receiver_email):
