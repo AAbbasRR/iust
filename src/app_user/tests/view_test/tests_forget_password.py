@@ -48,7 +48,10 @@ class UserRegisterApiTestCase(TestUserSetUp):
             "re_password": "a1A23456@",
             "otp_code": "12345"
         }
-        user_obj = User.objects.register_user(email=self.success_forget_password['email'], password=self.success_forget_password['old_password'])
+        user_obj = User.objects.register_user(
+            email=self.success_forget_password['email'],
+            password=self.success_forget_password['old_password']
+        )
         user_obj.activate()
         redis_management = Redis(user_obj.email, f'{RedisKeys.activate_account}_otp_code')
         redis_management.delete()

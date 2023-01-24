@@ -169,3 +169,6 @@ else:
     EMAIL_PORT = config('EMAIL_PORT', cast=int)
     EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
     DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+
+# __Custom Settings__ #
+DATE_INPUT_FORMATS = ['%Y-%m-%d']
