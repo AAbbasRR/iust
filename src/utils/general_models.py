@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext as _
 
 from .data_list import country
@@ -39,9 +40,9 @@ class GeneralEducationModel(GeneralAddressModel):
         auto_now=False,
         auto_now_add=False,
     )
-    gpa = models.CharField(
+    gpa = models.FloatField(
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
         verbose_name=_('GPA'),
-        max_length=40,
     )
     field_of_study = models.CharField(
         verbose_name=_('Field Of Study'),
