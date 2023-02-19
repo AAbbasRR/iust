@@ -33,7 +33,7 @@ class GeneralAddressModel(models.Model):
         abstract = True
 
 
-class GeneralEducationModel(models.Model):
+class GeneralEducationModel(GeneralAddressModel):
     date_of_graduation = models.DateField(
         verbose_name=_('Date Of Graduation'),
         auto_now=False,

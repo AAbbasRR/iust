@@ -1,7 +1,4 @@
-from builtins import type
-
 from django.contrib.auth import get_user_model
-from django.db.utils import IntegrityError
 
 from app_user.models import ProfileModel
 from app_user.tests import TestUserSetUp
@@ -11,9 +8,9 @@ from faker import Faker
 User = get_user_model()
 
 
-class UserTestCase(TestUserSetUp):
+class ProfileTestCase(TestUserSetUp):
     def setUp(self):
-        super(UserTestCase, self).setUp()
+        super(ProfileTestCase, self).setUp()
 
         self.fake_data = Faker()
 

@@ -9,9 +9,9 @@ from utils import Redis, RedisKeys, BaseErrors
 User = get_user_model()
 
 
-class UserRegisterApiTestCase(TestUserSetUp):
+class UserForgetPasswordApiTestCase(TestUserSetUp):
     def setUp(self):
-        super(UserRegisterApiTestCase, self).setUp()
+        super(UserForgetPasswordApiTestCase, self).setUp()
 
         self.invalid_email_address = {
             "email": "mailmail.com",
