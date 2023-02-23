@@ -1,3 +1,5 @@
+from django.utils.translation import gettext as _
+
 country = [
     ('Afghanistan', 'Afghanistan'),
     ('Albania', 'Albania'),
@@ -195,9 +197,31 @@ country = [
     ('Zambia', 'Zambia'),
     ('Zimbabwe', 'Zimbabwe'),
 ]
+gender_options = [
+    ('MAL', _('Male')),
+    ('FML', _('FeMale')),
+    ('OTR', _('Other'))
+]
+language_status_options = [
+    ('WEK', _('Weak')),
+    ('GOD', _('Good')),
+    ('EXT', _('Excellent'))
+]
+application_status_options = [
+    ('CRNT', _('Current')),
+    ('ACPT', _('Accepted')),
+    ('RJCT', _('Rejected')),
+    ('NTET', _('NeedToEdit'))
+]
+occupation_options = [
+    ('ACD', _('Academician')),
+    ('GVE', _('Government Employee')),
+    ('INE', _('Industrial Employee')),
+    ('STU', _('Student')),
+    ('OTR', _('Other'))
+]
 
 
 class RedisKeys:
     activate_account = "activate_account"
     forget_password = "forget_password"
-

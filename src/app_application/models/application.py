@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 
 from utils import GeneralDateModel
+from utils.data_list import application_status_options
 
 import uuid
 
@@ -39,14 +40,9 @@ class Application(GeneralDateModel):
         default=True,
         verbose_name=_('Financial Self Support')
     )
-    status_options = [
-        ('CRNT', _('Current')),
-        ('ACPT', _('Accepted')),
-        ('RJCT', _('Rejected')),
-        ('NTET', _('NeedToEdit'))
-    ]
+
     status = models.CharField(
         max_length=4,
-        choices=status_options,
+        choices=application_status_options,
         verbose_name=_('Status')
     )

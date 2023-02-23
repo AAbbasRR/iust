@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 
 from utils.general_models import GeneralDateModel
+from utils.data_list import gender_options, language_status_options
 
 User = get_user_model()
 
@@ -28,11 +29,6 @@ class Profile(GeneralDateModel):
     birth_date = models.DateField(
         verbose_name=_('Birth Date'),
     )
-    gender_options = [
-        ('MAL', _('Male')),
-        ('FML', _('FeMale')),
-        ('OTR', _('Other'))
-    ]
     gender = models.CharField(
         max_length=3,
         choices=gender_options,
@@ -51,11 +47,6 @@ class Profile(GeneralDateModel):
         verbose_name=_('Other Languages'),
         null=True
     )
-    language_status_options = [
-        ('WEK', _('Weak')),
-        ('GOD', _('Good')),
-        ('EXT', _('Excellent'))
-    ]
     english_status = models.CharField(
         max_length=3,
         choices=language_status_options,

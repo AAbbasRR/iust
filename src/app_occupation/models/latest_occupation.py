@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 from app_application.models import ApplicationModel
 
 from utils import GeneralDateModel
+from utils.data_list import occupation_options
 
 
 class LatestOccupationManager(models.Manager):
@@ -16,13 +17,6 @@ class LatestOccupation(GeneralDateModel):
         on_delete=models.CASCADE,
         verbose_name=_('Application')
     )
-    occupation_options = [
-        ('ACD', _('Academician')),
-        ('GVE', _('Government Employee')),
-        ('INE', _('Industrial Employee')),
-        ('STU', _('Student')),
-        ('OTR', _('Other'))
-    ]
     occupation = models.CharField(
         max_length=3,
         choices=occupation_options,
