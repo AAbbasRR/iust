@@ -4,7 +4,6 @@ from app_application.models import ApplicationModel
 from app_application.tests import TestApplicationSetUp
 
 from faker import Faker
-from datetime import datetime
 
 User = get_user_model()
 
@@ -35,10 +34,10 @@ class ApplicationTestCase(TestApplicationSetUp):
         self.assertEqual(sql_count, 0)
         data = {
             "full_name": f'{self.fake_data.first_name()} {self.fake_data.last_name()}',
-            "comments": self.fake_data.random_choices(['', self.fake_data.text()], 1),
-            "applied_program": self.fake_data.random_choices([True, False], 1),
-            "financial_self_support": self.fake_data.random_choices([True, False], 1),
-            "status": self.fake_data.random_choices(['CRNT', 'ACPT', 'RJCT', 'NTET'], 1),
+            "comments": self.fake_data.random_choices(['', self.fake_data.text()], 1)[0],
+            "applied_program": self.fake_data.random_choices([True, False], 1)[0],
+            "financial_self_support": self.fake_data.random_choices([True, False], 1)[0],
+            "status": self.fake_data.random_choices(['CRNT', 'ACPT', 'RJCT', 'NTET'], 1)[0],
         }
         self.success_application_obj = ApplicationModel.objects.create(
             user=self.user_obj,
