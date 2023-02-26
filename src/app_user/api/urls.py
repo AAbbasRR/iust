@@ -13,4 +13,7 @@ urlpatterns = [
     path('forget_password/', ForgetPasswordView.as_view(), name='user_forget_password'),
     path('forget_password/validate/', ValidateForgetPasswordOTPView.as_view(), name='user_validate_forget_password'),
     path('forget_password/complete/', CompleteForgetPasswordView.as_view(), name='user_complete_forget_password'),
+
+    path('profile/create/', ProfileCreateView.as_view(), name='user_create_profile'),
+    path('profile/detail_update/', ProfileDetailUpdateView.as_view(), name='user_detail_update_profile'),
 ]

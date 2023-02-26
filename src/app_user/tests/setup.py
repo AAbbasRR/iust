@@ -14,6 +14,8 @@ class TestUserSetUp(APITestCase):
         self.forget_password_api = reverse('app_user:user_forget_password', kwargs={"version": "v1"})
         self.validate_forget_password_api = reverse('app_user:user_validate_forget_password', kwargs={"version": "v1"})
         self.complete_forget_password_api = reverse('app_user:user_complete_forget_password', kwargs={"version": "v1"})
+        self.create_profile_api = reverse('app_user:user_create_profile', kwargs={"version": "v1"})
+        self.detail_update_profile_api = reverse('app_user:user_detail_update_profile', kwargs={"version": "v1"})
 
         super(TestUserSetUp, self).setUp()
 

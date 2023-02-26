@@ -16,6 +16,7 @@ class Profile(GeneralDateModel):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
+        related_name='user_profile',
         verbose_name=_('User')
     )
     first_name = models.CharField(
