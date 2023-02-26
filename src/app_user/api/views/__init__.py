@@ -15,3 +15,7 @@ from .profile import (
     ProfileCreateView,
     ProfileDetailUpdateView
 )
+from .address import (
+    AddressCreateView,
+    AddressDetailUpdateView
+)

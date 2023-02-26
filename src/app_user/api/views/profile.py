@@ -1,11 +1,11 @@
-from rest_framework import generics, exceptions
+from rest_framework import generics
 
 from app_user.models import ProfileModel
 from app_user.api.serializers.profile import (
     ProfileSerializer
 )
 
-from utils import BaseVersioning, BaseErrors
+from utils import BaseVersioning
 from utils.permissions import IsAuthenticated
 
 

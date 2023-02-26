@@ -16,4 +16,7 @@ urlpatterns = [
 
     path('profile/create/', ProfileCreateView.as_view(), name='user_create_profile'),
     path('profile/detail_update/', ProfileDetailUpdateView.as_view(), name='user_detail_update_profile'),
+
+    path('address/create/', AddressCreateView.as_view(), name='user_create_address'),
+    path('address/detail_update/', AddressDetailUpdateView.as_view(), name='user_detail_update_address'),
 ]

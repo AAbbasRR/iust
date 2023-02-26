@@ -23,7 +23,8 @@ class Address(GeneralDateModel, GeneralAddressModel):
         null=True,
         verbose_name=_('Country Code')
     )
-    postal_code = models.PositiveIntegerField(
+    postal_code = models.CharField(
+        max_length=20,
         null=True,
         verbose_name=_('Postal Code')
     )

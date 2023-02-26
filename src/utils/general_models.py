@@ -21,9 +21,9 @@ class GeneralDateModel(models.Model):
 
 class GeneralAddressModel(models.Model):
     country = models.CharField(
-        verbose_name=_('Country'),
         max_length=35,
         choices=country,
+        verbose_name=_('Country'),
     )
     city = models.CharField(
         verbose_name=_('City'),
