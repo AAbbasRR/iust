@@ -25,7 +25,6 @@ class Address(GeneralDateModel, GeneralAddressModel):
     )
     postal_code = models.CharField(
         max_length=20,
-        null=True,
         verbose_name=_('Postal Code')
     )
     city_code = models.CharField(

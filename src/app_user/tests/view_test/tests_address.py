@@ -64,10 +64,7 @@ class UserAddressApiTestCase(TestUserSetUp):
             {
                 'country': ['This field is required.'],
                 'city': ['This field is required.'],
-                'country_code': ['This field is required.'],
                 'postal_code': ['This field is required.'],
-                'city_code': ['This field is required.'],
-                'phone_number': ['This field is required.'],
                 'address': ['This field is required.'],
             }
         )

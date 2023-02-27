@@ -24,10 +24,10 @@ class AddressSerializer(serializers.ModelSerializer):
             'id': {'read_only': True},
             'country': {'required': True},
             'city': {'required': True},
-            'country_code': {'required': True},
+            'country_code': {'required': False},
             'postal_code': {'required': True},
-            'city_code': {'required': True},
-            'phone_number': {'required': True},
+            'city_code': {'required': False},
+            'phone_number': {'required': False},
             'address': {'required': True},
         }
 

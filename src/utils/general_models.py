@@ -26,8 +26,8 @@ class GeneralAddressModel(models.Model):
         verbose_name=_('Country'),
     )
     city = models.CharField(
-        verbose_name=_('City'),
         max_length=40,
+        verbose_name=_('City'),
     )
 
     class Meta:
