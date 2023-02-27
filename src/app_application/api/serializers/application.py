@@ -21,12 +21,12 @@ class ApplicationSerializer(serializers.ModelSerializer):
         )
         extra_kwargs = {
             'id': {'read_only': True},
-            'tracking_id': {'required': False, 'read_only': True},
-            'full_name': {'required': True},
+            'tracking_id': {'read_only': True},
+            'full_name': {'required': False},
             'comments': {'required': False},
             'applied_program': {'required': True},
             'financial_self_support': {'required': True},
-            'status': {'required': False, 'read_only': True},
+            'status': {'read_only': True},
         }
 
     def __init__(self, *args, **kwargs):

@@ -1,6 +1,5 @@
 from rest_framework import generics, exceptions
 
-from app_user.models import AddressModel
 from app_user.api.serializers.address import (
     AddressSerializer
 )

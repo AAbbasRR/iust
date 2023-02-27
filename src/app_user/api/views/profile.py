@@ -1,6 +1,5 @@
 from rest_framework import generics
 
-from app_user.models import ProfileModel
 from app_user.api.serializers.profile import (
     ProfileSerializer
 )
