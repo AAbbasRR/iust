@@ -30,7 +30,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'gender': {'required': True},
             'nationality': {'required': True},
             'mother_language': {'required': True},
-            'other_languages': {'required': True},
+            'other_languages': {'required': False},
             'english_status': {'required': True},
             'persian_status': {'required': True},
         }

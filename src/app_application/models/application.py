@@ -40,9 +40,9 @@ class Application(GeneralDateModel):
         default=True,
         verbose_name=_('Financial Self Support')
     )
-
     status = models.CharField(
         max_length=4,
         choices=application_status_options,
+        default=application_status_options[0][0],
         verbose_name=_('Status')
     )

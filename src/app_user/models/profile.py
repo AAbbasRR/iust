@@ -51,11 +51,13 @@ class Profile(GeneralDateModel):
     english_status = models.CharField(
         max_length=3,
         choices=language_status_options,
+        default=language_status_options[1][0],
         verbose_name=_('English Status')
     )
     persian_status = models.CharField(
         max_length=3,
         choices=language_status_options,
+        default=language_status_options[1][0],
         verbose_name=_('Persian Status')
     )
 

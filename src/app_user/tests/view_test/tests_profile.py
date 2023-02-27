@@ -70,7 +70,6 @@ class UserProfileApiTestCase(TestUserSetUp):
                 'gender': ['This field is required.'],
                 'nationality': ['This field is required.'],
                 'mother_language': ['This field is required.'],
-                'other_languages': ['This field is required.'],
                 'english_status': ['This field is required.'],
                 'persian_status': ['This field is required.'],
             }
