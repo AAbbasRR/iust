@@ -14,6 +14,9 @@ class TestEducationSetUp(APITestCase):
         self.create_high_school_api = reverse('app_education:education_high_school_create', kwargs={"version": "v1"})
         self.detail_update_high_school_api = reverse('app_education:education_high_school_detail_update', kwargs={"version": "v1"})
 
+        self.create_bachelor_degree_api = reverse('app_education:education_bachelor_degree_create', kwargs={"version": "v1"})
+        self.detail_update_bachelor_degree_api = reverse('app_education:education_bachelor_degree_detail_update', kwargs={"version": "v1"})
+
         super(TestEducationSetUp, self).setUp()
 
     def tearDown(self):

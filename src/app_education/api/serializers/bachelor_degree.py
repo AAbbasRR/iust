@@ -2,14 +2,14 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-from app_education.models import HighSchoolModel
+from app_education.models import BachelorDegreeModel
 
 UserModel = get_user_model()
 
 
-class HighSchoolSerializer(serializers.ModelSerializer):
+class BachelorDegreeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = HighSchoolModel
+        model = BachelorDegreeModel
         fields = (
             'id',
             'country',
@@ -17,6 +17,7 @@ class HighSchoolSerializer(serializers.ModelSerializer):
             'date_of_graduation',
             'gpa',
             'field_of_study',
+            'university'
         )
         extra_kwargs = {
             'id': {'read_only': True},
@@ -25,10 +26,11 @@ class HighSchoolSerializer(serializers.ModelSerializer):
             'date_of_graduation': {'required': True},
             'gpa': {'required': True},
             'field_of_study': {'required': True},
+            'university': {'required': True},
         }
 
     def __init__(self, *args, **kwargs):
-        super(HighSchoolSerializer, self).__init__(*args, **kwargs)
+        super(BachelorDegreeSerializer, self).__init__(*args, **kwargs)
         self.request = self.context.get('request')
         if self.request:
             self.user = self.request.user
@@ -38,14 +40,14 @@ class HighSchoolSerializer(serializers.ModelSerializer):
                     field.required = False
 
     def create(self, validated_data):
-        high_school_obj = HighSchoolModel.objects.create(
+        bachelor_degree_obj = BachelorDegreeModel.objects.create(
             user=self.user,
             **validated_data
         )
-        return high_school_obj
+        return bachelor_degree_obj
 
     def update(self, instance, validated_data):
-        for field_name in validated_data:  # update high school fields
+        for field_name in validated_data:  # update bachelor degree fields
             setattr(instance, field_name, validated_data[field_name])
         instance.save()
         return instance

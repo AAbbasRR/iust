@@ -5,8 +5,8 @@ from rest_framework.authtoken.models import Token
 
 from app_education.tests import TestEducationSetUp
 
-from app_education.models import HighSchoolModel
-from app_education.api.serializers.high_school import HighSchoolSerializer
+from app_education.models import BachelorDegreeModel
+from app_education.api.serializers.bachelor_degree import BachelorDegreeSerializer
 
 from utils.data_list import country
 from datetime import datetime
@@ -14,10 +14,10 @@ from datetime import datetime
 UserModel = get_user_model()
 
 
-class UserHighSchoolApiTestCase(TestEducationSetUp):
+class UserBachelorDegreeApiTestCase(TestEducationSetUp):
 
     def setUp(self):
-        super(UserHighSchoolApiTestCase, self).setUp()
+        super(UserBachelorDegreeApiTestCase, self).setUp()
 
         self.success_profile = {
             "email": "mail@mail.com",
@@ -30,15 +30,15 @@ class UserHighSchoolApiTestCase(TestEducationSetUp):
         self.countries = [value[0] for value in country]
 
     def test_methods(self):
-        self.create_high_school_missing_fields()
-        self.create_high_school_invalid_country()
-        self.create_high_school()
-        self.retrieve_high_school()
-        self.update_high_school()
+        self.create_bachelor_degree_missing_fields()
+        self.create_bachelor_degree_invalid_country()
+        self.create_bachelor_degree()
+        self.retrieve_bachelor_degree()
+        self.update_bachelor_degree()
 
-    def create_high_school_missing_fields(self):
+    def create_bachelor_degree_missing_fields(self):
         response = self.client.post(
-            self.create_high_school_api,
+            self.create_bachelor_degree_api,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -51,19 +51,21 @@ class UserHighSchoolApiTestCase(TestEducationSetUp):
                 'date_of_graduation': ['This field is required.'],
                 'gpa': ['This field is required.'],
                 'field_of_study': ['This field is required.'],
+                'university': ['This field is required.'],
             }
         )
 
-    def create_high_school_invalid_country(self):
+    def create_bachelor_degree_invalid_country(self):
         data = {
             'country': 'invalid',
             'city': self.fake_data.city(),
             'date_of_graduation': self.fake_data.date(),
             'gpa': self.fake_data.pyfloat(left_digits=2, right_digits=2, positive=True, min_value=1, max_value=100),
             'field_of_study': self.fake_data.job(),
+            'university': self.fake_data.text(max_nb_chars=50),
         }
         response = self.client.post(
-            self.create_high_school_api,
+            self.create_bachelor_degree_api,
             data,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
         )
@@ -76,61 +78,62 @@ class UserHighSchoolApiTestCase(TestEducationSetUp):
             }
         )
 
-    def create_high_school(self):
+    def create_bachelor_degree(self):
         data = {
             'country': self.fake_data.random_choices(self.countries, 1)[0],
             'city': self.fake_data.city(),
             'date_of_graduation': self.fake_data.date(),
             'gpa': self.fake_data.pyfloat(left_digits=2, right_digits=2, positive=True, min_value=1, max_value=100),
             'field_of_study': self.fake_data.job(),
+            'university': self.fake_data.text(max_nb_chars=50),
         }
         response = self.client.post(
-            self.create_high_school_api,
+            self.create_bachelor_degree_api,
             data,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(HighSchoolModel.objects.count(), 1)
+        self.assertEqual(BachelorDegreeModel.objects.count(), 1)
         try:
-            high_school = HighSchoolModel.objects.get(user=self.user_obj)
-            self.assertIsNotNone(high_school)
+            bachelor_degree = BachelorDegreeModel.objects.get(user=self.user_obj)
+            self.assertIsNotNone(bachelor_degree)
             response_json = response.json()
             data['date_of_graduation'] = datetime.strptime(data['date_of_graduation'], '%Y-%m-%d').date()
-            self.assertEqual(response_json, HighSchoolSerializer(high_school, many=False).data)
+            self.assertEqual(response_json, BachelorDegreeSerializer(bachelor_degree, many=False).data)
             for key, value in data.items():
-                self.assertEqual(getattr(high_school, key), value)
-        except HighSchoolModel.DoesNotExist:
+                self.assertEqual(getattr(bachelor_degree, key), value)
+        except BachelorDegreeModel.DoesNotExist:
             self.assertTrue(False)
 
-    def retrieve_high_school(self):
+    def retrieve_bachelor_degree(self):
         response = self.client.get(
-            self.detail_update_high_school_api,
+            self.detail_update_bachelor_degree_api,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_json = response.json()
-        high_school = HighSchoolModel.objects.get(user=self.user_obj)
-        self.assertIsNotNone(high_school)
-        self.assertEqual(response_json, HighSchoolSerializer(high_school, many=False).data)
+        bachelor_degree = BachelorDegreeModel.objects.get(user=self.user_obj)
+        self.assertIsNotNone(bachelor_degree)
+        self.assertEqual(response_json, BachelorDegreeSerializer(bachelor_degree, many=False).data)
 
-    def update_high_school(self):
+    def update_bachelor_degree(self):
         data = {
             'gpa': self.fake_data.pyfloat(left_digits=2, right_digits=2, positive=True, min_value=1, max_value=100),
             'field_of_study': self.fake_data.job(),
         }
         response = self.client.put(
-            self.detail_update_high_school_api,
+            self.detail_update_bachelor_degree_api,
             data,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
             content_type='application/json',
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         try:
-            high_school = HighSchoolModel.objects.get(user=self.user_obj)
-            self.assertIsNotNone(high_school)
+            bachelor_degree = BachelorDegreeModel.objects.get(user=self.user_obj)
+            self.assertIsNotNone(bachelor_degree)
             response_json = response.json()
-            self.assertEqual(response_json, HighSchoolSerializer(high_school, many=False).data)
+            self.assertEqual(response_json, BachelorDegreeSerializer(bachelor_degree, many=False).data)
             for key, value in data.items():
-                self.assertEqual(getattr(high_school, key), value)
-        except HighSchoolModel.DoesNotExist:
+                self.assertEqual(getattr(bachelor_degree, key), value)
+        except BachelorDegreeModel.DoesNotExist:
             self.assertTrue(False)
