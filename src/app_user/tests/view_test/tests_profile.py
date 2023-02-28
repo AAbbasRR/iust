@@ -58,7 +58,10 @@ class UserProfileApiTestCase(TestUserSetUp):
         self.update_profile()
 
     def create_profile_missing_fields(self):
-        response = self.client.post(self.create_profile_api, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.post(
+            self.create_profile_api,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
         self.assertEqual(
@@ -87,7 +90,11 @@ class UserProfileApiTestCase(TestUserSetUp):
             'english_status': 'invalid',
             'persian_status': 'invalid',
         }
-        response = self.client.post(self.create_profile_api, data, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.post(
+            self.create_profile_api,
+            data,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
         self.assertEqual(
@@ -100,7 +107,11 @@ class UserProfileApiTestCase(TestUserSetUp):
         )
 
     def create_profile(self):
-        response = self.client.post(self.create_profile_api, self.profile_data, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.post(
+            self.create_profile_api,
+            self.profile_data,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ProfileModel.objects.count(), 1)
         try:
@@ -114,7 +125,10 @@ class UserProfileApiTestCase(TestUserSetUp):
             self.assertTrue(False)
 
     def retrieve_profile(self):
-        response = self.client.get(self.detail_update_profile_api, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.get(
+            self.detail_update_profile_api,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_json = response.json()
         profile = ProfileModel.objects.get(user=self.user_obj)
@@ -122,7 +136,12 @@ class UserProfileApiTestCase(TestUserSetUp):
         self.assertEqual(response_json, ProfileSerializer(profile, many=False).data)
 
     def update_profile(self):
-        response = self.client.put(self.detail_update_profile_api, self.updated_profile_data, content_type='application/json', HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.put(
+            self.detail_update_profile_api,
+            self.updated_profile_data,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
+            content_type='application/json',
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         try:
             profile = ProfileModel.objects.get(user=self.user_obj)

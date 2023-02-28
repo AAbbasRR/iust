@@ -3,3 +3,7 @@ from .application import (
     ApplicationCreateView,
     ApplicationDetailUpdateView
 )
+from .documents import (
+    DocumentsCreateView,
+    DocumentsDetailUpdateView
+)

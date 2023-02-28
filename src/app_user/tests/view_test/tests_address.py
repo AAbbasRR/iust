@@ -56,7 +56,10 @@ class UserAddressApiTestCase(TestUserSetUp):
         self.update_address()
 
     def create_address_missing_fields(self):
-        response = self.client.post(self.create_address_api, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.post(
+            self.create_address_api,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
         self.assertEqual(
@@ -71,7 +74,11 @@ class UserAddressApiTestCase(TestUserSetUp):
 
     def create_address_invalid_country(self):
         data = {**self.address_data, 'country': 'invalid'}
-        response = self.client.post(self.create_address_api, data, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.post(
+            self.create_address_api,
+            data,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
         self.assertEqual(
@@ -82,7 +89,11 @@ class UserAddressApiTestCase(TestUserSetUp):
         )
 
     def create_address(self):
-        response = self.client.post(self.create_address_api, self.address_data, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.post(
+            self.create_address_api,
+            self.address_data,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(AddressModel.objects.count(), 1)
         try:
@@ -96,7 +107,10 @@ class UserAddressApiTestCase(TestUserSetUp):
             self.assertTrue(False)
 
     def retrieve_address(self):
-        response = self.client.get(self.detail_update_address_api, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.get(
+            self.detail_update_address_api,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_json = response.json()
         address = AddressModel.objects.get(user=self.user_obj)
@@ -104,7 +118,12 @@ class UserAddressApiTestCase(TestUserSetUp):
         self.assertEqual(response_json, AddressSerializer(address, many=False).data)
 
     def update_address(self):
-        response = self.client.put(self.detail_update_address_api, self.updated_address_data, content_type='application/json', HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.put(
+            self.detail_update_address_api,
+            self.updated_address_data,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
+            content_type='application/json',
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         try:
             address = AddressModel.objects.get(user=self.user_obj)

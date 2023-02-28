@@ -8,8 +8,6 @@ from app_application.tests import TestApplicationSetUp
 from app_application.models import ApplicationModel
 from app_application.api.serializers.application import ApplicationSerializer
 
-from faker import Faker
-
 UserModel = get_user_model()
 
 
@@ -17,8 +15,6 @@ class UserApplicationApiTestCase(TestApplicationSetUp):
 
     def setUp(self):
         super(UserApplicationApiTestCase, self).setUp()
-
-        self.fake_data = Faker()
 
         self.success_profile = {
             "email": "mail@mail.com",
@@ -48,7 +44,11 @@ class UserApplicationApiTestCase(TestApplicationSetUp):
         self.update_application()
 
     def create_application(self):
-        response = self.client.post(self.create_application_api, self.application_data, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.post(
+            self.create_application_api,
+            self.application_data,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ApplicationModel.objects.count(), 1)
         try:
@@ -62,7 +62,10 @@ class UserApplicationApiTestCase(TestApplicationSetUp):
             self.assertTrue(False)
 
     def list_all_applications(self):
-        response = self.client.get(self.list_all_user_application_api, HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.get(
+            self.list_all_user_application_api,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         try:
             application = ApplicationModel.objects.get(user=self.user_obj)
@@ -77,7 +80,10 @@ class UserApplicationApiTestCase(TestApplicationSetUp):
             self.assertTrue(False)
 
     def retrieve_application(self):
-        response = self.client.get(self.detail_update_application_api(self.tracking_id), HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.get(
+            self._detail_update_application_api(self.tracking_id),
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_json = response.json()
         application = ApplicationModel.objects.get(user=self.user_obj)
@@ -85,7 +91,12 @@ class UserApplicationApiTestCase(TestApplicationSetUp):
         self.assertEqual(response_json, ApplicationSerializer(application, many=False).data)
 
     def update_application(self):
-        response = self.client.put(self.detail_update_application_api(self.tracking_id), self.updated_application_data, content_type='application/json', HTTP_AUTHORIZATION=f"Token {self.user_token.key}")
+        response = self.client.put(
+            self._detail_update_application_api(self.tracking_id),
+            self.updated_application_data,
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
+            content_type='application/json',
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         try:
             application = ApplicationModel.objects.get(user=self.user_obj)

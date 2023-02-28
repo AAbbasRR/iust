@@ -10,6 +10,11 @@ import uuid
 User = get_user_model()
 
 
+class ApplicationManager(models.Manager):
+    def find_with_tracking_id(self, tracking_id):
+        return self.filter(tracking_id=tracking_id).first()
+
+
 class Application(GeneralDateModel):
     user = models.ForeignKey(
         User,
@@ -31,6 +36,7 @@ class Application(GeneralDateModel):
         verbose_name=_('Full Name')
     )
     comments = models.TextField(
+        null=True,
         verbose_name=_('Comments')
     )
     applied_program = models.BooleanField(
@@ -47,3 +53,8 @@ class Application(GeneralDateModel):
         default=application_status_options[0][0],
         verbose_name=_('Status')
     )
+
+    objects = ApplicationManager()
+
+    def __str__(self):
+        return self.tracking_id

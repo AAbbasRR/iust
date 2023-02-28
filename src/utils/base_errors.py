@@ -23,5 +23,6 @@ class BaseErrors:
     otp_code_has_already_been_sent = _('OTP Code Has Already Been Sent.')
 
     # api serializer
+    tracking_id_not_found = _('"tracking_id" Not Found Or Is Invalid')
 
     # api views

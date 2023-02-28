@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext as _
 
+from Abrat.settings import DEBUG
+
 from app_application.models import ApplicationModel
 
 from utils import GeneralDateModel
@@ -68,3 +70,15 @@ class Document(GeneralDateModel):
         null=True,
         verbose_name=_('Supporting Letter')
     )
+
+    objects = DocumentManager()
+
+    def get_field_image_url(self, field_name, request):
+        if getattr(self, field_name) is None or getattr(self, field_name) == "":
+            return None
+        else:
+            host = request.get_host()
+            protocol = request.build_absolute_uri().split(host)[0]
+            protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[0] == "http" else protocol
+            website_url = protocol + host
+            return website_url + getattr(self, field_name).url
