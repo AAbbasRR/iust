@@ -10,8 +10,6 @@ from app_user.api.serializers.address import AddressSerializer
 
 from utils.data_list import country
 
-from faker import Faker
-
 UserModel = get_user_model()
 
 
@@ -19,8 +17,6 @@ class UserAddressApiTestCase(TestUserSetUp):
 
     def setUp(self):
         super(UserAddressApiTestCase, self).setUp()
-
-        self.fake_data = Faker()
 
         self.success_profile = {
             "email": "mail@mail.com",

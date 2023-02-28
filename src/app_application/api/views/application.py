@@ -1,4 +1,4 @@
-from rest_framework import generics, exceptions
+from rest_framework import generics
 
 from app_application.api.serializers.application import (
     ApplicationSerializer

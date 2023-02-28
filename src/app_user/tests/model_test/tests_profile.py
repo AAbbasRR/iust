@@ -3,23 +3,19 @@ from django.contrib.auth import get_user_model
 from app_user.models import ProfileModel
 from app_user.tests import TestUserSetUp
 
-from faker import Faker
-
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class ProfileTestCase(TestUserSetUp):
     def setUp(self):
         super(ProfileTestCase, self).setUp()
 
-        self.fake_data = Faker()
-
         self.success_user = {
             "email": "mail@mail.com",
             "password": "a1A23456",
         }
 
-        self.user_obj = User.objects.register_user(
+        self.user_obj = UserModel.objects.register_user(
             email=self.success_user['email'],
             password=self.success_user['password']
         )

@@ -10,16 +10,12 @@ from app_user.api.serializers.profile import ProfileSerializer
 
 from utils.data_list import gender_options, language_status_options
 
-from faker import Faker
-
 UserModel = get_user_model()
 
 
 class UserProfileApiTestCase(TestUserSetUp):
     def setUp(self):
         super(UserProfileApiTestCase, self).setUp()
-
-        self.fake_data = Faker()
 
         self.success_profile = {
             "email": "mail@mail.com",

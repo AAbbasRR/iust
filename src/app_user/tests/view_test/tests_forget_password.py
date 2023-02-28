@@ -6,7 +6,7 @@ from app_user.tests import TestUserSetUp
 
 from utils import Redis, RedisKeys, BaseErrors
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class UserForgetPasswordApiTestCase(TestUserSetUp):
@@ -48,7 +48,7 @@ class UserForgetPasswordApiTestCase(TestUserSetUp):
             "re_password": "a1A23456@",
             "otp_code": "12345"
         }
-        user_obj = User.objects.register_user(
+        user_obj = UserModel.objects.register_user(
             email=self.success_forget_password['email'],
             password=self.success_forget_password['old_password']
         )
@@ -202,7 +202,7 @@ class UserForgetPasswordApiTestCase(TestUserSetUp):
         redis_management = Redis(self.success_forget_password['email'], RedisKeys.forget_password)
         self.assertFalse(redis_management.exists())
         self.assertLessEqual(redis_management.get_expire(), -1)
-        user_obj = User.objects.find_by_email(self.success_forget_password['email'])
+        user_obj = UserModel.objects.find_by_email(self.success_forget_password['email'])
         self.assertFalse(user_obj.check_password(self.success_forget_password['old_password']))
         self.assertTrue(user_obj.check_password(self.success_forget_password['password']))
 

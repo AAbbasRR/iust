@@ -6,7 +6,7 @@ from app_user.tests import TestUserSetUp
 
 from utils import Redis, RedisKeys, BaseErrors
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class UserRegisterApiTestCase(TestUserSetUp):
@@ -54,7 +54,7 @@ class UserRegisterApiTestCase(TestUserSetUp):
             "re_password": "a1A23456",
             "otp_code": "12345"
         }
-        self.user2_obj = User.objects.register_user(
+        self.user2_obj = UserModel.objects.register_user(
             email=self.user_not_activated['email'],
             password=self.user_not_activated['password']
         )
@@ -171,7 +171,7 @@ class UserRegisterApiTestCase(TestUserSetUp):
             "otp_code": self.otp_code
         })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.success_user_obj = User.objects.find_by_email(self.success_register['email'])
+        self.success_user_obj = UserModel.objects.find_by_email(self.success_register['email'])
         self.assertTrue(self.success_user_obj.is_active)
         self.assertFalse(redis_management.exists())
 

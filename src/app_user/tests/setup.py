@@ -3,10 +3,14 @@ from django.urls import reverse
 
 from rest_framework.test import APITestCase
 
+from faker import Faker
+
 
 class TestUserSetUp(APITestCase):
     def setUp(self):
         self.client = Client()
+        self.fake_data = Faker()
+
         self.register_api = reverse('app_user:user_register', kwargs={"version": "v1"})
         self.active_account_api = reverse('app_user:user_active_account', kwargs={"version": "v1"})
         self.resend_activation_otp_api = reverse('app_user:user_resent_active_code', kwargs={"version": "v1"})

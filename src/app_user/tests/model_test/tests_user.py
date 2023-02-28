@@ -7,7 +7,7 @@ from app_user.tests import TestUserSetUp
 
 from utils import BaseErrors, RedisKeys, Redis
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class UserTestCase(TestUserSetUp):
@@ -37,20 +37,20 @@ class UserTestCase(TestUserSetUp):
     def empty_token_model_test(self):
         tokens = Token.objects.all()
         self.assertEqual(tokens.count(), 0)
-        users = User.objects.all()
+        users = UserModel.objects.all()
         self.assertEqual(users.count(), 0)
 
     def method_register_user_test(self):
         error = False
         try:
-            user_obj = User.objects.register_user()
+            user_obj = UserModel.objects.register_user()
             error = False
         except ValueError as error_msg:
             error = True
             self.assertEqual(str(error_msg), BaseErrors.user_must_have_email)
         self.assertTrue(error)
         try:
-            user_obj = User.objects.register_user(
+            user_obj = UserModel.objects.register_user(
                 email=self.user_model_data['success']['email']
             )
             error = False
@@ -59,7 +59,7 @@ class UserTestCase(TestUserSetUp):
             self.assertEqual(str(error_msg), BaseErrors.user_must_have_password)
         self.assertTrue(error)
         try:
-            user_obj = User.objects.register_user(
+            user_obj = UserModel.objects.register_user(
                 email=self.user_model_data['success']['email'],
                 password=self.user_model_data['success']['password']
             )
@@ -75,7 +75,7 @@ class UserTestCase(TestUserSetUp):
         self.assertFalse(user_obj.is_superuser)
         tokens = Token.objects.all()
         self.assertEqual(tokens.count(), 1)
-        users = User.objects.all()
+        users = UserModel.objects.all()
         self.assertEqual(users.count(), 1)
 
         redis_management = Redis(user_obj.email, f'{RedisKeys.activate_account}_otp_code')
@@ -89,7 +89,7 @@ class UserTestCase(TestUserSetUp):
     def unique_user_email_test(self):
         error = False
         try:
-            User.objects.register_user(
+            UserModel.objects.register_user(
                 email=self.user_model_data['success']['email'],
                 password=self.user_model_data['success']['password']
             )
@@ -101,17 +101,17 @@ class UserTestCase(TestUserSetUp):
     def method_find_by_email_test(self):
         error = False
         try:
-            user_obj = User.objects.find_by_email()
+            user_obj = UserModel.objects.find_by_email()
             error = False
         except ValueError as error_msg:
             error = True
             self.assertEqual(str(error_msg), BaseErrors.user_must_have_email)
         self.assertTrue(error)
-        user_obj = User.objects.find_by_email(
+        user_obj = UserModel.objects.find_by_email(
             email=self.user_model_data['not_found']['email']
         )
         self.assertIsNone(user_obj)
-        user_obj = User.objects.find_by_email(
+        user_obj = UserModel.objects.find_by_email(
             email=self.user_model_data['success']['email']
         )
         self.assertIsNotNone(user_obj)
@@ -119,7 +119,7 @@ class UserTestCase(TestUserSetUp):
         self.assertTrue(user_obj.check_password(self.user_model_data['success']['password']))
 
     def method_activate_test(self):
-        user_obj = User.objects.find_by_email(
+        user_obj = UserModel.objects.find_by_email(
             email=self.user_model_data['success']['email']
         )
         self.assertFalse(user_obj.is_active)
@@ -130,7 +130,7 @@ class UserTestCase(TestUserSetUp):
         self.assertTrue(user_obj.check_password(self.user_model_data['success']['password']))
 
     def method_change_password_test(self):
-        user_obj = User.objects.find_by_email(
+        user_obj = UserModel.objects.find_by_email(
             email=self.user_model_data['success']['email']
         )
         user_obj.change_password(self.user_model_data['success']['new_password'])
