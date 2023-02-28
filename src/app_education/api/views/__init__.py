@@ -6,3 +6,7 @@ from .bachelor_degree import (
     BachelorDegreeCreateView,
     BachelorDegreeDetailUpdateView
 )
+from .master_degree import (
+    MasterDegreeCreateView,
+    MasterDegreeDetailUpdateView
+)

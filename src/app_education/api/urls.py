@@ -9,4 +9,7 @@ urlpatterns = [
 
     path('bachelor_degree/create/', BachelorDegreeCreateView.as_view(), name='education_bachelor_degree_create'),
     path('bachelor_degree/detail_update/', BachelorDegreeDetailUpdateView.as_view(), name='education_bachelor_degree_detail_update'),
+
+    path('master_degree/create/', MasterDegreeCreateView.as_view(), name='education_master_degree_create'),
+    path('master_degree/detail_update/', MasterDegreeDetailUpdateView.as_view(), name='education_master_degree_detail_update'),
 ]
