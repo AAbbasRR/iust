@@ -15,6 +15,7 @@ class LatestOccupation(GeneralDateModel):
     application = models.OneToOneField(
         ApplicationModel,
         on_delete=models.CASCADE,
+        related_name='application_latest_occupation',
         verbose_name=_('Application')
     )
     occupation = models.CharField(
@@ -33,6 +34,7 @@ class LatestOccupation(GeneralDateModel):
         verbose_name=_('To Date')
     )
     description = models.TextField(
+        null=True,
         verbose_name=_('Description')
     )
 

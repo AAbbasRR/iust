@@ -11,16 +11,6 @@ class DocumentsSerializer(serializers.ModelSerializer):
         required=True,
         write_only=True
     )
-    # curriculum_vitae = serializers.SerializerMethodField('get_curriculum_vitae')
-    # personal_photo = serializers.SerializerMethodField('get_personal_photo')
-    # valid_passport = serializers.SerializerMethodField('get_valid_passport')
-    # high_school_certificate = serializers.SerializerMethodField('get_high_school_certificate')
-    # trans_script_high_school_certificate = serializers.SerializerMethodField('get_trans_script_high_school_certificate')
-    # bachelor_degree = serializers.SerializerMethodField('get_bachelor_degree')
-    # trans_script_bachelor_degree = serializers.SerializerMethodField('get_trans_script_bachelor_degree')
-    # master_degree = serializers.SerializerMethodField('get_master_degree')
-    # trans_script_master_degree = serializers.SerializerMethodField('get_trans_script_master_degree')
-    # supporting_letter = serializers.SerializerMethodField('get_supporting_letter')
 
     class Meta:
         model = DocumentModel
@@ -98,6 +88,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
         return document_obj
 
     def update(self, instance, validated_data):
+        validated_data.pop('tracking_id')
         for field_name in validated_data:  # update document fields
             setattr(instance, field_name, validated_data[field_name])
         instance.save()

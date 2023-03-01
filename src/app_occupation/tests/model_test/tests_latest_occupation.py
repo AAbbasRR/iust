@@ -4,7 +4,6 @@ from app_application.models import ApplicationModel
 from app_occupation.models import LatestOccupationModel
 from app_occupation.tests import TestOccupationSetUp
 
-from faker import Faker
 from datetime import datetime
 
 User = get_user_model()
@@ -13,8 +12,6 @@ User = get_user_model()
 class LatestOccupationTestCase(TestOccupationSetUp):
     def setUp(self):
         super(LatestOccupationTestCase, self).setUp()
-
-        self.fake_data = Faker()
 
         self.success_user = {
             "email": "mail@mail.com",
