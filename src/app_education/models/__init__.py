@@ -7,3 +7,6 @@ from .bachelor_degree import (
 from .master_degree import (
     MasterDegree as MasterDegreeModel
 )
+from .program_requested import (
+    ProgramRequested as ProgramRequestedModel
+)

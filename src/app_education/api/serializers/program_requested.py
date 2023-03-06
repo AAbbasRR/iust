@@ -2,15 +2,16 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers, exceptions
 
-from app_occupation.models import LatestOccupationModel
+from app_education.models import ProgramRequestedModel
 from app_application.models import ApplicationModel
 
 from utils import BaseErrors
+from utils.data_list import program_requested_data
 
 UserModel = get_user_model()
 
 
-class LatestOccupationSerializer(serializers.ModelSerializer):
+class ProgramRequestedSerializer(serializers.ModelSerializer):
     tracking_id = serializers.CharField(
         max_length=12,
         required=True,
@@ -18,27 +19,23 @@ class LatestOccupationSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = LatestOccupationModel
+        model = ProgramRequestedModel
         fields = (
             'id',
             'tracking_id',
-            'occupation',
-            'organization',
-            'from_date',
-            'to_date',
-            'description',
+            'degree',
+            'faculty',
+            'field_of_study',
         )
         extra_kwargs = {
             'id': {'read_only': True},
-            'occupation': {'required': True},
-            'organization': {'required': True},
-            'from_date': {'required': True},
-            'to_date': {'required': True},
-            'description': {'required': False},
+            'degree': {'required': True},
+            'faculty': {'required': True},
+            'field_of_study': {'required': True},
         }
 
     def __init__(self, *args, **kwargs):
-        super(LatestOccupationSerializer, self).__init__(*args, **kwargs)
+        super(ProgramRequestedSerializer, self).__init__(*args, **kwargs)
         self.request = self.context.get('request')
         if self.request:
             self.user = self.request.user
@@ -55,20 +52,35 @@ class LatestOccupationSerializer(serializers.ModelSerializer):
         else:
             raise exceptions.NotFound(BaseErrors.tracking_id_not_found)
 
+    def validate(self, attrs):
+        find_faculty = list(filter(lambda value: value[0] == attrs['faculty'], program_requested_data[attrs['degree']]['items']))
+        if find_faculty:
+            find_field_of_study = list(filter(lambda value: value[0] == attrs['field_of_study'], program_requested_data[attrs['degree']]['data'][attrs['faculty']]))
+            if find_field_of_study:
+                return attrs
+            else:
+                raise exceptions.ValidationError({
+                    "field_of_study": BaseErrors._change_error_variable('invalid_choice_value', input=attrs['field_of_study'])
+                })
+        else:
+            raise exceptions.ValidationError({
+                "faculty": BaseErrors._change_error_variable('invalid_choice_value', input=attrs['faculty'])
+            })
+
     def create(self, validated_data):
         application_obj = validated_data.pop('tracking_id')
-        latest_occupation_obj = LatestOccupationModel.objects.create(
+        program_requested_obj = ProgramRequestedModel.objects.create(
             application=application_obj,
             **validated_data
         )
-        return latest_occupation_obj
+        return program_requested_obj
 
     def update(self, instance, validated_data):
         try:
             validated_data.pop('tracking_id')
         except KeyError:
             pass
-        for field_name in validated_data:  # update latest occupation fields
+        for field_name in validated_data:  # update program requested fields
             setattr(instance, field_name, validated_data[field_name])
         instance.save()
         return instance

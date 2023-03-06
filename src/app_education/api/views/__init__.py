@@ -10,3 +10,7 @@ from .master_degree import (
     MasterDegreeCreateView,
     MasterDegreeDetailUpdateView
 )
+from .program_requested import (
+    ProgramRequestedCreateView,
+    ProgramRequestedDetailUpdateView
+)

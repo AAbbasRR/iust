@@ -2,6 +2,14 @@ from django.utils.translation import gettext as _
 
 
 class BaseErrors:
+
+    @classmethod
+    def _change_error_variable(cls, error_name, **kwargs):
+        message = getattr(cls, error_name)
+        for key, value in kwargs.items():
+            message = message.replace('{%s}' % key, value)
+        return message
+
     # project
     url_not_found = _('URL Not Found.')
     server_error = _('Server Error.')
@@ -24,5 +32,6 @@ class BaseErrors:
 
     # api serializer
     tracking_id_not_found = _('"tracking_id" Not Found Or Is Invalid')
+    invalid_choice_value = _('"{input}" is not a valid choice.')
 
     # api views

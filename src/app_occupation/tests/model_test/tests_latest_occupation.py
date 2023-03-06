@@ -6,7 +6,7 @@ from app_occupation.tests import TestOccupationSetUp
 
 from datetime import datetime
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class LatestOccupationTestCase(TestOccupationSetUp):
@@ -17,22 +17,14 @@ class LatestOccupationTestCase(TestOccupationSetUp):
             "email": "mail@mail.com",
             "password": "a1A23456",
         }
-        self.user_obj = User.objects.register_user(
+        self.user_obj = UserModel.objects.register_user(
             email=self.success_user['email'],
             password=self.success_user['password']
         )
         self.user_obj.activate()
 
-        self.success_application = {
-            "full_name": f'{self.fake_data.first_name()} {self.fake_data.last_name()}',
-            "comments": self.fake_data.random_choices(['', self.fake_data.text()], 1)[0],
-            "applied_program": self.fake_data.random_choices([True, False], 1)[0],
-            "financial_self_support": self.fake_data.random_choices([True, False], 1)[0],
-            "status": self.fake_data.random_choices(['CRNT', 'ACPT', 'RJCT', 'NTET'], 1)[0],
-        }
         self.success_application_obj = ApplicationModel.objects.create(
             user=self.user_obj,
-            **self.success_application
         )
 
     def test_methods(self):

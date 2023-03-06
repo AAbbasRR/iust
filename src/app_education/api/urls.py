@@ -12,4 +12,7 @@ urlpatterns = [
 
     path('master_degree/create/', MasterDegreeCreateView.as_view(), name='education_master_degree_create'),
     path('master_degree/detail_update/', MasterDegreeDetailUpdateView.as_view(), name='education_master_degree_detail_update'),
+
+    path('program_request/create/', ProgramRequestedCreateView.as_view(), name='education_program_requested_create'),
+    path('program_request/detail_update/<str:tracking_id>/', ProgramRequestedDetailUpdateView.as_view(), name='education_program_requested_detail_update'),
 ]

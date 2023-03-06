@@ -39,6 +39,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
             self.user = self.request.user
             self.method = self.request.method
             if self.method in ['PUT', 'PATCH']:
+                self.fields['tracking_id'].read_only = True
                 for field_name, field in self.fields.items():
                     field.required = False
 
