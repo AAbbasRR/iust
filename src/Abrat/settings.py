@@ -51,6 +51,9 @@ MIDDLEWARE = [
     # cors-headers
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+
+    # custom middlewares
+    'utils.middleware.TransactionMiddleware'
 ]
 
 ROOT_URLCONF = 'Abrat.urls'
