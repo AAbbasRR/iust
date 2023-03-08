@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 
 from utils import Redis, BaseErrors, ManageMailService, RedisKeys
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -18,7 +18,7 @@ class UserLoginSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
-        user_obj = User.objects.find_by_email(email=attrs['email'])
+        user_obj = UserModel.objects.find_by_email(email=attrs['email'])
         if user_obj is None or user_obj.check_password(attrs['password']) is False:
             raise exceptions.ParseError(BaseErrors.invalid_email_or_password)
         else:

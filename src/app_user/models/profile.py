@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from utils.general_models import GeneralDateModel
 from utils.data_list import gender_options, language_status_options
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class ProfileManager(models.Manager):
@@ -14,7 +14,7 @@ class ProfileManager(models.Manager):
 
 class Profile(GeneralDateModel):
     user = models.OneToOneField(
-        User,
+        UserModel,
         on_delete=models.CASCADE,
         related_name='user_profile',
         verbose_name=_('User')

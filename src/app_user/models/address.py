@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 
 from utils import GeneralAddressModel, GeneralDateModel
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class AddressManager(models.Manager):
@@ -13,7 +13,7 @@ class AddressManager(models.Manager):
 
 class Address(GeneralDateModel, GeneralAddressModel):
     user = models.OneToOneField(
-        User,
+        UserModel,
         on_delete=models.CASCADE,
         related_name="user_address",
         verbose_name=_('User')

@@ -7,6 +7,8 @@ from app_application.models import ApplicationModel
 
 from utils import GeneralDateModel
 
+import os
+
 
 class DocumentManager(models.Manager):
     pass
@@ -82,3 +84,6 @@ class Document(GeneralDateModel):
             protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[0] == "http" else protocol
             website_url = protocol + host
             return website_url + getattr(self, field_name).url
+
+    def get_field_file_name(self, field_name):
+        return os.path.basename(getattr(self, field_name).name)

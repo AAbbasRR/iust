@@ -6,10 +6,10 @@ from rest_framework.authtoken.models import Token
 
 from utils import ManageMailService, RedisKeys
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=UserModel)
 def create_user_handler(sender, instance, **kwargs):
     if kwargs['created']:
         Token.objects.create(

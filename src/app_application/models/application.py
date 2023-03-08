@@ -7,7 +7,7 @@ from utils.data_list import application_status_options
 
 import uuid
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class ApplicationManager(models.Manager):
@@ -17,7 +17,7 @@ class ApplicationManager(models.Manager):
 
 class Application(GeneralDateModel):
     user = models.ForeignKey(
-        User,
+        UserModel,
         on_delete=models.CASCADE,
         related_name="user_application",
         verbose_name=_('User')

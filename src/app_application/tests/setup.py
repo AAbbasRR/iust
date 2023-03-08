@@ -4,9 +4,13 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from rest_framework.test import APITestCase
 
+from Abrat.settings import BASE_DIR
+
 from faker import Faker
 from PIL import Image
 import io
+import os
+import shutil
 
 
 class TestApplicationSetUp(APITestCase):
@@ -40,4 +44,9 @@ class TestApplicationSetUp(APITestCase):
         return image_file
 
     def tearDown(self):
+        try:
+            documents_path = os.path.join(BASE_DIR, 'media/application_documents/user_mail@mail.com/')
+            shutil.rmtree(documents_path)
+        except FileNotFoundError:
+            pass
         super(TestApplicationSetUp, self).tearDown()

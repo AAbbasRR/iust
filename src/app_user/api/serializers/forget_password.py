@@ -5,7 +5,7 @@ from rest_framework import serializers, exceptions
 
 from utils import RedisKeys, Redis, BaseErrors, ManageMailService
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class ForgetPasswordSerializer(serializers.Serializer):
@@ -18,7 +18,7 @@ class ForgetPasswordSerializer(serializers.Serializer):
         self.user = None
 
     def validate_email(self, value):
-        user_obj = User.objects.find_by_email(value)
+        user_obj = UserModel.objects.find_by_email(value)
         if user_obj is None:
             raise exceptions.NotFound(BaseErrors.user_not_found)
         self.user = user_obj
@@ -50,7 +50,7 @@ class ValidateForgetPasswordOTPSerializer(serializers.Serializer):
         self.user = None
 
     def validate_email(self, value):
-        user_obj = User.objects.find_by_email(value)
+        user_obj = UserModel.objects.find_by_email(value)
         if user_obj is None:
             raise exceptions.NotFound(BaseErrors.user_not_found)
         self.user = user_obj
@@ -91,7 +91,7 @@ class CompleteForgetPasswordSerializer(serializers.Serializer):
         self.user = None
 
     def validate_email(self, value):
-        user_obj = User.objects.find_by_email(value)
+        user_obj = UserModel.objects.find_by_email(value)
         if user_obj is None:
             raise exceptions.NotFound(BaseErrors.user_not_found)
         self.user = user_obj

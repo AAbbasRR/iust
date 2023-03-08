@@ -11,13 +11,13 @@ from utils import (
     ManageMailService
 )
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
-        validators=[UniqueValidator(queryset=User.objects.all(), message=BaseErrors.user_account_with_email_exists)],
+        validators=[UniqueValidator(queryset=UserModel.objects.all(), message=BaseErrors.user_account_with_email_exists)],
     )
     password = serializers.CharField(
         required=True,
@@ -30,7 +30,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = User
+        model = UserModel
         fields = (
             'email',
             'password',
@@ -43,7 +43,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.register_user(
+        user = UserModel.objects.register_user(
             email=validated_data['email'],
             password=validated_data['password'],
         )
@@ -63,7 +63,7 @@ class UserVerifyRegisterSerializer(serializers.Serializer):
         self.user = None
 
     def validate_email(self, value):
-        user_obj = User.objects.find_by_email(value)
+        user_obj = UserModel.objects.find_by_email(value)
         if user_obj is None:
             raise exceptions.NotFound(BaseErrors.user_not_found)
         self.user = user_obj
@@ -93,7 +93,7 @@ class UserReSendRegisterOTPCodeSerializer(serializers.Serializer):
         self.user = None
 
     def validate_email(self, value):
-        user_obj = User.objects.find_by_email(value)
+        user_obj = UserModel.objects.find_by_email(value)
         if user_obj is None:
             raise exceptions.NotFound(BaseErrors.user_not_found)
         self.user = user_obj

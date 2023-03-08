@@ -6,7 +6,7 @@ from app_education.tests import TestEducationSetUp
 from faker import Faker
 from datetime import datetime
 
-User = get_user_model()
+UserModel = get_user_model()
 
 
 class BachelorDegreeTestCase(TestEducationSetUp):
@@ -20,7 +20,7 @@ class BachelorDegreeTestCase(TestEducationSetUp):
             "password": "a1A23456",
         }
 
-        self.user_obj = User.objects.register_user(
+        self.user_obj = UserModel.objects.register_user(
             email=self.success_user['email'],
             password=self.success_user['password']
         )
