@@ -24,23 +24,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         write_only=True,
         validators=[validate_password],
     )
-    re_password = serializers.CharField(
-        required=True,
-        write_only=True,
-    )
 
     class Meta:
         model = UserModel
         fields = (
             'email',
             'password',
-            're_password'
         )
-
-    def validate(self, attrs):
-        if attrs['password'] != attrs['re_password']:
-            raise exceptions.ParseError(BaseErrors.passwords_did_not_match)
-        return attrs
 
     def create(self, validated_data):
         user = UserModel.objects.register_user(
