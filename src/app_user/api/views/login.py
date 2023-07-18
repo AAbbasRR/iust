@@ -6,11 +6,11 @@ from app_user.api.serializers.login import (
 )
 
 from utils import BaseVersioning
-from utils.permissions import AllowAny
+from utils.permissions import AllowAnyPermission
 
 
 class UserLoginView(generics.GenericAPIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAnyPermission, ]
     versioning_class = BaseVersioning
     serializer_class = UserLoginSerializer
 

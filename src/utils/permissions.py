@@ -1,1 +1,4 @@
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import (
+    AllowAny as AllowAnyPermission,
+    IsAuthenticated as IsAuthenticatedPermission
+)

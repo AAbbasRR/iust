@@ -5,11 +5,11 @@ from app_application.api.serializers.application import (
 )
 
 from utils import BaseVersioning
-from utils.permissions import IsAuthenticated
+from utils.permissions import IsAuthenticatedPermission
 
 
 class ListAllApplicationsView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = ApplicationSerializer
 
@@ -18,14 +18,14 @@ class ListAllApplicationsView(generics.ListAPIView):
 
 
 class ApplicationCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = ApplicationSerializer
 
 
 class ApplicationDetailUpdateView(generics.RetrieveUpdateAPIView):
     allowed_methods = ['OPTIONS', 'GET', 'PUT']
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = ApplicationSerializer
     lookup_field = 'tracking_id'

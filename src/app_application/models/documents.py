@@ -19,6 +19,11 @@ def document_image_directory_path(instance, filename):
 
 
 class Document(GeneralDateModel):
+    class Meta:
+        verbose_name = _("Document")
+        verbose_name_plural = _("Documents")
+        ordering = ['-id']
+
     application = models.OneToOneField(
         ApplicationModel,
         on_delete=models.CASCADE,

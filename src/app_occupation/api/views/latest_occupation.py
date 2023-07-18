@@ -5,18 +5,18 @@ from app_occupation.api.serializers.latest_occupation import (
 )
 
 from utils import BaseVersioning
-from utils.permissions import IsAuthenticated
+from utils.permissions import IsAuthenticatedPermission
 
 
 class LatestOccupationCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = LatestOccupationSerializer
 
 
 class LatestOccupationDetailUpdateView(generics.RetrieveUpdateAPIView):
     allowed_methods = ['OPTIONS', 'GET', 'PUT']
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = LatestOccupationSerializer
     lookup_field = 'tracking_id'

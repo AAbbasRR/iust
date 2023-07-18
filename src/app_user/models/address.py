@@ -1,10 +1,9 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 
-from utils import GeneralAddressModel, GeneralDateModel
+from app_user.models import UserModel
 
-UserModel = get_user_model()
+from utils import GeneralAddressModel, GeneralDateModel
 
 
 class AddressManager(models.Manager):
@@ -12,6 +11,11 @@ class AddressManager(models.Manager):
 
 
 class Address(GeneralDateModel, GeneralAddressModel):
+    class Meta:
+        verbose_name = _("Address")
+        verbose_name_plural = _("Addresses")
+        ordering = ['-id']
+
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,

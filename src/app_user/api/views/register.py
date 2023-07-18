@@ -8,17 +8,17 @@ from app_user.api.serializers.register import (
 )
 
 from utils import BaseVersioning
-from utils.permissions import AllowAny
+from utils.permissions import AllowAnyPermission
 
 
 class UserRegisterView(generics.CreateAPIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAnyPermission, ]
     versioning_class = BaseVersioning
     serializer_class = UserRegisterSerializer
 
 
 class UserVerifyRegisterView(generics.GenericAPIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAnyPermission, ]
     versioning_class = BaseVersioning
     serializer_class = UserVerifyRegisterSerializer
 
@@ -29,7 +29,7 @@ class UserVerifyRegisterView(generics.GenericAPIView):
 
 
 class UserReSendRegisterOTPCodeView(generics.GenericAPIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAnyPermission, ]
     versioning_class = BaseVersioning
     serializer_class = UserReSendRegisterOTPCodeSerializer
 

@@ -1,11 +1,10 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
+
+from app_user.models import UserModel
 
 from utils.general_models import GeneralDateModel
 from utils.data_list import gender_options, language_status_options
-
-UserModel = get_user_model()
 
 
 class ProfileManager(models.Manager):
@@ -13,6 +12,11 @@ class ProfileManager(models.Manager):
 
 
 class Profile(GeneralDateModel):
+    class Meta:
+        verbose_name = _("Profile")
+        verbose_name_plural = _("Profiles")
+        ordering = ['-id']
+
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,

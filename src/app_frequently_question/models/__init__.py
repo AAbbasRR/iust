@@ -1,0 +1,1 @@
+from .frequently_question import FrequentlyQuestion as FrequentlyQuestionModel

@@ -5,18 +5,18 @@ from app_user.api.serializers.address import (
 )
 
 from utils import BaseVersioning
-from utils.permissions import IsAuthenticated
+from utils.permissions import IsAuthenticatedPermission
 
 
 class AddressCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = AddressSerializer
 
 
 class AddressDetailUpdateView(generics.RetrieveUpdateAPIView):
     allowed_methods = ['OPTIONS', 'GET', 'PUT']
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = AddressSerializer
 

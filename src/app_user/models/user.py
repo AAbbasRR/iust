@@ -24,6 +24,7 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.is_staff = True
+        user.is_active = True
         user.save(using=self._db)
         return user
 
@@ -36,6 +37,7 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.is_staff = True
         user.is_superuser = True
+        user.is_active = True
         user.save(using=self._db)
         return user
 
@@ -55,6 +57,11 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    class Meta:
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
+        ordering = ['-id']
+
     username = None
     first_name = None
     last_name = None

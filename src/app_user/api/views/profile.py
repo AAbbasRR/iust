@@ -5,18 +5,18 @@ from app_user.api.serializers.profile import (
 )
 
 from utils import BaseVersioning
-from utils.permissions import IsAuthenticated
+from utils.permissions import IsAuthenticatedPermission
 
 
 class ProfileCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = ProfileSerializer
 
 
 class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
     allowed_methods = ['OPTIONS', 'GET', 'PUT']
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = ProfileSerializer
 

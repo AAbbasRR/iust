@@ -9,6 +9,7 @@ v1_urlpatterns = [
     path('application/', include('app_application.api.urls', namespace='app_application')),
     path('education/', include('app_education.api.urls', namespace='app_education')),
     path('occupation/', include('app_occupation.api.urls', namespace='app_occupation')),
+    path('frequently_question/', include('app_frequently_question.api.urls', namespace='app_frequently_question')),
 ]
 
 urlpatterns = [

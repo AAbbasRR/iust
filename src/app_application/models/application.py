@@ -1,13 +1,12 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
+
+from app_user.models import UserModel
 
 from utils import GeneralDateModel
 from utils.data_list import application_status_options
 
 import uuid
-
-UserModel = get_user_model()
 
 
 class ApplicationManager(models.Manager):
@@ -16,6 +15,11 @@ class ApplicationManager(models.Manager):
 
 
 class Application(GeneralDateModel):
+    class Meta:
+        verbose_name = _("Application")
+        verbose_name_plural = _("Applications")
+        ordering = ['-id']
+
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,

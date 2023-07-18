@@ -8,11 +8,11 @@ from app_user.api.serializers.forget_password import (
 )
 
 from utils import BaseVersioning
-from utils.permissions import AllowAny
+from utils.permissions import AllowAnyPermission
 
 
 class ForgetPasswordView(generics.GenericAPIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAnyPermission, ]
     versioning_class = BaseVersioning
     serializer_class = ForgetPasswordSerializer
 
@@ -23,7 +23,7 @@ class ForgetPasswordView(generics.GenericAPIView):
 
 
 class ValidateForgetPasswordOTPView(generics.GenericAPIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAnyPermission, ]
     versioning_class = BaseVersioning
     serializer_class = ValidateForgetPasswordOTPSerializer
 
@@ -34,7 +34,7 @@ class ValidateForgetPasswordOTPView(generics.GenericAPIView):
 
 
 class CompleteForgetPasswordView(generics.GenericAPIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [AllowAnyPermission, ]
     versioning_class = BaseVersioning
     serializer_class = CompleteForgetPasswordSerializer
 

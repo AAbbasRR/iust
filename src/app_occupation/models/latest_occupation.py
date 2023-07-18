@@ -12,6 +12,11 @@ class LatestOccupationManager(models.Manager):
 
 
 class LatestOccupation(GeneralDateModel):
+    class Meta:
+        verbose_name = _("Latest Occupation")
+        verbose_name_plural = _("Latest Occupations")
+        ordering = ['-id']
+
     application = models.OneToOneField(
         ApplicationModel,
         on_delete=models.CASCADE,

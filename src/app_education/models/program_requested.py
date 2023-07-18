@@ -12,6 +12,11 @@ class ProgramRequestedManager(models.Manager):
 
 
 class ProgramRequested(GeneralDateModel):
+    class Meta:
+        verbose_name = _("Program Request")
+        verbose_name_plural = _("Program Requests")
+        ordering = ['-id']
+
     application = models.OneToOneField(
         ApplicationModel,
         on_delete=models.CASCADE,
