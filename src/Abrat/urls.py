@@ -10,6 +10,7 @@ v1_urlpatterns = [
     path('education/', include('app_education.api.urls', namespace='app_education')),
     path('occupation/', include('app_occupation.api.urls', namespace='app_occupation')),
     path('frequently_question/', include('app_frequently_question.api.urls', namespace='app_frequently_question')),
+    path('notification/', include('app_notification.api.urls', namespace='app_notification')),
 ]
 
 urlpatterns = [
