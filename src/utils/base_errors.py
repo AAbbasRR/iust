@@ -14,16 +14,22 @@ class BaseErrors:
     url_not_found = _('URL Not Found.')
     server_error = _('Server Error.')
 
-    # user sign up, login, forget pass
+    # user sign up, login, forget pass, change pass
+    # sign up
     user_must_have_email = _('User Must Have Email.')
     user_must_have_password = _('User Must Have Password.')
-    invalid_email_or_password = _('Invalid Email or Password.')
     user_account_with_email_exists = _('User Account With Email Exists.')
-    passwords_did_not_match = _('Password And Repeat Password Did Not Match.')
-    user_not_found = _('User Not Found')
-    user_account_not_active = _('User Account Not Active.')
+    # active account
     user_account_is_active = _('User Account Is Active.')
+    # login
+    invalid_email_or_password = _('Invalid Email or Password.')
+    user_account_not_active = _('User Account Not Active.')
+    # forget pass
+    user_not_found = _('User Not Found')
     user_dont_have_forget_password_permission = _('You Do Not Have Access To Change The Password, Please Try Again First Step.')
+    passwords_did_not_match = _('Password And Repeat Password Did Not Match.')
+    # change pass
+    old_password_is_incorrect = _('Old Password Is Incorrect')
 
     # otp code validate
     otp_code_expired = _('OTP Code Expired, Please Try To Resend New OTP Code.')

@@ -11,6 +11,9 @@ from .forget_password import (
     ValidateForgetPasswordOTPView,
     CompleteForgetPasswordView
 )
+from .change_password import (
+    ChangePasswordView
+)
 from .profile import (
     ProfileCreateView,
     ProfileDetailUpdateView
