@@ -40,4 +40,7 @@ class BaseErrors:
     tracking_id_not_found = _('"tracking_id" Not Found Or Is Invalid')
     invalid_choice_value = _('"{input}" is not a valid choice.')
 
+    # notification
+    message_success_viewed = _('Message Success Viewed')
+
     # api views

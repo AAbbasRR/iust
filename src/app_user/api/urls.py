@@ -21,7 +21,6 @@ urlpatterns = [
     path('change_password/', ChangePasswordView.as_view(), name='user_change_password'),
 
     # manage profile account
-    path('profile/create/', ProfileCreateView.as_view(), name='user_create_profile'),
     path('profile/detail_update/', ProfileDetailUpdateView.as_view(), name='user_detail_update_profile'),
 
     # manage address account

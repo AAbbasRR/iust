@@ -1,5 +1,12 @@
 from django.utils.translation import gettext as _
 
+notification_status_options = [
+    ('INFO', _('Information')),
+    ('SUCS', _('Success')),
+    ('WARN', _('Warning')),
+    ('EROR', _('Error')),
+]
+
 country = [
     ('Afghanistan', 'Afghanistan'),
     ('Albania', 'Albania'),

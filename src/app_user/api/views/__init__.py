@@ -15,7 +15,6 @@ from .change_password import (
     ChangePasswordView
 )
 from .profile import (
-    ProfileCreateView,
     ProfileDetailUpdateView
 )
 from .address import (

@@ -1,17 +1,9 @@
 from rest_framework import generics
 
-from app_user.api.serializers.profile import (
-    ProfileSerializer
-)
+from app_user.api.serializers.profile import ProfileSerializer
 
 from utils import BaseVersioning
 from utils.permissions import IsAuthenticatedPermission
-
-
-class ProfileCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticatedPermission, ]
-    versioning_class = BaseVersioning
-    serializer_class = ProfileSerializer
 
 
 class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
