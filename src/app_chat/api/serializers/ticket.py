@@ -31,7 +31,7 @@ class MessageSerializers(serializers.ModelSerializer):
         fields = [
             'id',
             'message',
-            'create_at',
+            'created_at',
 
             'file_url',
             'user_owner',
