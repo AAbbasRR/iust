@@ -62,8 +62,6 @@ class CreateMessageOnChatRoomView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             message = serializer.save()
-            serializer.validated_data.pop('message')
-            serializer.validated_data.pop('chatroom_id')
             return response.Response(
                 MessageSerializers(instance=message, many=False, context={'request': request}).data,
                 status=status.HTTP_201_CREATED
