@@ -86,7 +86,7 @@ class TicketChatRoomSerializers(serializers.ModelSerializer):
             'status',
             'priority',
             'create_at',
-            'update_at',
+            'updated_at',
         ]
         extra_kwargs = {
             'id': {'read_only': True},
@@ -95,7 +95,7 @@ class TicketChatRoomSerializers(serializers.ModelSerializer):
             'status': {'read_only': True},
             'room_id': {'read_only': True},
             'create_at': {'read_only': True},
-            'update_at': {'read_only': True},
+            'updated_at': {'read_only': True},
         }
 
     def __init__(self, *args, **kwargs):
