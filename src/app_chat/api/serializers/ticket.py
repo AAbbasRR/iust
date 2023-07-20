@@ -106,9 +106,9 @@ class TicketChatRoomSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         chatroom_obj = ChatRoomModel.objects.create(
-            user=self.user,
             **validated_data
         )
+        chatroom_obj.members.add(self.user)
         return chatroom_obj
 
 
