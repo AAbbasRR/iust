@@ -57,7 +57,7 @@ class ChatRoom(GeneralDateModel):
 
 
 def ticket_image_directory_path(instance, filename):
-    return 'chat_images/{0}/{1}'.format(instance.message.chat_room.room_id, filename)
+    return 'chat_images/{0}/{1}'.format(instance.chat_room.room_id, filename)
 
 
 class Message(GeneralDateModel):
