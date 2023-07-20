@@ -17,6 +17,9 @@ class ChatRoomManager(models.Manager):
 
 
 class ChatRoom(GeneralDateModel):
+    class Meta:
+        ordering = ["-create_at"]
+
     title = models.CharField(
         max_length=75,
         verbose_name=_('Title')
@@ -61,6 +64,9 @@ def ticket_image_directory_path(instance, filename):
 
 
 class Message(GeneralDateModel):
+    class Meta:
+        ordering = ["-create_at"]
+
     chat_room = models.ForeignKey(
         ChatRoom,
         on_delete=models.CASCADE,
