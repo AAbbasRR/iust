@@ -7,6 +7,17 @@ notification_status_options = [
     ('EROR', _('Error')),
 ]
 
+ticket_status_choices = [
+    ('AWF', _('Waiting For An Answer')),
+    ('ABA', _('Has Been Answered')),
+    ('CLS', _('Closed')),
+]
+ticket_priority_choices = [
+    ('LOW', _('LOW')),
+    ('MED', _('Medium')),
+    ('HIG', _('High')),
+]
+
 country = [
     ('Afghanistan', 'Afghanistan'),
     ('Albania', 'Albania'),

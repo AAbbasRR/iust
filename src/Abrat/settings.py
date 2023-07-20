@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'app_occupation',
     'app_frequently_question',
     'app_notification',
+    'app_chat',
     'app_admin'
 ]
 
