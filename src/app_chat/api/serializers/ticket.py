@@ -134,7 +134,7 @@ class ChatRoomRetrieveSerializer(serializers.ModelSerializer):
             'room_id',
             'status',
             'priority',
-            'create_at',
+            'created_at',
 
             'messages',
         ]
