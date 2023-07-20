@@ -77,6 +77,10 @@ class MessageSerializers(serializers.ModelSerializer):
 
 
 class TicketChatRoomSerializers(serializers.ModelSerializer):
+    latest_message = serializers.SerializerMethodField(
+        'get_latest_message'
+    )
+
     class Meta:
         model = ChatRoomModel
         fields = [
@@ -85,8 +89,10 @@ class TicketChatRoomSerializers(serializers.ModelSerializer):
             'room_id',
             'status',
             'priority',
-            'create_at',
+            'created_at',
             'updated_at',
+
+            'latest_message'
         ]
         extra_kwargs = {
             'id': {'read_only': True},
@@ -103,6 +109,9 @@ class TicketChatRoomSerializers(serializers.ModelSerializer):
         self.request = self.context.get('request')
         if self.request:
             self.user = self.request.user
+
+    def get_latest_message(self, obj):
+        return MessageSerializers(obj.chatroom_messages.last(), many=False, read_only=True, context=self.context).data
 
     def create(self, validated_data):
         chatroom_obj = ChatRoomModel.objects.create(

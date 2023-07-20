@@ -2,6 +2,11 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext as _
 
+from Abrat.settings import (
+    DATE_INPUT_FORMATS,
+    TIME_INPUT_FORMATS
+)
+
 from .data_list import country
 
 
@@ -14,6 +19,9 @@ class GeneralDateModel(models.Model):
         verbose_name=_('Updated Time'),
         auto_now=True
     )
+
+    def created_at(self):
+        return self.create_at.strftime(f'{DATE_INPUT_FORMATS} - {TIME_INPUT_FORMATS}')
 
     class Meta:
         abstract = True

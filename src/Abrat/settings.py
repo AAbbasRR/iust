@@ -184,4 +184,5 @@ else:
     DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 # __Custom Settings__ #
-DATE_INPUT_FORMATS = ['%Y-%m-%d']
+DATE_INPUT_FORMATS = '%Y-%m-%d'
+TIME_INPUT_FORMATS = '%H:%M:%S'
