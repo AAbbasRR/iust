@@ -10,6 +10,10 @@ class BaseErrors:
             message = message.replace('{%s}' % key, value)
         return message
 
+    # global
+    parameter_is_required = _('parameter {param_name} is required')
+    object_not_found = _('{object} Not Found')
+
     # project
     url_not_found = _('URL Not Found.')
     server_error = _('Server Error.')
