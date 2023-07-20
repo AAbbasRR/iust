@@ -12,7 +12,6 @@ from app_chat.api.serializers.ticket import (
     MessageSerializers,
     ChatRoomRetrieveSerializer
 )
-from app_chat.models import ChatRoomModel
 
 from utils.permissions import IsAuthenticatedPermission
 from utils.base_errors import BaseErrors
@@ -27,7 +26,7 @@ class ListCreateTicketView(generics.ListCreateAPIView):
     serializer_class = TicketChatRoomSerializers
 
     def get_queryset(self):
-        return ChatRoomModel.objects.filter(user=self.request.user)
+        return self.request.user.user_chat_rooms.all()
 
 
 class RetrieveTicketMessagesView(generics.RetrieveAPIView):
@@ -47,7 +46,7 @@ class RetrieveTicketMessagesView(generics.RetrieveAPIView):
         return obj
 
     def get_queryset(self):
-        return ChatRoomModel.objects.filter(user=self.request.user)
+        return self.request.user.user_chat_rooms.all()
 
 
 class CreateMessageOnChatRoomView(generics.CreateAPIView):
