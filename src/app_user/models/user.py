@@ -42,13 +42,13 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def register_user(self, email=None, password=None, agent=None):
+    def register_user(self, email=None, password=None, *args, **kwargs):
         if not email:
             raise ValueError(BaseErrors.user_must_have_email)
         if not password:
             raise ValueError(BaseErrors.user_must_have_password)
         with transaction.atomic():
-            user = self.create_user(email, password, agent=agent)
+            user = self.create_user(email, password, **kwargs)
         return user
 
     def find_by_email(self, email=None):
