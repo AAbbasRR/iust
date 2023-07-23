@@ -30,12 +30,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         fields = (
             'email',
             'password',
+
+            'agent'
         )
 
     def create(self, validated_data):
         user = UserModel.objects.register_user(
             email=validated_data['email'],
             password=validated_data['password'],
+            agent=validated_data['agent'],
         )
         return user
 

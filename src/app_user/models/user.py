@@ -6,11 +6,12 @@ from utils import BaseErrors
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email=None, password=None):
+    def create_user(self, email=None, password=None, *args, **kwargs):
         if not email:
             raise ValueError(BaseErrors.user_must_have_email)
         user = self.model(
             email=self.normalize_email(email),
+            **kwargs
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -41,13 +42,13 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def register_user(self, email=None, password=None):
+    def register_user(self, email=None, password=None, agent=None):
         if not email:
             raise ValueError(BaseErrors.user_must_have_email)
         if not password:
             raise ValueError(BaseErrors.user_must_have_password)
         with transaction.atomic():
-            user = self.create_user(email, password)
+            user = self.create_user(email, password, agent=agent)
         return user
 
     def find_by_email(self, email=None):
@@ -73,6 +74,11 @@ class User(AbstractUser):
     is_active = models.BooleanField(
         default=False,
         verbose_name=_('Is Active'),
+    )
+    agent = models.EmailField(
+        null=True,
+        blank=True,
+        verbose_name=_('Agent Email')
     )
 
     USERNAME_FIELD = 'email'
