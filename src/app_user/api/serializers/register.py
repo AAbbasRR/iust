@@ -35,10 +35,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
+        try:
+            agent = validated_data.pop("agent")
+        except Exception:
+            agent = None
         user = UserModel.objects.register_user(
             validated_data['email'],
             validated_data['password'],
-            **validated_data,
+            agent,
         )
         return user
 
