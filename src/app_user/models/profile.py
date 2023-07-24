@@ -25,41 +25,49 @@ class Profile(GeneralDateModel):
     )
     first_name = models.CharField(
         max_length=100,
+        null=True,
         verbose_name=_('First Name')
     )
     last_name = models.CharField(
         max_length=100,
+        null=True,
         verbose_name=_('Last Name')
     )
     birth_date = models.DateField(
+        null=True,
         verbose_name=_('Birth Date'),
     )
     gender = models.CharField(
         max_length=3,
+        null=True,
         choices=gender_options,
         verbose_name=_('Gender')
     )
     nationality = models.CharField(
         max_length=50,
+        null=True,
         verbose_name=_('Nationality')
     )
     mother_language = models.CharField(
         max_length=50,
+        null=True,
         verbose_name=_('Mother Language')
     )
     other_languages = models.CharField(
         max_length=150,
+        null=True,
         verbose_name=_('Other Languages'),
-        null=True
     )
     english_status = models.CharField(
         max_length=3,
+        null=True,
         choices=language_status_options,
         default=language_status_options[1][0],
         verbose_name=_('English Status')
     )
     persian_status = models.CharField(
         max_length=3,
+        null=True,
         choices=language_status_options,
         default=language_status_options[1][0],
         verbose_name=_('Persian Status')
