@@ -23,6 +23,11 @@ class Profile(GeneralDateModel):
         related_name='user_profile',
         verbose_name=_('User')
     )
+    phone_number = models.CharField(
+        max_length=50,
+        null=True,
+        verbose_name=_('Phone Number')
+    )
     first_name = models.CharField(
         max_length=100,
         null=True,
@@ -41,6 +46,7 @@ class Profile(GeneralDateModel):
         max_length=3,
         null=True,
         choices=gender_options,
+        default=gender_options[0][0],
         verbose_name=_('Gender')
     )
     nationality = models.CharField(

@@ -12,6 +12,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = ProfileModel
         fields = (
             "id",
+            "phone_number",
             "first_name",
             "last_name",
             "birth_date",
@@ -24,12 +25,13 @@ class ProfileSerializer(serializers.ModelSerializer):
         )
         extra_kwargs = {
             'id': {'read_only': True},
+            'phone_number': {'required': True},
             'first_name': {'required': True},
             'last_name': {'required': True},
             'birth_date': {'required': True},
             'gender': {'required': True},
             'nationality': {'required': True},
-            'mother_language': {'required': True},
+            'mother_language': {'required': False},
             'other_languages': {'required': False},
             'english_status': {'required': True},
             'persian_status': {'required': True},
@@ -41,7 +43,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         if self.request:
             self.user = self.request.user
             self.method = self.request.method
-            if self.method in ['PUT', 'PATCH']:
+            if self.method in ['PUT']:
                 for field_name, field in self.fields.items():
                     field.required = False
 
