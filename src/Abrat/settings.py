@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = ['*', ]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
 INSTALLED_APPS = [
@@ -168,7 +168,7 @@ Redis_db = config('REDIS_DB', default=0, cast=int)
 # ___Request Api Options___ #
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_REGEX_WHITELIST = ['*', ]
+CORS_ORIGIN_REGEX_WHITELIST = config('CORS_ORIGIN_REGEX_WHITELIST', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # __Email Settings__ #
 if not DEBUG:
