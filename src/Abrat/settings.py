@@ -171,7 +171,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_REGEX_WHITELIST = ['*', ]
 
 # __Email Settings__ #
-if DEBUG:
+if not DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     EMAIL_HOST_USER = ''
 else:
@@ -181,6 +181,7 @@ else:
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
     EMAIL_PORT = config('EMAIL_PORT', cast=int)
     EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
     DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 # __Custom Settings__ #
