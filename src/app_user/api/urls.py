@@ -24,6 +24,5 @@ urlpatterns = [
     path('profile/detail_update/', ProfileDetailUpdateView.as_view(), name='user_detail_update_profile'),
 
     # manage address account
-    path('address/create/', AddressCreateView.as_view(), name='user_create_address'),
     path('address/detail_update/', AddressDetailUpdateView.as_view(), name='user_detail_update_address'),
 ]

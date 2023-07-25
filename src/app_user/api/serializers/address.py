@@ -41,13 +41,6 @@ class AddressSerializer(serializers.ModelSerializer):
                 for field_name, field in self.fields.items():
                     field.required = False
 
-    def create(self, validated_data):
-        address_obj = AddressModel.objects.create(
-            user=self.user,
-            **validated_data
-        )
-        return address_obj
-
     def update(self, instance, validated_data):
         for field_name in validated_data:  # update address fields
             setattr(instance, field_name, validated_data[field_name])

@@ -7,8 +7,6 @@ from Abrat.settings import (
     TIME_INPUT_FORMATS
 )
 
-from .data_list import country
-
 
 class GeneralDateModel(models.Model):
     create_at = models.DateTimeField(
@@ -30,7 +28,6 @@ class GeneralDateModel(models.Model):
 class GeneralAddressModel(models.Model):
     country = models.CharField(
         max_length=35,
-        choices=country,
         verbose_name=_('Country'),
     )
     city = models.CharField(
