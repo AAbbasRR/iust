@@ -34,6 +34,7 @@ class ProfileTestCase(TestUserSetUp):
             "birth_date": self.fake_data.date_of_birth(),
             "gender": self.fake_data.random_choices(elements=['MAL', 'FML', 'OTR'], length=1)[0],
             "nationality": self.fake_data.country(),
+            "phone_number": self.fake_data.phone_number(),
             "mother_language": self.fake_data.language_name(),
             "other_languages": self.fake_data.language_name(),
             "english_status": self.fake_data.random_choices(elements=['WEK', 'GOD', 'EXT'], length=1)[0],

@@ -17,7 +17,6 @@ class AddressSerializer(serializers.ModelSerializer):
             'country_code',
             'postal_code',
             'city_code',
-            'phone_number',
             'address',
         )
         extra_kwargs = {
@@ -27,7 +26,6 @@ class AddressSerializer(serializers.ModelSerializer):
             'country_code': {'required': False},
             'postal_code': {'required': True},
             'city_code': {'required': False},
-            'phone_number': {'required': False},
             'address': {'required': True},
         }
 

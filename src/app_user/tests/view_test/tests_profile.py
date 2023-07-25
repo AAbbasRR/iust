@@ -33,6 +33,7 @@ class UserProfileApiTestCase(TestUserSetUp):
             'last_name': self.fake_data.last_name(),
             'birth_date': self.fake_data.date_of_birth(),
             'gender': self.fake_data.random_choices(gender, 1)[0],
+            'phone_number': self.fake_data.phone_number(),
             'nationality': self.fake_data.country(),
             'mother_language': self.fake_data.language_name(),
             'other_languages': 'FR, ES',

@@ -34,7 +34,6 @@ class UserAddressApiTestCase(TestUserSetUp):
             'country_code': self.fake_data.country_code(),
             'postal_code': self.fake_data.postcode(),
             'city_code': self.fake_data.country_code(),
-            'phone_number': self.fake_data.phone_number(),
             'address': self.fake_data.address(),
         }
         self.updated_address_data = {

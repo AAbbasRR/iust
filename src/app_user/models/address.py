@@ -37,11 +37,6 @@ class Address(GeneralDateModel, GeneralAddressModel):
         null=True,
         verbose_name=_('City Code')
     )
-    phone_number = models.CharField(
-        max_length=25,
-        null=True,
-        verbose_name=_('Phone Number')
-    )
     address = models.TextField(
         null=True,
         verbose_name=_('Address')
