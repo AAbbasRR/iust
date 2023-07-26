@@ -4,7 +4,12 @@ from django.utils.translation import gettext as _
 from app_user.models import UserModel
 
 from utils import GeneralDateModel
-from utils.data_list import application_status_options
+from utils.data_list import (
+    application_status_options,
+    degree_options,
+    faculty_options,
+    field_of_study_options
+)
 
 import uuid
 
@@ -56,6 +61,24 @@ class Application(GeneralDateModel):
         choices=application_status_options,
         default=application_status_options[0][0],
         verbose_name=_('Status')
+    )
+    degree = models.CharField(
+        max_length=8,
+        choices=degree_options,
+        default=degree_options[0][0],
+        verbose_name=_('Degree')
+    )
+    faculty = models.CharField(
+        max_length=80,
+        choices=faculty_options,
+        default=degree_options[0][0],
+        verbose_name=_('Faculty')
+    )
+    field_of_study = models.CharField(
+        max_length=150,
+        choices=field_of_study_options,
+        default=degree_options[0][0],
+        verbose_name=_('Field Of Study')
     )
 
     objects = ApplicationManager()

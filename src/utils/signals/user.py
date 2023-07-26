@@ -8,6 +8,11 @@ from app_user.models import (
     ProfileModel,
     AddressModel
 )
+from app_education.models import (
+    HighSchoolModel,
+    BachelorDegreeModel,
+    MasterDegreeModel,
+)
 
 from utils import ManageMailService, RedisKeys
 
@@ -24,6 +29,15 @@ def create_user_handler(sender, instance, **kwargs):
             user=instance
         )
         AddressModel.objects.create(
+            user=instance
+        )
+        HighSchoolModel.objects.create(
+            user=instance
+        )
+        BachelorDegreeModel.objects.create(
+            user=instance
+        )
+        MasterDegreeModel.objects.create(
             user=instance
         )
         if instance.is_active is False:

@@ -39,13 +39,6 @@ class MasterDegreeSerializer(serializers.ModelSerializer):
                 for field_name, field in self.fields.items():
                     field.required = False
 
-    def create(self, validated_data):
-        master_degree_obj = MasterDegreeModel.objects.create(
-            user=self.user,
-            **validated_data
-        )
-        return master_degree_obj
-
     def update(self, instance, validated_data):
         for field_name in validated_data:  # update master degree fields
             setattr(instance, field_name, validated_data[field_name])

@@ -1,17 +1,9 @@
 from rest_framework import generics
 
-from app_education.api.serializers.master_degree import (
-    MasterDegreeSerializer
-)
+from app_education.api.serializers.master_degree import MasterDegreeSerializer
 
 from utils import BaseVersioning
 from utils.permissions import IsAuthenticatedPermission
-
-
-class MasterDegreeCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticatedPermission, ]
-    versioning_class = BaseVersioning
-    serializer_class = MasterDegreeSerializer
 
 
 class MasterDegreeDetailUpdateView(generics.RetrieveUpdateAPIView):

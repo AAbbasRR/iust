@@ -20,5 +20,7 @@ class MasterDegree(GeneralEducationModel, GeneralDateModel):
     )
     university = models.CharField(
         max_length=50,
+        null=True,
+        blank=True,
         verbose_name=_('University')
     )

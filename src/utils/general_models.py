@@ -28,10 +28,14 @@ class GeneralDateModel(models.Model):
 class GeneralAddressModel(models.Model):
     country = models.CharField(
         max_length=35,
+        null=True,
+        blank=True,
         verbose_name=_('Country'),
     )
     city = models.CharField(
         max_length=40,
+        null=True,
+        blank=True,
         verbose_name=_('City'),
     )
 
@@ -41,17 +45,22 @@ class GeneralAddressModel(models.Model):
 
 class GeneralEducationModel(GeneralAddressModel):
     date_of_graduation = models.DateField(
-        verbose_name=_('Date Of Graduation'),
         auto_now=False,
         auto_now_add=False,
+        null=True,
+        blank=True,
+        verbose_name=_('Date Of Graduation'),
     )
     gpa = models.FloatField(
         validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=0,
         verbose_name=_('GPA'),
     )
     field_of_study = models.CharField(
-        verbose_name=_('Field Of Study'),
         max_length=50,
+        null=True,
+        blank=True,
+        verbose_name=_('Field Of Study'),
     )
 
     class Meta:
