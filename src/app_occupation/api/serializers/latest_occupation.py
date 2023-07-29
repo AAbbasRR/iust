@@ -12,6 +12,8 @@ class LatestOccupationSerializer(serializers.ModelSerializer):
             'organization',
             'from_date',
             'to_date',
+            'country',
+            'city',
             'description',
         )
         extra_kwargs = {
@@ -20,6 +22,8 @@ class LatestOccupationSerializer(serializers.ModelSerializer):
             'organization': {'required': True},
             'from_date': {'required': True},
             'to_date': {'required': True},
+            'country': {'required': True},
+            'city': {'required': True},
             'description': {'required': False},
         }
 

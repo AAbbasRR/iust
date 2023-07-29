@@ -3,7 +3,10 @@ from django.utils.translation import gettext as _
 
 from app_user.models import UserModel
 
-from utils import GeneralDateModel
+from utils import (
+    GeneralDateModel,
+    GeneralAddressModel
+)
 from utils.data_list import occupation_options
 
 
@@ -11,7 +14,7 @@ class LatestOccupationManager(models.Manager):
     pass
 
 
-class LatestOccupation(GeneralDateModel):
+class LatestOccupation(GeneralDateModel, GeneralAddressModel):
     class Meta:
         verbose_name = _("Latest Occupation")
         verbose_name_plural = _("Latest Occupations")
