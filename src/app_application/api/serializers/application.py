@@ -20,7 +20,9 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'degree',
             'faculty',
             'field_of_study',
-            'status',
+            'university_status',
+            'faculty_status',
+            'created_at',
         )
         extra_kwargs = {
             'id': {'read_only': True},
@@ -32,7 +34,9 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'degree': {'required': True},
             'faculty': {'required': True},
             'field_of_study': {'required': True},
-            'status': {'read_only': True},
+            'university_status': {'read_only': True},
+            'faculty_status': {'read_only': True},
+            'created_at': {'read_only': True},
         }
 
     def __init__(self, *args, **kwargs):
