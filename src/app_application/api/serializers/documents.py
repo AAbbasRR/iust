@@ -90,6 +90,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
             application_obj = None
         document_obj = DocumentModel.objects.create(
             application=application_obj,
+            user=self.user,
             **validated_data
         )
         return document_obj
