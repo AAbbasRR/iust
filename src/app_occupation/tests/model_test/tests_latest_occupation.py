@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 
-from app_application.models import ApplicationModel
 from app_occupation.models import LatestOccupationModel
 from app_occupation.tests import TestOccupationSetUp
 
@@ -23,10 +22,6 @@ class LatestOccupationTestCase(TestOccupationSetUp):
         )
         self.user_obj.activate()
 
-        self.success_application_obj = ApplicationModel.objects.create(
-            user=self.user_obj,
-        )
-
     def test_methods(self):
         self.create_test()
         self.delete_user_test()
@@ -42,11 +37,11 @@ class LatestOccupationTestCase(TestOccupationSetUp):
             "description": self.fake_data.text(),
         }
         self.success_occupation_obj = LatestOccupationModel.objects.create(
-            application=self.success_application_obj,
+            user=self.user_obj,
             **data
         )
         self.assertIsNotNone(self.success_occupation_obj)
-        self.assertEqual(self.success_occupation_obj.application.user.email, self.user_obj.email)
+        self.assertEqual(self.success_occupation_obj.user.email, self.user_obj.email)
         self.assertEqual(self.success_occupation_obj.occupation, data['occupation'])
         self.assertEqual(self.success_occupation_obj.organization, data['organization'])
         self.assertEqual(self.success_occupation_obj.from_date, data['from_date'])

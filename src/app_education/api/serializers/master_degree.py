@@ -1,10 +1,6 @@
-from django.contrib.auth import get_user_model
-
 from rest_framework import serializers
 
 from app_education.models import MasterDegreeModel
-
-UserModel = get_user_model()
 
 
 class MasterDegreeSerializer(serializers.ModelSerializer):

@@ -13,6 +13,7 @@ from app_education.models import (
     BachelorDegreeModel,
     MasterDegreeModel,
 )
+from app_occupation.models import LatestOccupationModel
 
 from utils import ManageMailService, RedisKeys
 
@@ -38,6 +39,9 @@ def create_user_handler(sender, instance, **kwargs):
             user=instance
         )
         MasterDegreeModel.objects.create(
+            user=instance
+        )
+        LatestOccupationModel.objects.create(
             user=instance
         )
         if instance.is_active is False:

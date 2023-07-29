@@ -1,10 +1,6 @@
-from django.contrib.auth import get_user_model
-
 from rest_framework import serializers
 
 from app_education.models import HighSchoolModel
-
-UserModel = get_user_model()
 
 
 class HighSchoolSerializer(serializers.ModelSerializer):

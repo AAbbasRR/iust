@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext as _
 
-from app_application.models import ApplicationModel
+from app_user.models import UserModel
 
 from utils import GeneralDateModel
 from utils.data_list import occupation_options
@@ -17,11 +17,11 @@ class LatestOccupation(GeneralDateModel):
         verbose_name_plural = _("Latest Occupations")
         ordering = ['-id']
 
-    application = models.OneToOneField(
-        ApplicationModel,
+    user = models.OneToOneField(
+        UserModel,
         on_delete=models.CASCADE,
-        related_name='application_latest_occupation',
-        verbose_name=_('Application')
+        related_name="user_latest_occupation",
+        verbose_name=_('User')
     )
     occupation = models.CharField(
         max_length=3,
