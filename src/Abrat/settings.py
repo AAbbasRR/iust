@@ -136,6 +136,8 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+# File
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024
 
 # __django logging settings__ #
 LOG_DIR = os.path.join(BASE_DIR, 'logs')
@@ -187,3 +189,4 @@ else:
 # __Custom Settings__ #
 DATE_INPUT_FORMATS = '%Y-%m-%d'
 TIME_INPUT_FORMATS = '%H:%M:%S'
+MAX_DOCUMENTS_SIZE = 3 * 1024 * 1024

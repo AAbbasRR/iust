@@ -1,6 +1,9 @@
 from rest_framework import serializers, exceptions
 
-from app_application.models import DocumentModel, ApplicationModel
+from app_application.models import (
+    DocumentModel,
+    ApplicationModel
+)
 
 from utils import BaseErrors
 
@@ -17,6 +20,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'tracking_id',
+
             'curriculum_vitae',
             'personal_photo',
             'valid_passport',
