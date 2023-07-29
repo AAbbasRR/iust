@@ -17,7 +17,7 @@ class DocumentManager(models.Manager):
 
 
 def document_image_directory_path(instance, filename):
-    return 'application_documents/user_{0}/{1}/{2}'.format(instance.user.email, instance.pk, filename)
+    return 'application_documents/user_{0}/{1}'.format(instance.user.email, filename)
 
 
 class Document(GeneralDateModel):
