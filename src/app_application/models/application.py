@@ -41,11 +41,11 @@ class Application(GeneralDateModel):
     )
     full_name = models.CharField(
         max_length=50,
-        null=True,
         verbose_name=_('Full Name')
     )
     comments = models.TextField(
         null=True,
+        blank=True,
         verbose_name=_('Comments')
     )
     applied_program = models.BooleanField(

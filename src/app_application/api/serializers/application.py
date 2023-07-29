@@ -17,15 +17,21 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'comments',
             'applied_program',
             'financial_self_support',
+            'degree',
+            'faculty',
+            'field_of_study',
             'status',
         )
         extra_kwargs = {
             'id': {'read_only': True},
             'tracking_id': {'read_only': True},
-            'full_name': {'required': False},
+            'full_name': {'required': True},
             'comments': {'required': False},
             'applied_program': {'required': True},
             'financial_self_support': {'required': True},
+            'degree': {'required': True},
+            'faculty': {'required': True},
+            'field_of_study': {'required': True},
             'status': {'read_only': True},
         }
 
