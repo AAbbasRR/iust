@@ -26,20 +26,28 @@ class LatestOccupation(GeneralDateModel):
     occupation = models.CharField(
         max_length=3,
         choices=occupation_options,
+        default=occupation_options[0][0],
         verbose_name=_('Occupation')
     )
     organization = models.CharField(
         max_length=50,
+        null=True,
+        blank=True,
         verbose_name=_('Organization')
     )
     from_date = models.DateField(
+        null=True,
+        blank=True,
         verbose_name=_('From Date')
     )
     to_date = models.DateField(
+        null=True,
+        blank=True,
         verbose_name=_('To Date')
     )
     description = models.TextField(
         null=True,
+        blank=True,
         verbose_name=_('Description')
     )
 

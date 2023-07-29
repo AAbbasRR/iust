@@ -38,11 +38,11 @@ application_status_options = [
 ]
 
 occupation_options = [
+    ('OTR', _('Other')),
     ('ACD', _('Academician')),
     ('GVE', _('Government Employee')),
     ('INE', _('Industrial Employee')),
     ('STU', _('Student')),
-    ('OTR', _('Other'))
 ]
 
 degree_options = [
