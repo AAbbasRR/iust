@@ -8,7 +8,7 @@ from utils import BaseErrors
 class DocumentsSerializer(serializers.ModelSerializer):
     tracking_id = serializers.CharField(
         max_length=12,
-        required=True,
+        required=False,
         write_only=True
     )
 
@@ -39,7 +39,6 @@ class DocumentsSerializer(serializers.ModelSerializer):
             self.user = self.request.user
             self.method = self.request.method
             if self.method in ['PUT', 'PATCH']:
-                self.fields['tracking_id'].read_only = True
                 for field_name, field in self.fields.items():
                     field.required = False
 
@@ -81,7 +80,10 @@ class DocumentsSerializer(serializers.ModelSerializer):
         return obj.get_field_image_url("supporting_letter", self.request)
 
     def create(self, validated_data):
-        application_obj = validated_data.pop('tracking_id')
+        try:
+            application_obj = validated_data.pop('tracking_id')
+        except Exception:
+            application_obj = None
         document_obj = DocumentModel.objects.create(
             application=application_obj,
             **validated_data
@@ -89,7 +91,11 @@ class DocumentsSerializer(serializers.ModelSerializer):
         return document_obj
 
     def update(self, instance, validated_data):
-        validated_data.pop('tracking_id')
+        try:
+            application_obj = validated_data.pop('tracking_id')
+        except Exception:
+            application_obj = None
+        validated_data['application'] = application_obj
         for field_name in validated_data:  # update document fields
             setattr(instance, field_name, validated_data[field_name])
         instance.save()

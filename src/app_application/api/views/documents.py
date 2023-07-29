@@ -1,8 +1,6 @@
 from rest_framework import generics
 
-from app_application.api.serializers.documents import (
-    DocumentsSerializer
-)
+from app_application.api.serializers.documents import DocumentsSerializer
 
 from utils import BaseVersioning
 from utils.permissions import IsAuthenticatedPermission
@@ -19,11 +17,7 @@ class DocumentsDetailUpdateView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = DocumentsSerializer
-    lookup_field = 'tracking_id'
+    lookup_field = 'pk'
 
     def get_queryset(self):
-        return self.request.user.user_application.all()
-
-    def get_object(self):
-        obj = super(DocumentsDetailUpdateView, self).get_object()
-        return obj.application_document
+        return self.request.user.user_documents.all()

@@ -9,5 +9,5 @@ urlpatterns = [
     path('detail_update/<str:tracking_id>/', ApplicationDetailUpdateView.as_view(), name='application_detail_update'),
 
     path('document/create/', DocumentsCreateView.as_view(), name='application_create_document'),
-    path('document/detail_update/<str:tracking_id>/', DocumentsDetailUpdateView.as_view(), name='application_detail_update_document'),
+    path('document/detail_update/<int:pk>/', DocumentsDetailUpdateView.as_view(), name='application_detail_update_document'),
 ]
