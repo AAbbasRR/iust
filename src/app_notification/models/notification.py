@@ -15,6 +15,7 @@ class Notification(GeneralDateModel):
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
+        related_name="user_notifications",
         verbose_name=_('User')
     )
     title = models.CharField(

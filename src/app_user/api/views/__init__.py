@@ -20,3 +20,6 @@ from .profile import (
 from .address import (
     AddressDetailUpdateView
 )
+from .user import (
+    UserProfileDetailView
+)
