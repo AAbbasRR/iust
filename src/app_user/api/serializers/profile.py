@@ -12,12 +12,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         'get_profile_url'
     )
 
-    profile = serializers.ImageField(
-        required=True,
-        write_only=True,
-        allow_null=True
-    )
-
     class Meta:
         model = ProfileModel
         fields = (
@@ -60,6 +54,11 @@ class ProfileSerializer(serializers.ModelSerializer):
             if self.method in ['PUT']:
                 for field_name, field in self.fields.items():
                     field.required = False
+
+    def to_internal_value(self, data):
+        if data.get('profile') == 'null':
+            data['profile'] = None
+        return super().to_internal_value(data)
 
     def get_profile_url(self, obj):
         return obj.profile_url(self.request)
