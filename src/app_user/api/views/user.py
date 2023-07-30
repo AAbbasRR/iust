@@ -12,7 +12,7 @@ class UserProfileDetailView(generics.GenericAPIView):
     permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
 
-    def get(self, request):
+    def get(self, *args, **kwargs):
         user = self.request.user
         user_profile = user.user_profile
         address = user.user_address
