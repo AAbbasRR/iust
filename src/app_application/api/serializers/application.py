@@ -59,8 +59,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     def get_user_detail(self, obj):
         return {
-            "profile": ProfileSerializer(self.user.user_profile, many=False, read_only=True),
-            "address": AddressSerializer(self.user.user_address, many=False, read_only=True),
+            "profile": ProfileSerializer(self.user.user_profile, many=False, read_only=True).data,
+            "address": AddressSerializer(self.user.user_address, many=False, read_only=True).data,
         }
 
     def create(self, validated_data):
