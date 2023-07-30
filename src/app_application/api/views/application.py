@@ -28,7 +28,7 @@ class ApplicationDetailUpdateView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticatedPermission, ]
     versioning_class = BaseVersioning
     serializer_class = ApplicationSerializer
-    lookup_field = 'tracking_id'
+    lookup_field = 'pk'
 
     def get_queryset(self):
         return self.request.user.user_application.all()
