@@ -56,6 +56,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                     field.required = False
 
     def to_internal_value(self, data):
+        ata = data.copy()
         if data.get('profile') == 'null':
             data['profile'] = None
         return super().to_internal_value(data)
