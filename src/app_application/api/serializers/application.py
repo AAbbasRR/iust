@@ -3,11 +3,17 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from app_application.models import ApplicationModel
+from app_user.api.serializers.profile import ProfileSerializer
+from app_user.api.serializers.address import AddressSerializer
 
 UserModel = get_user_model()
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
+    user_detail = serializers.SerializerMethodField(
+        'get_user_detail'
+    )
+
     class Meta:
         model = ApplicationModel
         fields = (
@@ -23,6 +29,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'university_status',
             'faculty_status',
             'created_at',
+
+            'user_detail',
         )
         extra_kwargs = {
             'id': {'read_only': True},
@@ -48,6 +56,12 @@ class ApplicationSerializer(serializers.ModelSerializer):
             if self.method in ['PUT', 'PATCH']:
                 for field_name, field in self.fields.items():
                     field.required = False
+
+    def get_user_detail(self, obj):
+        return {
+            "profile": ProfileSerializer(self.user.user_profile, many=False, read_only=True),
+            "address": AddressSerializer(self.user.user_address, many=False, read_only=True),
+        }
 
     def create(self, validated_data):
         application_obj = ApplicationModel.objects.create(
