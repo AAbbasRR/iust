@@ -96,11 +96,14 @@ class Profile(GeneralDateModel):
         return self.user.email
 
     def profile_url(self, request):
-        if self.profile is None or self.profile == "":
+        try:
+            if self.profile is None or self.profile == "":
+                return None
+            else:
+                host = request.get_host()
+                protocol = request.build_absolute_uri().split(host)[0]
+                protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[0] == "http" else protocol
+                website_url = protocol + host
+                return website_url + self.profile.url
+        except ValueError:
             return None
-        else:
-            host = request.get_host()
-            protocol = request.build_absolute_uri().split(host)[0]
-            protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[0] == "http" else protocol
-            website_url = protocol + host
-            return website_url + self.profile.url
