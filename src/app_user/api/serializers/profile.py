@@ -12,6 +12,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         'get_profile_url'
     )
 
+    profile = serializers.ImageField(
+        required=True,
+        write_only=True,
+        allow_null=True
+    )
+
     class Meta:
         model = ProfileModel
         fields = (
