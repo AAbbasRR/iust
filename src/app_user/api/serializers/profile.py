@@ -8,6 +8,10 @@ UserModel = get_user_model()
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    profile_url = serializers.SerializerMethodField(
+        'get_profile_url'
+    )
+
     class Meta:
         model = ProfileModel
         fields = (
@@ -22,6 +26,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             "other_languages",
             "english_status",
             "persian_status",
+            "profile",
+            "profile_url"
         )
         extra_kwargs = {
             'id': {'read_only': True},
@@ -35,6 +41,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'other_languages': {'required': False},
             'english_status': {'required': True},
             'persian_status': {'required': True},
+            'profile': {'required': True, 'write_only': True},
+            'profile_url': {'read_only': True},
         }
 
     def __init__(self, *args, **kwargs):
@@ -46,6 +54,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             if self.method in ['PUT']:
                 for field_name, field in self.fields.items():
                     field.required = False
+
+    def get_profile_url(self, obj):
+        return obj.profile_url(self.request)
 
     def create(self, validated_data):
         profile_obj = ProfileModel.objects.create(

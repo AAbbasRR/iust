@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext as _
 
+from Abrat.settings import DEBUG
 from app_user.models import UserModel
 
 from utils.general_models import GeneralDateModel
@@ -9,6 +10,10 @@ from utils.data_list import gender_options, language_status_options
 
 class ProfileManager(models.Manager):
     pass
+
+
+def profile_image_directory_path(instance, filename):
+    return 'profile_images/user_{0}/{1}'.format(instance.user.email, filename)
 
 
 class Profile(GeneralDateModel):
@@ -22,6 +27,12 @@ class Profile(GeneralDateModel):
         on_delete=models.CASCADE,
         related_name='user_profile',
         verbose_name=_('User')
+    )
+    profile = models.ImageField(
+        upload_to=profile_image_directory_path,
+        null=True,
+        blank=True,
+        verbose_name=_('Profile')
     )
     phone_number = models.CharField(
         max_length=50,
@@ -83,3 +94,13 @@ class Profile(GeneralDateModel):
 
     def __str__(self):
         return self.user.email
+
+    def profile_url(self, request):
+        if self.profile is None or self.profile == "":
+            return None
+        else:
+            host = request.get_host()
+            protocol = request.build_absolute_uri().split(host)[0]
+            protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[0] == "http" else protocol
+            website_url = protocol + host
+            return website_url + self.profile.url
