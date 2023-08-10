@@ -1,9 +1,13 @@
 asgiref==3.6.0
 async-timeout==4.0.2
+backports.zoneinfo==0.2.1
 Django==4.1.5
 django-cors-headers==3.13.0
+django-filter==23.2
+django-jalali-date==1.0.2
 djangorestframework==3.14.0
 Faker==16.6.0
+jdatetime==4.1.1
 Pillow==9.4.0
 python-dateutil==2.8.2
 python-decouple==3.7
