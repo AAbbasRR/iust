@@ -10,4 +10,7 @@ urlpatterns = [
 
     path('document/create/', DocumentsCreateView.as_view(), name='application_create_document'),
     path('document/detail_update/<int:pk>/', DocumentsDetailUpdateView.as_view(), name='application_detail_update_document'),
+
+    # admin
+    path('admin/all-application/list/', AdminAllApplicationView.as_view(), name='admin_all_application_list'),
 ]

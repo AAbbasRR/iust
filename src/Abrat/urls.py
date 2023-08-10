@@ -12,6 +12,8 @@ v1_urlpatterns = [
     path('frequently_question/', include('app_frequently_question.api.urls', namespace='app_frequently_question')),
     path('notification/', include('app_notification.api.urls', namespace='app_notification')),
     path('chat/', include('app_chat.api.urls', namespace='app_chat')),
+
+    path('admin/', include('app_admin.api.urls', namespace='app_admin')),
 ]
 
 urlpatterns = [

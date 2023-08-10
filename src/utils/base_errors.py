@@ -48,6 +48,9 @@ class BaseErrors:
     invalid_file_size = _('Image size should not exceed "{size}" bytes.')
     invalid_upload_file = _('Invalid file. Please upload a valid file.')
 
+    # admin
+    user_is_not_admin = _('User Is Not Admin')
+
     # notification
     message_success_viewed = _('Message Success Viewed')
 

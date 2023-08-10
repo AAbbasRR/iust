@@ -56,6 +56,11 @@ class UserManager(BaseUserManager):
             raise ValueError(BaseErrors.user_must_have_email)
         return self.filter(email=email).first()
 
+    def find_admin_by_email(self, email):
+        if not email:
+            raise ValueError(BaseErrors.user_must_have_email)
+        return self.filter(email=email, is_staff=True, is_active=True).first()
+
 
 class User(AbstractUser):
     class Meta:

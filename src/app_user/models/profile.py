@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext as _
+from django.utils import timezone
 
 from Abrat.settings import DEBUG
 from app_user.models import UserModel
@@ -107,3 +108,11 @@ class Profile(GeneralDateModel):
                 return website_url + self.profile.url
         except ValueError:
             return None
+
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+    def get_age(self):
+        today = timezone.now().date()
+        age = today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+        return age
