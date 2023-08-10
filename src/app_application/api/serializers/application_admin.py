@@ -35,6 +35,6 @@ class AdminApplicationListSerializer(serializers.ModelSerializer):
         return {
             "full_name": obj.user.user_profile.get_full_name(),
             "gender": obj.user.user_profile.gender,
-            "country": obj.user.user_adress.country,
+            "country": obj.user.user_address.country,
             "age": obj.user.user_profile.get_age()
         }
