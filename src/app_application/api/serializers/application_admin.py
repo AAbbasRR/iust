@@ -4,11 +4,11 @@ from app_application.models import ApplicationModel
 
 
 class AdminApplicationListSerializer(serializers.ModelSerializer):
-    degree = serializers.CharField(source="get_choices_field_display", read_only=True)
-    faculty = serializers.CharField(source="get_choices_field_display", read_only=True)
-    field_of_study = serializers.CharField(source="get_choices_field_display", read_only=True)
-    university_status = serializers.CharField(source="get_choices_field_display", read_only=True)
-    faculty_status = serializers.CharField(source="get_choices_field_display", read_only=True)
+    degree = serializers.CharField(source="get_degree_display", read_only=True)
+    faculty = serializers.CharField(source="get_faculty_display", read_only=True)
+    field_of_study = serializers.CharField(source="get_field_of_study_display", read_only=True)
+    university_status = serializers.CharField(source="get_university_status_display", read_only=True)
+    faculty_status = serializers.CharField(source="get_faculty_status_display", read_only=True)
 
     user = serializers.SerializerMethodField(
         'get_user'
