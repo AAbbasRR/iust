@@ -13,4 +13,6 @@ urlpatterns = [
 
     # admin
     path('admin/all-application/list/', AdminAllApplicationView.as_view(), name='admin_all_application_list'),
+    path('admin/all-application/detail/<int:pk>/', AdminDetailApplicationView.as_view(), name='admin_application_detail'),
+    path('admin/application/timeline/', AdminCreateApplicationTimeLineView.as_view(), name='admin_application_timeline_create'),
 ]

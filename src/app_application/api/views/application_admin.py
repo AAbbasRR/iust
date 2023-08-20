@@ -1,7 +1,10 @@
 from rest_framework import generics
 
 from app_application.models import ApplicationModel
-from app_application.api.serializers.application_admin import AdminApplicationListSerializer
+from app_application.api.serializers.application_admin import (
+    AdminApplicationListSerializer,
+    AdminDetailApplicationSerializer
+)
 
 from utils.permissions import (
     IsAuthenticatedPermission,
@@ -17,3 +20,11 @@ class AdminAllApplicationView(generics.ListAPIView):
     pagination_class = BasePagination
     serializer_class = AdminApplicationListSerializer
     queryset = ApplicationModel.objects.all()
+
+
+class AdminDetailApplicationView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticatedPermission, IsAdminPermission]
+    versioning_class = BaseVersioning
+    serializer_class = AdminDetailApplicationSerializer
+    queryset = ApplicationModel.objects.all()
+    lookup_field = "pk"

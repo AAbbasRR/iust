@@ -4,7 +4,11 @@ from .application import (
     ApplicationDetailUpdateView
 )
 from .application_admin import (
-    AdminAllApplicationView
+    AdminAllApplicationView,
+    AdminDetailApplicationView
+)
+from .application_timeline_admin import (
+    AdminCreateApplicationTimeLineView
 )
 from .documents import (
     DocumentsCreateView,

@@ -19,6 +19,12 @@ ticket_priority_choices = [
     ('HIG', _('High')),
 ]
 
+application_timeline_status_options = [
+    ('CONF', _('Confirmation')),
+    ('REJC', _('Rejection')),
+    ('NFIN', _('Investigation')),
+]
+
 gender_options = [
     ('MAL', _('Male')),
     ('FML', _('FeMale')),
