@@ -149,6 +149,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
             "jalali_created_at",
 
             "application_document",
+            "application_timeline",
             "user"
         )
 
