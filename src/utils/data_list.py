@@ -37,6 +37,7 @@ language_status_options = [
 ]
 
 application_status_options = [
+    ('NOCO', _('Not Completed')),
     ('CRNT', _('Current')),
     ('ACPT', _('Accepted')),
     ('RJCT', _('Rejected')),

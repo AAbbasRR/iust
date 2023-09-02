@@ -41,6 +41,8 @@ class Application(GeneralDateModel):
     )
     full_name = models.CharField(
         max_length=50,
+        null=False,
+        blank=False,
         verbose_name=_('Full Name')
     )
     comments = models.TextField(
