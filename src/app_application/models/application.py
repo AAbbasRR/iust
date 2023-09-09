@@ -33,7 +33,6 @@ class Application(GeneralDateModel):
     )
     tracking_id = models.CharField(
         max_length=12,
-        default=str(uuid.uuid4()).split('-')[-1],
         unique=True,
         null=False,
         blank=False,

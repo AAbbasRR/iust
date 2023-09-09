@@ -10,3 +10,4 @@ class AppApplicationConfig(AppConfig):
 
     def ready(self):
         import utils.signals.documents
+        import utils.signals.application
