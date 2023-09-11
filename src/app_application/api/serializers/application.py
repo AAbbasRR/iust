@@ -68,7 +68,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             user=self.user,
             **validated_data
         )
-        if application_obj.degree !== None and application_obj.field_of_study !== None and application_obj.faculty !== None and application_obj.financial_self_support !== None and application_obj.applied_program !== None and application_obj.full_name !== None:
+        if application_obj.degree != None and application_obj.field_of_study != None and application_obj.faculty != None and application_obj.financial_self_support != None and application_obj.applied_program != None and application_obj.full_name != None:
             application_obj.university_status = "CRNT"
             application_obj.university_status = "CRNT"
             application_obj.save()
@@ -77,5 +77,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         for field_name in validated_data:  # update application fields
             setattr(instance, field_name, validated_data[field_name])
+        if instance.degree != None and instance.field_of_study != None and instance.faculty != None and instance.financial_self_support != None and instance.applied_program != None and instance.full_name != None:
+            instance.university_status = "CRNT"
+            instance.university_status = "CRNT"
         instance.save()
         return instance
