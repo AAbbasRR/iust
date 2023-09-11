@@ -52,7 +52,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
             return application_obj
         else:
             raise exceptions.NotFound(BaseErrors.tracking_id_not_found)
-
+            
     def get_curriculum_vitae(self, obj):
         return obj.get_field_image_url("curriculum_vitae", self.request)
 
@@ -86,6 +86,8 @@ class DocumentsSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         try:
             application_obj = validated_data.pop('tracking_id')
+            if application_obj.application_document is not None:
+                application_obj.application_document.delete()
         except Exception:
             application_obj = None
         document_obj = DocumentModel.objects.create(
