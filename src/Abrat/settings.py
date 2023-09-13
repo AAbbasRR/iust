@@ -23,8 +23,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
-    'oauth2_provider',
-    'social_django',
 
     # local apps
     'app_user',
@@ -141,14 +139,6 @@ USE_I18N = True
 USE_TZ = True
 # File
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024
-
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'YOUR_GOOGLE_CLIENT_ID'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'YOUR_GOOGLE_CLIENT_SECRET'
 
 # ___django rest framework settings___ #
 REST_FRAMEWORK = {

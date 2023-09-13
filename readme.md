@@ -5,6 +5,9 @@ env variables:
     # ___Project Setup___ #
     SECRET_KEY = string
     DEBUG = bollean
+    # __OAuth2 Google Setup__ #
+    GOOGLE_CLIENT_ID = string
+    GOOGLE_CLIENT_SECRET  = string
     # __Redis Setup__ #
     REDIS_HOST = url[localhost]
     REDIS_PORT = int
