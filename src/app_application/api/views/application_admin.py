@@ -5,6 +5,7 @@ from app_application.api.serializers.application_admin import (
     AdminApplicationListSerializer,
     AdminDetailApplicationSerializer
 )
+from app_application.filters.applications import ApplicationListFilter
 
 from utils.permissions import (
     IsAuthenticatedPermission,
@@ -19,6 +20,8 @@ class AdminAllApplicationView(generics.ListAPIView):
     versioning_class = BaseVersioning
     pagination_class = BasePagination
     serializer_class = AdminApplicationListSerializer
+    ordering_fields = ["create_at"]
+    filterset_class = ApplicationListFilter
     queryset = ApplicationModel.objects.all()
 
 
