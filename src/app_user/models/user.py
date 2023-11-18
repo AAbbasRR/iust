@@ -68,6 +68,12 @@ class User(AbstractUser):
         verbose_name_plural = _("Users")
         ordering = ['-id']
 
+    class AdminOptions(models.TextChoices):
+        Nothing = "nothing"
+        Prof = "prof"
+        Staff = "staff"
+        Karshenas = "karshenas"
+
     username = None
     first_name = None
     last_name = None
@@ -84,6 +90,12 @@ class User(AbstractUser):
         null=True,
         blank=True,
         verbose_name=_('Agent Email')
+    )
+    admin_role = models.CharField(
+        max_length=9,
+        choices=AdminOptions.choices,
+        default=AdminOptions.Nothing,
+        verbose_name=_("Admin Role")
     )
 
     USERNAME_FIELD = 'email'

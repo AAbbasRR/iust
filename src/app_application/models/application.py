@@ -11,8 +11,6 @@ from utils.data_list import (
     field_of_study_options
 )
 
-import uuid
-
 
 class ApplicationManager(models.Manager):
     def find_with_tracking_id(self, tracking_id):

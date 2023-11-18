@@ -54,6 +54,10 @@ class Profile(GeneralDateModel):
         null=True,
         verbose_name=_('Birth Date'),
     )
+    age = models.PositiveIntegerField(
+        default=1,
+        verbose_name=_("Age")
+    )
     gender = models.CharField(
         max_length=3,
         null=True,
@@ -96,6 +100,10 @@ class Profile(GeneralDateModel):
     def __str__(self):
         return self.user.email
 
+    def save(self, *args, **kwargs):
+        self.age = self.get_age()
+        super().save(*args, **kwargs)
+
     def profile_url(self, request):
         try:
             if self.profile is None or self.profile == "":
@@ -103,16 +111,18 @@ class Profile(GeneralDateModel):
             else:
                 host = request.get_host()
                 protocol = request.build_absolute_uri().split(host)[0]
-                protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[0] == "http" else protocol
+                protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[
+                                                                                           0] == "http" else protocol
                 website_url = protocol + host
                 return website_url + self.profile.url
         except ValueError:
             return None
 
     def get_full_name(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.first_name if self.first_name is not None else ""} {self.last_name if self.last_name is not None else ""}'
 
     def get_age(self):
         today = timezone.now().date()
-        age = today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+        age = today.year - self.birth_date.year - (
+                    (today.month, today.day) < (self.birth_date.month, self.birth_date.day))
         return age

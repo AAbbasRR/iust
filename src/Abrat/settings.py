@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
+    'import_export',
 
     # local apps
     'app_user',
@@ -163,7 +164,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_REGEX_WHITELIST = config('CORS_ORIGIN_REGEX_WHITELIST', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # __Email Settings__ #
-if not DEBUG:
+if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     EMAIL_HOST_USER = ''
 else:

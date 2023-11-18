@@ -17,15 +17,12 @@ class AdminApplicationTimeLineSerializer(serializers.ModelSerializer):
         write_only=True
     )
 
-    status = serializers.CharField(source="get_status_display", read_only=True)
-
     class Meta:
         model = TimeLineModel
         fields = (
             "id",
 
             "status",
-            "title",
             "message",
 
             "application",
@@ -51,7 +48,7 @@ class AdminApplicationTimeLineSerializer(serializers.ModelSerializer):
             raise exceptions.NotFound(BaseErrors.tracking_id_not_found)
 
     def create(self, validated_data):
-        TimeLineModel.objects.create(
+        return TimeLineModel.objects.create(
             user=self.user,
             **validated_data
         )

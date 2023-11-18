@@ -30,10 +30,6 @@ class TimeLine(GeneralDateModel):
         choices=application_timeline_status_options,
         verbose_name=_("Status")
     )
-    title = models.CharField(
-        max_length=20,
-        verbose_name=_("Title")
-    )
     message = models.TextField(
         verbose_name=_("Message")
     )
