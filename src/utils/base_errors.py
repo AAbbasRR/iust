@@ -13,6 +13,7 @@ class BaseErrors:
     # global
     parameter_is_required = _('parameter {param_name} is required')
     object_not_found = _('{object} Not Found')
+    invalid_access_token = _("Invalid Access Token Or Expired")
 
     # project
     url_not_found = _('URL Not Found.')
