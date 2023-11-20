@@ -284,8 +284,11 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
         }
 
     def get_application_document(self, obj):
-        return AdminDocumentApplicationSerializer(obj.application_document, many=False, read_only=True,
+        try:
+            return AdminDocumentApplicationSerializer(obj.application_document, many=False, read_only=True,
                                                   context=self.context).data
+        except:
+            return None
 
     def get_application_timeline(self, obj):
         return AdminApplicationTimeLineSerializer(obj.application_timeline.all(), many=True, read_only=True,
