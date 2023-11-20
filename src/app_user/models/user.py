@@ -74,9 +74,20 @@ class User(AbstractUser):
         Staff = "staff"
         Karshenas = "karshenas"
 
-    username = None
     first_name = None
     last_name = None
+    sub = models.CharField(
+        max_length=10,
+        null=True,
+        blank=True,
+        verbose_name=_("Sub Code")
+    )
+    picurl = models.CharField(
+        max_length=125,
+        null=True,
+        blank=True,
+        verbose_name=_("Picture URL")
+    )
     email = models.EmailField(
         unique=True,
         verbose_name=_('Email'),
@@ -104,7 +115,7 @@ class User(AbstractUser):
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return f"{self.username} {self.email}"
 
     def activate(self):
         """

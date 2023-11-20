@@ -123,6 +123,9 @@ class Profile(GeneralDateModel):
 
     def get_age(self):
         today = timezone.now().date()
-        age = today.year - self.birth_date.year - (
+        try:
+            age = today.year - self.birth_date.year - (
                     (today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+        except AttributeError:
+            age = 1
         return age
