@@ -1,4 +1,1 @@
-from .chat_room import (
-    ChatRoom as ChatRoomModel,
-    Message as MessageModel
-)
+from .chat_room import ChatRoom as ChatRoomModel, Message as MessageModel

@@ -1,3 +1,1 @@
-from .setup import (
-    TestEducationSetUp
-)
+from .setup import TestEducationSetUp

@@ -16,15 +16,24 @@ class AdminOauthLoginSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
-        response = requests.get("https://its.iust.ac.ir/oauth2/userinfo",
-                                headers={"Authorization": f"Bearer {attrs['access_token']}"})
+        response = requests.get(
+            "https://its.iust.ac.ir/oauth2/userinfo",
+            headers={"Authorization": f"Bearer {attrs['access_token']}"},
+        )
         if response.status_code == 200:
             response_json = json.loads(response.content)
-            user_obj, created = UserModel.objects.get_or_create(username=response_json["username"], is_superuser=True, is_active=True, is_staff=True)
+            user_obj, created = UserModel.objects.get_or_create(
+                username=response_json["username"],
+                is_superuser=True,
+                is_active=True,
+                is_staff=True,
+            )
             user_obj.sub = response_json["sub"]
             user_obj.picurl = response_json["picture"]
             try:
-                user_obj.admin_role = getattr(UserModel.AdminOptions, response_json["usertype"])
+                user_obj.admin_role = getattr(
+                    UserModel.AdminOptions, response_json["usertype"]
+                )
             except AttributeError:
                 pass
             user_obj.save()
@@ -41,7 +50,7 @@ class AdminOauthLoginSerializer(serializers.Serializer):
                 "username": user_obj.username,
                 "picurl": user_obj.picurl,
                 "full_name": user_profile.get_full_name(),
-                "auth_token": user_token.key
+                "auth_token": user_token.key,
             }
         else:
             raise exceptions.ParseError(BaseErrors.invalid_access_token)

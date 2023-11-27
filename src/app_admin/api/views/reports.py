@@ -24,13 +24,22 @@ class AdminCountryRequestsCountAPIView(generics.GenericAPIView):
         tab_filter = self.request.query_params.get("date", "all")
         if tab_filter == "all":
             application_count = ApplicationModel.objects.all().count()
-            applications_by_country = AddressModel.objects.exclude(country=None).values('country').annotate(
-                total_applications=Count('user__user_application'))
-            sorted_applications = sorted(applications_by_country, key=lambda x: x['total_applications'], reverse=True)
-            return response.Response({
-                "application_count": application_count,
-                "countries": sorted_applications
-            })
+            applications_by_country = (
+                AddressModel.objects.exclude(country=None)
+                .values("country")
+                .annotate(total_applications=Count("user__user_application"))
+            )
+            sorted_applications = sorted(
+                applications_by_country,
+                key=lambda x: x["total_applications"],
+                reverse=True,
+            )
+            return response.Response(
+                {
+                    "application_count": application_count,
+                    "countries": sorted_applications,
+                }
+            )
             # first_month = (
             #     datetime.now()
             #     .replace(day=1, hour=0, minute=0, second=0, microsecond=0)
@@ -47,15 +56,25 @@ class AdminReportApplicationsAPIView(generics.GenericAPIView):
         tab_filter = self.request.query_params.get("date", "all")
         if tab_filter == "all":
             application_count = ApplicationModel.objects.exclude(status="NOCO").count()
-            return response.Response({
-                "application_count": application_count,
-                "report": {
-                    "crnt_count": ApplicationModel.objects.filter(status='CRNT').count(),
-                    "acpt_count": ApplicationModel.objects.filter(status='ACPT').count(),
-                    "rjct_count": ApplicationModel.objects.filter(status='RJCT').count(),
-                    "ntet_count": ApplicationModel.objects.filter(status='NTET').count(),
+            return response.Response(
+                {
+                    "application_count": application_count,
+                    "report": {
+                        "crnt_count": ApplicationModel.objects.filter(
+                            status="CRNT"
+                        ).count(),
+                        "acpt_count": ApplicationModel.objects.filter(
+                            status="ACPT"
+                        ).count(),
+                        "rjct_count": ApplicationModel.objects.filter(
+                            status="RJCT"
+                        ).count(),
+                        "ntet_count": ApplicationModel.objects.filter(
+                            status="NTET"
+                        ).count(),
+                    },
                 }
-            })
+            )
             # first_month = (
             #     datetime.now()
             #     .replace(day=1, hour=0, minute=0, second=0, microsecond=0)
@@ -72,18 +91,28 @@ class AdminReportDiffrentBarAPIView(generics.GenericAPIView):
         tab_filter = self.request.query_params.get("date", "all")
         if tab_filter == "all":
             application_count = ApplicationModel.objects.all().count()
-            return response.Response({
-                "application_count": application_count,
-                "gender": {
-                    "male": ApplicationModel.objects.filter(user__user_profile__gender="MAL").count(),
-                    "female": ApplicationModel.objects.filter(user__user_profile__gender="FML").count(),
-                },
-                "education": {
-                    "bachelor": ApplicationModel.objects.filter(degree="Bachelor").count(),
-                    "master": ApplicationModel.objects.filter(degree="Master").count(),
-                    "phd": ApplicationModel.objects.filter(degree="P.H.D").count(),
+            return response.Response(
+                {
+                    "application_count": application_count,
+                    "gender": {
+                        "male": ApplicationModel.objects.filter(
+                            user__user_profile__gender="MAL"
+                        ).count(),
+                        "female": ApplicationModel.objects.filter(
+                            user__user_profile__gender="FML"
+                        ).count(),
+                    },
+                    "education": {
+                        "bachelor": ApplicationModel.objects.filter(
+                            degree="Bachelor"
+                        ).count(),
+                        "master": ApplicationModel.objects.filter(
+                            degree="Master"
+                        ).count(),
+                        "phd": ApplicationModel.objects.filter(degree="P.H.D").count(),
+                    },
                 }
-            })
+            )
             # first_month = (
             #     datetime.now()
             #     .replace(day=1, hour=0, minute=0, second=0, microsecond=0)

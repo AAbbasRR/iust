@@ -1,6 +1,8 @@
 from rest_framework import generics
 
-from app_frequently_question.api.serializers.frequently_question import FrequentlyQuestionSerializer
+from app_frequently_question.api.serializers.frequently_question import (
+    FrequentlyQuestionSerializer,
+)
 from app_frequently_question.models import FrequentlyQuestionModel
 
 from utils.versioning import BaseVersioning

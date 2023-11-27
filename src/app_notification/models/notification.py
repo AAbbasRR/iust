@@ -16,24 +16,16 @@ class Notification(GeneralDateModel):
         UserModel,
         on_delete=models.CASCADE,
         related_name="user_notifications",
-        verbose_name=_('User')
+        verbose_name=_("User"),
     )
-    title = models.CharField(
-        max_length=75,
-        verbose_name=_('Title')
-    )
-    message = models.TextField(
-        verbose_name=_('Message')
-    )
-    view_status = models.BooleanField(
-        default=False,
-        verbose_name=_('View Status')
-    )
+    title = models.CharField(max_length=75, verbose_name=_("Title"))
+    message = models.TextField(verbose_name=_("Message"))
+    view_status = models.BooleanField(default=False, verbose_name=_("View Status"))
     status = models.CharField(
         max_length=4,
         choices=notification_status_options,
         default=notification_status_options[0][0],
-        verbose_name=_('Status')
+        verbose_name=_("Status"),
     )
 
     objects = NotificationManager()

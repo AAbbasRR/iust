@@ -7,33 +7,33 @@ class LatestOccupationSerializer(serializers.ModelSerializer):
     class Meta:
         model = LatestOccupationModel
         fields = (
-            'id',
-            'occupation',
-            'organization',
-            'from_date',
-            'to_date',
-            'country',
-            'city',
-            'description',
+            "id",
+            "occupation",
+            "organization",
+            "from_date",
+            "to_date",
+            "country",
+            "city",
+            "description",
         )
         extra_kwargs = {
-            'id': {'read_only': True},
-            'occupation': {'required': True},
-            'organization': {'required': True},
-            'from_date': {'required': True},
-            'to_date': {'required': True},
-            'country': {'required': True},
-            'city': {'required': True},
-            'description': {'required': False},
+            "id": {"read_only": True},
+            "occupation": {"required": True},
+            "organization": {"required": True},
+            "from_date": {"required": True},
+            "to_date": {"required": True},
+            "country": {"required": True},
+            "city": {"required": True},
+            "description": {"required": False},
         }
 
     def __init__(self, *args, **kwargs):
         super(LatestOccupationSerializer, self).__init__(*args, **kwargs)
-        self.request = self.context.get('request')
+        self.request = self.context.get("request")
         if self.request:
             self.user = self.request.user
             self.method = self.request.method
-            if self.method in ['PUT', 'PATCH']:
+            if self.method in ["PUT", "PATCH"]:
                 for field_name, field in self.fields.items():
                     field.required = False
 

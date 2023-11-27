@@ -17,21 +17,19 @@ class TimeLine(GeneralDateModel):
         ApplicationModel,
         on_delete=models.CASCADE,
         related_name="application_timeline",
-        verbose_name=_("Application")
+        verbose_name=_("Application"),
     )
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
         related_name="user_timeline",
-        verbose_name=_("User")
+        verbose_name=_("User"),
     )
     status = models.CharField(
         max_length=4,
         choices=application_timeline_status_options,
-        verbose_name=_("Status")
+        verbose_name=_("Status"),
     )
-    message = models.TextField(
-        verbose_name=_("Message")
-    )
+    message = models.TextField(verbose_name=_("Message"))
 
     objects = TimeLineManager()

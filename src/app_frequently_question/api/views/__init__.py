@@ -1,3 +1,1 @@
-from .frequently_question import (
-    FrequentlyQuestionView
-)
+from .frequently_question import FrequentlyQuestionView

@@ -14,33 +14,22 @@ class Address(GeneralDateModel, GeneralAddressModel):
     class Meta:
         verbose_name = _("Address")
         verbose_name_plural = _("Addresses")
-        ordering = ['-id']
+        ordering = ["-id"]
 
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
         related_name="user_address",
-        verbose_name=_('User')
+        verbose_name=_("User"),
     )
     country_code = models.CharField(
-        max_length=5,
-        null=True,
-        verbose_name=_('Country Code')
+        max_length=5, null=True, verbose_name=_("Country Code")
     )
     postal_code = models.CharField(
-        max_length=20,
-        null=True,
-        verbose_name=_('Postal Code')
+        max_length=20, null=True, verbose_name=_("Postal Code")
     )
-    city_code = models.CharField(
-        max_length=5,
-        null=True,
-        verbose_name=_('City Code')
-    )
-    address = models.TextField(
-        null=True,
-        verbose_name=_('Address')
-    )
+    city_code = models.CharField(max_length=5, null=True, verbose_name=_("City Code"))
+    address = models.TextField(null=True, verbose_name=_("Address"))
 
     objects = AddressManager()
 

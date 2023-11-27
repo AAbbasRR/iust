@@ -1,3 +1,1 @@
-from . import (
-    frequently_question
-)
+from . import frequently_question

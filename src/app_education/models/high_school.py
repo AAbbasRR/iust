@@ -10,11 +10,11 @@ class HighSchool(GeneralEducationModel, GeneralDateModel):
     class Meta:
         verbose_name = _("High School")
         verbose_name_plural = _("High Schools")
-        ordering = ['-id']
+        ordering = ["-id"]
 
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
         related_name="user_high_school",
-        verbose_name=_('User')
+        verbose_name=_("User"),
     )

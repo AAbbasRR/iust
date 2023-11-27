@@ -1,16 +1,16 @@
 from rest_framework import generics
 from rest_framework.response import Response
 
-from app_user.api.serializers.login import (
-    UserLoginSerializer
-)
+from app_user.api.serializers.login import UserLoginSerializer
 
 from utils import BaseVersioning
 from utils.permissions import AllowAnyPermission
 
 
 class UserLoginView(generics.GenericAPIView):
-    permission_classes = [AllowAnyPermission, ]
+    permission_classes = [
+        AllowAnyPermission,
+    ]
     versioning_class = BaseVersioning
     serializer_class = UserLoginSerializer
 

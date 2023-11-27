@@ -7,23 +7,54 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Notification',
+            name="Notification",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('create_at', models.DateTimeField(auto_now_add=True, verbose_name='Created Time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated Time')),
-                ('title', models.CharField(max_length=75, verbose_name='Title')),
-                ('message', models.TextField(verbose_name='Message')),
-                ('view_status', models.BooleanField(default=False, verbose_name='View Status')),
-                ('status', models.CharField(choices=[('INFO', 'Information'), ('SUCS', 'Success'), ('WARN', 'Warning'), ('EROR', 'Error')], default='INFO', max_length=4, verbose_name='Status')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "create_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created Time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated Time"),
+                ),
+                ("title", models.CharField(max_length=75, verbose_name="Title")),
+                ("message", models.TextField(verbose_name="Message")),
+                (
+                    "view_status",
+                    models.BooleanField(default=False, verbose_name="View Status"),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("INFO", "Information"),
+                            ("SUCS", "Success"),
+                            ("WARN", "Warning"),
+                            ("EROR", "Error"),
+                        ],
+                        default="INFO",
+                        max_length=4,
+                        verbose_name="Status",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

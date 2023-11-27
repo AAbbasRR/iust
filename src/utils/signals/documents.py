@@ -9,16 +9,16 @@ import os
 @receiver(post_delete, sender=DocumentModel)
 def delete_document_handler(sender, instance, **kwargs):
     file_field_names = [
-        'curriculum_vitae',
-        'personal_photo',
-        'valid_passport',
-        'high_school_certificate',
-        'trans_script_high_school_certificate',
-        'bachelor_degree',
-        'trans_script_bachelor_degree',
-        'master_degree',
-        'trans_script_master_degree',
-        'supporting_letter',
+        "curriculum_vitae",
+        "personal_photo",
+        "valid_passport",
+        "high_school_certificate",
+        "trans_script_high_school_certificate",
+        "bachelor_degree",
+        "trans_script_bachelor_degree",
+        "master_degree",
+        "trans_script_master_degree",
+        "supporting_letter",
     ]
     for field_name in file_field_names:
         if getattr(instance, field_name):
@@ -37,16 +37,16 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
             return False
 
         file_field_names = [
-            'curriculum_vitae',
-            'personal_photo',
-            'valid_passport',
-            'high_school_certificate',
-            'trans_script_high_school_certificate',
-            'bachelor_degree',
-            'trans_script_bachelor_degree',
-            'master_degree',
-            'trans_script_master_degree',
-            'supporting_letter',
+            "curriculum_vitae",
+            "personal_photo",
+            "valid_passport",
+            "high_school_certificate",
+            "trans_script_high_school_certificate",
+            "bachelor_degree",
+            "trans_script_bachelor_degree",
+            "master_degree",
+            "trans_script_master_degree",
+            "supporting_letter",
         ]
         for field_name in file_field_names:
             if getattr(instance, field_name):

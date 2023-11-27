@@ -6,14 +6,11 @@ from app_application.models import ApplicationModel
 from app_application.api.serializers.application_admin import (
     AdminApplicationListSerializer,
     AdminApplicationExportResource,
-    AdminDetailApplicationSerializer
+    AdminDetailApplicationSerializer,
 )
 from app_application.filters.applications import ApplicationListFilter
 
-from utils.permissions import (
-    IsAuthenticatedPermission,
-    IsAdminPermission
-)
+from utils.permissions import IsAuthenticatedPermission, IsAdminPermission
 from utils.versioning import BaseVersioning
 from utils.paginations import BasePagination
 
@@ -39,8 +36,8 @@ class AdminExportApplicationListView(generics.GenericAPIView):
         resource_class = AdminApplicationExportResource()
         dataset = resource_class.export(self.get_queryset())
 
-        response = HttpResponse(dataset.xlsx, content_type='text/xlsx')
-        response['Content-Disposition'] = 'attachment; filename="export_orders.xlsx"'
+        response = HttpResponse(dataset.xlsx, content_type="text/xlsx")
+        response["Content-Disposition"] = 'attachment; filename="export_orders.xlsx"'
         return response
 
 

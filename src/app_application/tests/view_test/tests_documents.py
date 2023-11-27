@@ -21,13 +21,14 @@ class UserDocumentsApiTestCase(TestApplicationSetUp):
             "email": "mail@mail.com",
             "password": "a1A23456",
         }
-        self.user_obj = UserModel.objects.register_user(email=self.success_profile['email'], password=self.success_profile['password'])
+        self.user_obj = UserModel.objects.register_user(
+            email=self.success_profile["email"],
+            password=self.success_profile["password"],
+        )
         self.user_obj.activate()
         self.user_token = Token.objects.get(user=self.user_obj)
 
-        self.application_obj = ApplicationModel.objects.create(
-            user=self.user_obj
-        )
+        self.application_obj = ApplicationModel.objects.create(user=self.user_obj)
 
     def test_methods(self):
         self.create_invalid_tracking_id()
@@ -36,37 +37,35 @@ class UserDocumentsApiTestCase(TestApplicationSetUp):
 
     def create_invalid_tracking_id(self):
         data = {
-            'tracking_id': "invalid_id",
-            'curriculum_vitae': self._create_image(),
-            'personal_photo': self._create_image(),
-            'valid_passport': self._create_image(),
-            'high_school_certificate': self._create_image(),
+            "tracking_id": "invalid_id",
+            "curriculum_vitae": self._create_image(),
+            "personal_photo": self._create_image(),
+            "valid_passport": self._create_image(),
+            "high_school_certificate": self._create_image(),
         }
         response = self.client.post(
             self.create_document_api,
             data,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
-            format='multipart'
+            format="multipart",
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         response_json = response.json()
-        self.assertEqual(response_json, {
-            'detail': BaseErrors.tracking_id_not_found
-        })
+        self.assertEqual(response_json, {"detail": BaseErrors.tracking_id_not_found})
 
     def create_document(self):
         data = {
-            'tracking_id': self.application_obj.tracking_id,
-            'curriculum_vitae': self._create_image(),
-            'personal_photo': self._create_image(),
-            'valid_passport': self._create_image(),
-            'high_school_certificate': self._create_image(),
+            "tracking_id": self.application_obj.tracking_id,
+            "curriculum_vitae": self._create_image(),
+            "personal_photo": self._create_image(),
+            "valid_passport": self._create_image(),
+            "high_school_certificate": self._create_image(),
         }
         response = self.client.post(
             self.create_document_api,
             data,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
-            format='multipart/form-data'
+            format="multipart/form-data",
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(DocumentModel.objects.count(), 1)
@@ -80,7 +79,7 @@ class UserDocumentsApiTestCase(TestApplicationSetUp):
     def retrieve_document(self):
         response = self.client.get(
             self._detail_update_document_api(self.application_obj.tracking_id),
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_json = response.json()

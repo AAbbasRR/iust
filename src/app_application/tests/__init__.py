@@ -1,3 +1,1 @@
-from .setup import (
-    TestApplicationSetUp
-)
+from .setup import TestApplicationSetUp

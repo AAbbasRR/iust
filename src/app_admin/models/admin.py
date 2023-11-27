@@ -19,13 +19,13 @@ class Admin(models.Model):
         UserModel,
         on_delete=models.CASCADE,
         related_name="user_admin",
-        verbose_name=_("User")
+        verbose_name=_("User"),
     )
     role = models.CharField(
         max_length=9,
         choices=AdminRoleOptions.choices,
         default=AdminRoleOptions.staff,
-        verbose_name=_("Role")
+        verbose_name=_("Role"),
     )
 
     objects = AdminManager()

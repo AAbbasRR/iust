@@ -7,28 +7,84 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='LatestOccupation',
+            name="LatestOccupation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('create_at', models.DateTimeField(auto_now_add=True, verbose_name='Created Time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated Time')),
-                ('country', models.CharField(blank=True, max_length=35, null=True, verbose_name='Country')),
-                ('city', models.CharField(blank=True, max_length=40, null=True, verbose_name='City')),
-                ('occupation', models.CharField(choices=[('OTR', 'Other'), ('ACD', 'Academician'), ('GVE', 'Government Employee'), ('INE', 'Industrial Employee'), ('STU', 'Student')], default='OTR', max_length=3, verbose_name='Occupation')),
-                ('organization', models.CharField(blank=True, max_length=50, null=True, verbose_name='Organization')),
-                ('from_date', models.DateField(blank=True, null=True, verbose_name='From Date')),
-                ('to_date', models.DateField(blank=True, null=True, verbose_name='To Date')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Description')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "create_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created Time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated Time"),
+                ),
+                (
+                    "country",
+                    models.CharField(
+                        blank=True, max_length=35, null=True, verbose_name="Country"
+                    ),
+                ),
+                (
+                    "city",
+                    models.CharField(
+                        blank=True, max_length=40, null=True, verbose_name="City"
+                    ),
+                ),
+                (
+                    "occupation",
+                    models.CharField(
+                        choices=[
+                            ("OTR", "Other"),
+                            ("ACD", "Academician"),
+                            ("GVE", "Government Employee"),
+                            ("INE", "Industrial Employee"),
+                            ("STU", "Student"),
+                        ],
+                        default="OTR",
+                        max_length=3,
+                        verbose_name="Occupation",
+                    ),
+                ),
+                (
+                    "organization",
+                    models.CharField(
+                        blank=True,
+                        max_length=50,
+                        null=True,
+                        verbose_name="Organization",
+                    ),
+                ),
+                (
+                    "from_date",
+                    models.DateField(blank=True, null=True, verbose_name="From Date"),
+                ),
+                (
+                    "to_date",
+                    models.DateField(blank=True, null=True, verbose_name="To Date"),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, null=True, verbose_name="Description"),
+                ),
             ],
             options={
-                'verbose_name': 'Latest Occupation',
-                'verbose_name_plural': 'Latest Occupations',
-                'ordering': ['-id'],
+                "verbose_name": "Latest Occupation",
+                "verbose_name_plural": "Latest Occupations",
+                "ordering": ["-id"],
             },
         ),
     ]

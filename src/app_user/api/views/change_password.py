@@ -10,8 +10,10 @@ from utils.permissions import (
 
 
 class ChangePasswordView(generics.UpdateAPIView):
-    allowed_methods = ['OPTIONS', 'PUT']
-    permission_classes = [IsAuthenticatedPermission, ]
+    allowed_methods = ["OPTIONS", "PUT"]
+    permission_classes = [
+        IsAuthenticatedPermission,
+    ]
     serializer_class = ChangePasswordSerializer
 
     def get_object(self, queryset=None):
@@ -23,6 +25,5 @@ class ChangePasswordView(generics.UpdateAPIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return response.Response(
-                {"detail": _('Change password Successfully')}
-                , status=status.HTTP_200_OK
+                {"detail": _("Change password Successfully")}, status=status.HTTP_200_OK
             )

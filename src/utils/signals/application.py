@@ -8,10 +8,10 @@ import uuid
 
 @receiver(post_save, sender=ApplicationModel)
 def create_application_handler(sender, instance, **kwargs):
-    if kwargs['created']:
+    if kwargs["created"]:
         while True:
             try:
-                instance.tracking_id = str(uuid.uuid4()).split('-')[-1]
+                instance.tracking_id = str(uuid.uuid4()).split("-")[-1]
                 instance.save()
                 break
             except IntegrityError:

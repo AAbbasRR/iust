@@ -1,3 +1,1 @@
-from .latest_occupation import (
-    LatestOccupationDetailUpdateView
-)
+from .latest_occupation import LatestOccupationDetailUpdateView

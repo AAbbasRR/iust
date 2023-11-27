@@ -9,10 +9,7 @@ class UserManager(BaseUserManager):
     def create_user(self, email=None, password=None, *args, **kwargs):
         if not email:
             raise ValueError(BaseErrors.user_must_have_email)
-        user = self.model(
-            email=self.normalize_email(email),
-            **kwargs
-        )
+        user = self.model(email=self.normalize_email(email), **kwargs)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -66,7 +63,7 @@ class User(AbstractUser):
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")
-        ordering = ['-id']
+        ordering = ["-id"]
 
     class AdminOptions(models.TextChoices):
         Nothing = "nothing"
@@ -77,39 +74,29 @@ class User(AbstractUser):
     first_name = None
     last_name = None
     sub = models.CharField(
-        max_length=10,
-        null=True,
-        blank=True,
-        verbose_name=_("Sub Code")
+        max_length=10, null=True, blank=True, verbose_name=_("Sub Code")
     )
     picurl = models.CharField(
-        max_length=125,
-        null=True,
-        blank=True,
-        verbose_name=_("Picture URL")
+        max_length=125, null=True, blank=True, verbose_name=_("Picture URL")
     )
     email = models.EmailField(
         unique=True,
-        verbose_name=_('Email'),
+        verbose_name=_("Email"),
         max_length=256,
     )
     is_active = models.BooleanField(
         default=False,
-        verbose_name=_('Is Active'),
+        verbose_name=_("Is Active"),
     )
-    agent = models.EmailField(
-        null=True,
-        blank=True,
-        verbose_name=_('Agent Email')
-    )
+    agent = models.EmailField(null=True, blank=True, verbose_name=_("Agent Email"))
     admin_role = models.CharField(
         max_length=9,
         choices=AdminOptions.choices,
         default=AdminOptions.Nothing,
-        verbose_name=_("Admin Role")
+        verbose_name=_("Admin Role"),
     )
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UserManager()

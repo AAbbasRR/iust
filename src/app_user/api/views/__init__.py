@@ -1,25 +1,15 @@
 from .register import (
     UserRegisterView,
     UserVerifyRegisterView,
-    UserReSendRegisterOTPCodeView
+    UserReSendRegisterOTPCodeView,
 )
-from .login import (
-    UserLoginView
-)
+from .login import UserLoginView
 from .forget_password import (
     ForgetPasswordView,
     ValidateForgetPasswordOTPView,
-    CompleteForgetPasswordView
+    CompleteForgetPasswordView,
 )
-from .change_password import (
-    ChangePasswordView
-)
-from .profile import (
-    ProfileDetailUpdateView
-)
-from .address import (
-    AddressDetailUpdateView
-)
-from .user import (
-    UserProfileDetailView
-)
+from .change_password import ChangePasswordView
+from .profile import ProfileDetailUpdateView
+from .address import AddressDetailUpdateView
+from .user import UserProfileDetailView

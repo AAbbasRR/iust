@@ -1,15 +1,13 @@
-from rest_framework import (
-    generics,
-    status,
-    response
-)
+from rest_framework import generics, status, response
 
 from utils import BaseVersioning
 from utils.permissions import IsAuthenticatedPermission
 
 
 class UserProfileDetailView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticatedPermission, ]
+    permission_classes = [
+        IsAuthenticatedPermission,
+    ]
     versioning_class = BaseVersioning
 
     def get(self, *args, **kwargs):
@@ -54,10 +52,13 @@ class UserProfileDetailView(generics.GenericAPIView):
             complete += 1
         number_of_applications = user.user_application.count()
         have_notification = user.user_notifications.filter(view_status=False).exists()
-        return response.Response({
-            "full_name": f'{user_profile.first_name} {user_profile.last_name}',
-            "profile_url": user_profile.profile_url(self.request),
-            "number_applications": number_of_applications,
-            "notification": have_notification,
-            "complete_percent": (complete / 17) * 100
-        }, status=status.HTTP_200_OK)
+        return response.Response(
+            {
+                "full_name": f"{user_profile.first_name} {user_profile.last_name}",
+                "profile_url": user_profile.profile_url(self.request),
+                "number_applications": number_of_applications,
+                "notification": have_notification,
+                "complete_percent": (complete / 17) * 100,
+            },
+            status=status.HTTP_200_OK,
+        )

@@ -2,42 +2,32 @@ from django.utils.translation import gettext as _
 
 from rest_framework import serializers
 
-from import_export import (
-    resources,
-    fields
-)
+from import_export import resources, fields
 
-from app_application.models import (
-    ApplicationModel,
-    DocumentModel,
-    TimeLineModel
-)
+from app_application.models import ApplicationModel, DocumentModel, TimeLineModel
 
 
 class AdminApplicationListSerializer(serializers.ModelSerializer):
     degree = serializers.CharField(source="get_degree_display", read_only=True)
     faculty = serializers.CharField(source="get_faculty_display", read_only=True)
-    field_of_study = serializers.CharField(source="get_field_of_study_display", read_only=True)
+    field_of_study = serializers.CharField(
+        source="get_field_of_study_display", read_only=True
+    )
     status = serializers.CharField(source="get_status_display", read_only=True)
 
-    user = serializers.SerializerMethodField(
-        'get_user'
-    )
+    user = serializers.SerializerMethodField("get_user")
 
     class Meta:
         model = ApplicationModel
         fields = (
             "id",
             "tracking_id",
-
             "degree",
             "faculty",
             "field_of_study",
             "status",
-
             "jalali_created_at",
-
-            "user"
+            "user",
         )
 
     def get_user(self, obj):
@@ -48,61 +38,34 @@ class AdminApplicationListSerializer(serializers.ModelSerializer):
             "gender": obj.user.user_profile.gender,
             "country": obj.user.user_address.country,
             "age": obj.user.user_profile.age,
-            "applications_count": obj.user.user_application.count()
+            "applications_count": obj.user.user_application.count(),
         }
 
 
 class AdminApplicationExportResource(resources.ModelResource):
-    degree = fields.Field(
-        column_name=_('degree')
-    )
-    faculty = fields.Field(
-        column_name=_('faculty')
-    )
-    field_of_study = fields.Field(
-        column_name=_('field_of_study')
-    )
-    status = fields.Field(
-        column_name=_('status')
-    )
-    jalali_created_at = fields.Field(
-        column_name=_('jalali_created_at')
-    )
-    user_id = fields.Field(
-        column_name=_('user_id')
-    )
-    user_agent = fields.Field(
-        column_name=_('user_agent')
-    )
-    user_full_name = fields.Field(
-        column_name=_('user_full_name')
-    )
-    user_gender = fields.Field(
-        column_name=_('user_gender')
-    )
-    user_country = fields.Field(
-        column_name=_('user_country')
-    )
-    user_age = fields.Field(
-        column_name=_('user_age')
-    )
-    user_applications_count = fields.Field(
-        column_name=_('user_applications_count')
-    )
+    degree = fields.Field(column_name=_("degree"))
+    faculty = fields.Field(column_name=_("faculty"))
+    field_of_study = fields.Field(column_name=_("field_of_study"))
+    status = fields.Field(column_name=_("status"))
+    jalali_created_at = fields.Field(column_name=_("jalali_created_at"))
+    user_id = fields.Field(column_name=_("user_id"))
+    user_agent = fields.Field(column_name=_("user_agent"))
+    user_full_name = fields.Field(column_name=_("user_full_name"))
+    user_gender = fields.Field(column_name=_("user_gender"))
+    user_country = fields.Field(column_name=_("user_country"))
+    user_age = fields.Field(column_name=_("user_age"))
+    user_applications_count = fields.Field(column_name=_("user_applications_count"))
 
     class Meta:
         model = ApplicationModel
         fields = (
             "id",
             "tracking_id",
-
             "degree",
             "faculty",
             "field_of_study",
             "status",
-
             "jalali_created_at",
-
             "user_id",
             "user_agent",
             "user_full_name",
@@ -157,24 +120,22 @@ class AdminDocumentApplicationSerializer(serializers.ModelSerializer):
         model = DocumentModel
         fields = (
             "id",
-
             "jalali_created_at",
-
-            'curriculum_vitae',
-            'personal_photo',
-            'valid_passport',
-            'high_school_certificate',
-            'trans_script_high_school_certificate',
-            'bachelor_degree',
-            'trans_script_bachelor_degree',
-            'master_degree',
-            'trans_script_master_degree',
-            'supporting_letter',
+            "curriculum_vitae",
+            "personal_photo",
+            "valid_passport",
+            "high_school_certificate",
+            "trans_script_high_school_certificate",
+            "bachelor_degree",
+            "trans_script_bachelor_degree",
+            "master_degree",
+            "trans_script_master_degree",
+            "supporting_letter",
         )
 
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
-        self.request = self.context.get('request')
+        self.request = self.context.get("request")
         if self.request:
             self.user = self.request.user
 
@@ -191,7 +152,9 @@ class AdminDocumentApplicationSerializer(serializers.ModelSerializer):
         return obj.get_field_image_url("high_school_certificate", self.request)
 
     def get_trans_script_high_school_certificate(self, obj):
-        return obj.get_field_image_url("trans_script_high_school_certificate", self.request)
+        return obj.get_field_image_url(
+            "trans_script_high_school_certificate", self.request
+        )
 
     def get_bachelor_degree(self, obj):
         return obj.get_field_image_url("bachelor_degree", self.request)
@@ -215,53 +178,36 @@ class AdminApplicationTimeLineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TimeLineModel
-        fields = (
-            "id",
-
-            "status",
-            "message",
-
-            "jalali_created_at",
-            "author"
-        )
+        fields = ("id", "status", "message", "jalali_created_at", "author")
 
     def get_author(self, obj):
-        return {
-            "full_name": obj.user.user_profile.get_full_name()
-        }
+        return {"full_name": obj.user.user_profile.get_full_name()}
 
 
 class AdminDetailApplicationSerializer(serializers.ModelSerializer):
     degree = serializers.CharField(source="get_degree_display", read_only=True)
     faculty = serializers.CharField(source="get_faculty_display", read_only=True)
-    field_of_study = serializers.CharField(source="get_field_of_study_display", read_only=True)
+    field_of_study = serializers.CharField(
+        source="get_field_of_study_display", read_only=True
+    )
     status = serializers.CharField(source="get_status_display", read_only=True)
-    user = serializers.SerializerMethodField(
-        'get_user'
-    )
-    application_document = serializers.SerializerMethodField(
-        'get_application_document'
-    )
-    application_timeline = serializers.SerializerMethodField(
-        'get_application_timeline'
-    )
+    user = serializers.SerializerMethodField("get_user")
+    application_document = serializers.SerializerMethodField("get_application_document")
+    application_timeline = serializers.SerializerMethodField("get_application_timeline")
 
     class Meta:
         model = ApplicationModel
         fields = (
             "id",
             "tracking_id",
-
             "degree",
             "faculty",
             "field_of_study",
             "status",
-
             "jalali_created_at",
-
             "application_document",
             "application_timeline",
-            "user"
+            "user",
         )
 
     def get_user(self, obj):
@@ -272,16 +218,24 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
             "city": obj.user.user_address.city,
             "age": obj.user.user_profile.age,
             "agent": obj.user.agent,
-            "applications_count": obj.user.user_application.count()
+            "applications_count": obj.user.user_application.count(),
         }
 
     def get_application_document(self, obj):
         try:
-            return AdminDocumentApplicationSerializer(obj.application_document, many=False, read_only=True,
-                                                  context=self.context).data
+            return AdminDocumentApplicationSerializer(
+                obj.application_document,
+                many=False,
+                read_only=True,
+                context=self.context,
+            ).data
         except:
             return None
 
     def get_application_timeline(self, obj):
-        return AdminApplicationTimeLineSerializer(obj.application_timeline.all(), many=True, read_only=True,
-                                                  context=self.context).data
+        return AdminApplicationTimeLineSerializer(
+            obj.application_timeline.all(),
+            many=True,
+            read_only=True,
+            context=self.context,
+        ).data

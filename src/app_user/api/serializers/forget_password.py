@@ -25,12 +25,16 @@ class ForgetPasswordSerializer(serializers.Serializer):
         return value
 
     def validate(self, attrs):
-        redis_management = Redis(self.user.email, f'{RedisKeys.forget_password}_otp_code')
+        redis_management = Redis(
+            self.user.email, f"{RedisKeys.forget_password}_otp_code"
+        )
         if redis_management.exists():
-            raise exceptions.ParseError({
-                'message': BaseErrors.otp_code_has_already_been_sent,
-                'time': redis_management.get_expire()
-            })
+            raise exceptions.ParseError(
+                {
+                    "message": BaseErrors.otp_code_has_already_been_sent,
+                    "time": redis_management.get_expire(),
+                }
+            )
         else:
             manage_email_obj = ManageMailService(self.user.email)
             manage_email_obj.send_otp_code(RedisKeys.forget_password)
@@ -57,8 +61,10 @@ class ValidateForgetPasswordOTPSerializer(serializers.Serializer):
         return value
 
     def validate(self, attrs):
-        redis_management = Redis(self.user.email, f'{RedisKeys.forget_password}_otp_code')
-        result_check_validate = redis_management.validate(attrs['otp_code'])
+        redis_management = Redis(
+            self.user.email, f"{RedisKeys.forget_password}_otp_code"
+        )
+        result_check_validate = redis_management.validate(attrs["otp_code"])
         if result_check_validate is None:
             raise exceptions.ParseError(BaseErrors.otp_code_expired)
         else:
@@ -68,7 +74,9 @@ class ValidateForgetPasswordOTPSerializer(serializers.Serializer):
                 redis_management.delete()
                 redis_management = Redis(self.user.email, RedisKeys.forget_password)
                 redis_management.set_status_value(True)
-                redis_management.set_expire(redis_management.expire_times['forget_password'])
+                redis_management.set_expire(
+                    redis_management.expire_times["forget_password"]
+                )
                 return True
 
 
@@ -98,12 +106,14 @@ class CompleteForgetPasswordSerializer(serializers.Serializer):
         return value
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['re_password']:
+        if attrs["password"] != attrs["re_password"]:
             raise exceptions.ParseError(BaseErrors.passwords_did_not_match)
         redis_management = Redis(self.user.email, RedisKeys.forget_password)
         if redis_management.get_status_value():
-            self.user.change_password(attrs['password'])
+            self.user.change_password(attrs["password"])
             redis_management.delete()
             return True
         else:
-            raise exceptions.ParseError(BaseErrors.user_dont_have_forget_password_permission)
+            raise exceptions.ParseError(
+                BaseErrors.user_dont_have_forget_password_permission
+            )

@@ -1,16 +1,11 @@
 from django.utils.translation import gettext as _
 
-from rest_framework import (
-    generics,
-    exceptions,
-    response,
-    status
-)
+from rest_framework import generics, exceptions, response, status
 
 from app_chat.api.serializers.ticket import (
     TicketChatRoomSerializers,
     MessageSerializers,
-    ChatRoomRetrieveSerializer
+    ChatRoomRetrieveSerializer,
 )
 
 from utils.permissions import IsAuthenticatedPermission
@@ -33,16 +28,24 @@ class RetrieveTicketMessagesView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticatedPermission]
     versioning_class = BaseVersioning
     serializer_class = ChatRoomRetrieveSerializer
-    lookup_field = 'pk'
+    lookup_field = "pk"
 
     def get_object(self):
         pk_param_value = self.request.GET.get(self.lookup_field, None)
-        if pk_param_value is None or pk_param_value == '':
-            raise exceptions.ParseError(BaseErrors._change_error_variable('parameter_is_required', param_name='pk'))
+        if pk_param_value is None or pk_param_value == "":
+            raise exceptions.ParseError(
+                BaseErrors._change_error_variable(
+                    "parameter_is_required", param_name="pk"
+                )
+            )
         queryset = self.filter_queryset(self.get_queryset())
         obj = queryset.filter(pk=pk_param_value).first()
         if obj is None:
-            raise exceptions.NotFound(BaseErrors._change_error_variable('object_not_found', object=_('Ticket')))
+            raise exceptions.NotFound(
+                BaseErrors._change_error_variable(
+                    "object_not_found", object=_("Ticket")
+                )
+            )
         return obj
 
     def get_queryset(self):
@@ -62,6 +65,8 @@ class CreateMessageOnChatRoomView(generics.CreateAPIView):
         if serializer.is_valid(raise_exception=True):
             message = serializer.save()
             return response.Response(
-                MessageSerializers(instance=message, many=False, context={'request': request}).data,
-                status=status.HTTP_201_CREATED
+                MessageSerializers(
+                    instance=message, many=False, context={"request": request}
+                ).data,
+                status=status.HTTP_201_CREATED,
             )

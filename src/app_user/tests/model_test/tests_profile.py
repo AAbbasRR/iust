@@ -16,8 +16,7 @@ class ProfileTestCase(TestUserSetUp):
         }
 
         self.user_obj = UserModel.objects.register_user(
-            email=self.success_user['email'],
-            password=self.success_user['password']
+            email=self.success_user["email"], password=self.success_user["password"]
         )
         self.user_obj.activate()
 
@@ -32,24 +31,31 @@ class ProfileTestCase(TestUserSetUp):
             "first_name": self.fake_data.first_name(),
             "last_name": self.fake_data.last_name(),
             "birth_date": self.fake_data.date_of_birth(),
-            "gender": self.fake_data.random_choices(elements=['MAL', 'FML', 'OTR'], length=1)[0],
+            "gender": self.fake_data.random_choices(
+                elements=["MAL", "FML", "OTR"], length=1
+            )[0],
             "nationality": self.fake_data.country(),
             "phone_number": self.fake_data.phone_number(),
             "mother_language": self.fake_data.language_name(),
             "other_languages": self.fake_data.language_name(),
-            "english_status": self.fake_data.random_choices(elements=['WEK', 'GOD', 'EXT'], length=1)[0],
-            "persian_status": self.fake_data.random_choices(elements=['WEK', 'GOD', 'EXT'], length=1)[0],
+            "english_status": self.fake_data.random_choices(
+                elements=["WEK", "GOD", "EXT"], length=1
+            )[0],
+            "persian_status": self.fake_data.random_choices(
+                elements=["WEK", "GOD", "EXT"], length=1
+            )[0],
         }
         self.success_profile_obj = ProfileModel.objects.create(
-            user=self.user_obj,
-            **data
+            user=self.user_obj, **data
         )
         self.assertIsNotNone(self.success_profile_obj)
         self.assertEqual(self.success_profile_obj.user.email, self.user_obj.email)
-        self.assertEqual(self.success_profile_obj.first_name, data['first_name'])
-        self.assertEqual(self.success_profile_obj.last_name, data['last_name'])
-        self.assertEqual(self.success_profile_obj.gender, data['gender'])
-        self.assertEqual(self.success_profile_obj.persian_status, data['persian_status'])
+        self.assertEqual(self.success_profile_obj.first_name, data["first_name"])
+        self.assertEqual(self.success_profile_obj.last_name, data["last_name"])
+        self.assertEqual(self.success_profile_obj.gender, data["gender"])
+        self.assertEqual(
+            self.success_profile_obj.persian_status, data["persian_status"]
+        )
         profile_count = ProfileModel.objects.all().count()
         self.assertEqual(profile_count, 1)
 

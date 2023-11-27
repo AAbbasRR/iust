@@ -9,10 +9,10 @@ import uuid
 
 @receiver(post_save, sender=ChatRoomModel)
 def create_product_inventory_handler(sender, instance, **kwargs):
-    if kwargs['created']:
+    if kwargs["created"]:
         while True:
             try:
-                instance.room_id = str(uuid.uuid4()).split('-')[-1]
+                instance.room_id = str(uuid.uuid4()).split("-")[-1]
                 instance.save()
                 break
             except IntegrityError:

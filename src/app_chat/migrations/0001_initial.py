@@ -9,39 +9,115 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='ChatRoom',
+            name="ChatRoom",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('create_at', models.DateTimeField(auto_now_add=True, verbose_name='Created Time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated Time')),
-                ('title', models.CharField(max_length=75, verbose_name='Title')),
-                ('is_group', models.BooleanField(default=False, verbose_name='Is Group')),
-                ('is_ticket', models.BooleanField(default=True, verbose_name='Is Ticket')),
-                ('room_id', models.CharField(blank=True, max_length=250, null=True, verbose_name='Room Id')),
-                ('status', models.CharField(choices=[('AWF', 'Waiting For An Answer'), ('ABA', 'Has Been Answered'), ('CLS', 'Closed')], default='AWF', max_length=5, verbose_name='Status')),
-                ('priority', models.CharField(choices=[('LOW', 'LOW'), ('MED', 'Medium'), ('HIG', 'High')], default='LOW', max_length=3, verbose_name='Priority')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "create_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created Time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated Time"),
+                ),
+                ("title", models.CharField(max_length=75, verbose_name="Title")),
+                (
+                    "is_group",
+                    models.BooleanField(default=False, verbose_name="Is Group"),
+                ),
+                (
+                    "is_ticket",
+                    models.BooleanField(default=True, verbose_name="Is Ticket"),
+                ),
+                (
+                    "room_id",
+                    models.CharField(
+                        blank=True, max_length=250, null=True, verbose_name="Room Id"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("AWF", "Waiting For An Answer"),
+                            ("ABA", "Has Been Answered"),
+                            ("CLS", "Closed"),
+                        ],
+                        default="AWF",
+                        max_length=5,
+                        verbose_name="Status",
+                    ),
+                ),
+                (
+                    "priority",
+                    models.CharField(
+                        choices=[("LOW", "LOW"), ("MED", "Medium"), ("HIG", "High")],
+                        default="LOW",
+                        max_length=3,
+                        verbose_name="Priority",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-create_at'],
+                "ordering": ["-create_at"],
             },
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('create_at', models.DateTimeField(auto_now_add=True, verbose_name='Created Time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated Time')),
-                ('message', models.TextField(verbose_name='Message')),
-                ('file', models.FileField(upload_to=app_chat.models.chat_room.ticket_image_directory_path, verbose_name='Image')),
-                ('chat_room', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='chatroom_messages', to='app_chat.chatroom', verbose_name='Chat Room')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "create_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Created Time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated Time"),
+                ),
+                ("message", models.TextField(verbose_name="Message")),
+                (
+                    "file",
+                    models.FileField(
+                        upload_to=app_chat.models.chat_room.ticket_image_directory_path,
+                        verbose_name="Image",
+                    ),
+                ),
+                (
+                    "chat_room",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="chatroom_messages",
+                        to="app_chat.chatroom",
+                        verbose_name="Chat Room",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-create_at'],
+                "ordering": ["-create_at"],
             },
         ),
     ]

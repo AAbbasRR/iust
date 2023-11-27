@@ -1,9 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 
-from rest_framework import (
-    serializers,
-    exceptions
-)
+from rest_framework import serializers, exceptions
 
 from app_user.models import UserModel
 
@@ -35,7 +32,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def __init__(self, *args, **kwargs):
         super(ChangePasswordSerializer, self).__init__(*args, **kwargs)
-        self.request = self.context.get('request')
+        self.request = self.context.get("request")
         if self.request:
             self.user = self.request.user
 
@@ -45,14 +42,16 @@ class ChangePasswordSerializer(serializers.Serializer):
         return value
 
     def validate(self, attrs):
-        if attrs['new_password'] != attrs['new_re_password']:
-            raise exceptions.ParseError({
-                "new_password": [BaseErrors.passwords_did_not_match],
-                "new_re_password": [BaseErrors.passwords_did_not_match],
-            })
+        if attrs["new_password"] != attrs["new_re_password"]:
+            raise exceptions.ParseError(
+                {
+                    "new_password": [BaseErrors.passwords_did_not_match],
+                    "new_re_password": [BaseErrors.passwords_did_not_match],
+                }
+            )
         return attrs
 
     def update(self, instance, validated_data):
-        instance.set_password(validated_data['new_password'])
+        instance.set_password(validated_data["new_password"])
         instance.save()
         return instance

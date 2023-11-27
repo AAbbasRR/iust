@@ -4,6 +4,4 @@ from .high_school import (
 from .bachelor_degree import (
     BachelorDegree as BachelorDegreeModel,
 )
-from .master_degree import (
-    MasterDegree as MasterDegreeModel
-)
+from .master_degree import MasterDegree as MasterDegreeModel

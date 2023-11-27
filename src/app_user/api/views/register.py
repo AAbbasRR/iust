@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from app_user.api.serializers.register import (
     UserRegisterSerializer,
     UserVerifyRegisterSerializer,
-    UserReSendRegisterOTPCodeSerializer
+    UserReSendRegisterOTPCodeSerializer,
 )
 
 from utils import BaseVersioning
@@ -12,13 +12,17 @@ from utils.permissions import AllowAnyPermission
 
 
 class UserRegisterView(generics.CreateAPIView):
-    permission_classes = [AllowAnyPermission, ]
+    permission_classes = [
+        AllowAnyPermission,
+    ]
     versioning_class = BaseVersioning
     serializer_class = UserRegisterSerializer
 
 
 class UserVerifyRegisterView(generics.GenericAPIView):
-    permission_classes = [AllowAnyPermission, ]
+    permission_classes = [
+        AllowAnyPermission,
+    ]
     versioning_class = BaseVersioning
     serializer_class = UserVerifyRegisterSerializer
 
@@ -29,7 +33,9 @@ class UserVerifyRegisterView(generics.GenericAPIView):
 
 
 class UserReSendRegisterOTPCodeView(generics.GenericAPIView):
-    permission_classes = [AllowAnyPermission, ]
+    permission_classes = [
+        AllowAnyPermission,
+    ]
     versioning_class = BaseVersioning
     serializer_class = UserReSendRegisterOTPCodeSerializer
 

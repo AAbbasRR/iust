@@ -14,85 +14,70 @@ class ProfileManager(models.Manager):
 
 
 def profile_image_directory_path(instance, filename):
-    return 'profile_images/user_{0}/{1}'.format(instance.user.email, filename)
+    return "profile_images/user_{0}/{1}".format(instance.user.email, filename)
 
 
 class Profile(GeneralDateModel):
     class Meta:
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
-        ordering = ['-id']
+        ordering = ["-id"]
 
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
-        related_name='user_profile',
-        verbose_name=_('User')
+        related_name="user_profile",
+        verbose_name=_("User"),
     )
     profile = models.ImageField(
         upload_to=profile_image_directory_path,
         null=True,
         blank=True,
-        verbose_name=_('Profile')
+        verbose_name=_("Profile"),
     )
     phone_number = models.CharField(
-        max_length=50,
-        null=True,
-        verbose_name=_('Phone Number')
+        max_length=50, null=True, verbose_name=_("Phone Number")
     )
     first_name = models.CharField(
-        max_length=100,
-        null=True,
-        verbose_name=_('First Name')
+        max_length=100, null=True, verbose_name=_("First Name")
     )
-    last_name = models.CharField(
-        max_length=100,
-        null=True,
-        verbose_name=_('Last Name')
-    )
+    last_name = models.CharField(max_length=100, null=True, verbose_name=_("Last Name"))
     birth_date = models.DateField(
         null=True,
-        verbose_name=_('Birth Date'),
+        verbose_name=_("Birth Date"),
     )
-    age = models.PositiveIntegerField(
-        default=1,
-        verbose_name=_("Age")
-    )
+    age = models.PositiveIntegerField(default=1, verbose_name=_("Age"))
     gender = models.CharField(
         max_length=3,
         null=True,
         choices=gender_options,
         default=gender_options[0][0],
-        verbose_name=_('Gender')
+        verbose_name=_("Gender"),
     )
     nationality = models.CharField(
-        max_length=50,
-        null=True,
-        verbose_name=_('Nationality')
+        max_length=50, null=True, verbose_name=_("Nationality")
     )
     mother_language = models.CharField(
-        max_length=50,
-        null=True,
-        verbose_name=_('Mother Language')
+        max_length=50, null=True, verbose_name=_("Mother Language")
     )
     other_languages = models.CharField(
         max_length=150,
         null=True,
-        verbose_name=_('Other Languages'),
+        verbose_name=_("Other Languages"),
     )
     english_status = models.CharField(
         max_length=3,
         null=True,
         choices=language_status_options,
         default=language_status_options[1][0],
-        verbose_name=_('English Status')
+        verbose_name=_("English Status"),
     )
     persian_status = models.CharField(
         max_length=3,
         null=True,
         choices=language_status_options,
         default=language_status_options[1][0],
-        verbose_name=_('Persian Status')
+        verbose_name=_("Persian Status"),
     )
 
     objects = ProfileManager()
@@ -111,8 +96,13 @@ class Profile(GeneralDateModel):
             else:
                 host = request.get_host()
                 protocol = request.build_absolute_uri().split(host)[0]
-                protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[
-                                                                                           0] == "http" else protocol
+                protocol = (
+                    protocol
+                    if DEBUG
+                    else protocol.replace("http", "https")
+                    if protocol.split(":")[0] == "http"
+                    else protocol
+                )
                 website_url = protocol + host
                 return website_url + self.profile.url
         except ValueError:
@@ -124,8 +114,14 @@ class Profile(GeneralDateModel):
     def get_age(self):
         today = timezone.now().date()
         try:
-            age = today.year - self.birth_date.year - (
-                    (today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+            age = (
+                today.year
+                - self.birth_date.year
+                - (
+                    (today.month, today.day)
+                    < (self.birth_date.month, self.birth_date.day)
+                )
+            )
         except AttributeError:
             age = 1
         return age

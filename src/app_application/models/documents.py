@@ -17,98 +17,118 @@ class DocumentManager(models.Manager):
 
 
 def document_image_directory_path(instance, filename):
-    return 'application_documents/user_{0}/{1}'.format(instance.user.email, filename)
+    return "application_documents/user_{0}/{1}".format(instance.user.email, filename)
 
 
 class Document(GeneralDateModel):
     class Meta:
         verbose_name = _("Document")
         verbose_name_plural = _("Documents")
-        ordering = ['-id']
+        ordering = ["-id"]
 
     application = models.OneToOneField(
         ApplicationModel,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='application_document',
-        verbose_name=_('Application')
+        related_name="application_document",
+        verbose_name=_("Application"),
     )
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
-        related_name='user_documents',
-        verbose_name=_('User')
+        related_name="user_documents",
+        verbose_name=_("User"),
     )
     curriculum_vitae = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Curriculum Vitae')
+        verbose_name=_("Curriculum Vitae"),
     )
     personal_photo = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Personal photo')
+        verbose_name=_("Personal photo"),
     )
     valid_passport = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Valid')
+        verbose_name=_("Valid"),
     )
     high_school_certificate = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('High School Certificate')
+        verbose_name=_("High School Certificate"),
     )
     trans_script_high_school_certificate = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Trans Script High School Certificate')
+        verbose_name=_("Trans Script High School Certificate"),
     )
     bachelor_degree = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Bachelor Degree')
+        verbose_name=_("Bachelor Degree"),
     )
     trans_script_bachelor_degree = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Trans Script Bachelor Degree')
+        verbose_name=_("Trans Script Bachelor Degree"),
     )
     master_degree = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Master Degree')
+        verbose_name=_("Master Degree"),
     )
     trans_script_master_degree = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Trans Script Master Degree')
+        verbose_name=_("Trans Script Master Degree"),
     )
     supporting_letter = models.FileField(
         upload_to=document_image_directory_path,
-        validators=[validate_image_file, ],
+        validators=[
+            validate_image_file,
+        ],
         null=True,
         blank=True,
-        verbose_name=_('Supporting Letter')
+        verbose_name=_("Supporting Letter"),
     )
 
     objects = DocumentManager()
@@ -119,7 +139,13 @@ class Document(GeneralDateModel):
         else:
             host = request.get_host()
             protocol = request.build_absolute_uri().split(host)[0]
-            protocol = protocol if DEBUG else protocol.replace("http", "https") if protocol.split(":")[0] == "http" else protocol
+            protocol = (
+                protocol
+                if DEBUG
+                else protocol.replace("http", "https")
+                if protocol.split(":")[0] == "http"
+                else protocol
+            )
             website_url = protocol + host
             return website_url + getattr(self, field_name).url
 

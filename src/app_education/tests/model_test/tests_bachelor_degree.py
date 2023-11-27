@@ -21,8 +21,7 @@ class BachelorDegreeTestCase(TestEducationSetUp):
         }
 
         self.user_obj = UserModel.objects.register_user(
-            email=self.success_user['email'],
-            password=self.success_user['password']
+            email=self.success_user["email"], password=self.success_user["password"]
         )
         self.user_obj.activate()
 
@@ -36,19 +35,27 @@ class BachelorDegreeTestCase(TestEducationSetUp):
         data = {
             "date_of_graduation": datetime.now().date(),
             "gpa": self.fake_data.random_number(2),
-            "field_of_study": 'computer engineer',
-            "university": 'Alberta'
+            "field_of_study": "computer engineer",
+            "university": "Alberta",
         }
         self.success_bachelor_degree_obj = BachelorDegreeModel.objects.create(
-            user=self.user_obj,
-            **data
+            user=self.user_obj, **data
         )
         self.assertIsNotNone(self.success_bachelor_degree_obj)
-        self.assertEqual(self.success_bachelor_degree_obj.user.email, self.user_obj.email)
-        self.assertEqual(self.success_bachelor_degree_obj.date_of_graduation, data['date_of_graduation'])
-        self.assertEqual(self.success_bachelor_degree_obj.gpa, data['gpa'])
-        self.assertEqual(self.success_bachelor_degree_obj.field_of_study, data['field_of_study'])
-        self.assertEqual(self.success_bachelor_degree_obj.university, data['university'])
+        self.assertEqual(
+            self.success_bachelor_degree_obj.user.email, self.user_obj.email
+        )
+        self.assertEqual(
+            self.success_bachelor_degree_obj.date_of_graduation,
+            data["date_of_graduation"],
+        )
+        self.assertEqual(self.success_bachelor_degree_obj.gpa, data["gpa"])
+        self.assertEqual(
+            self.success_bachelor_degree_obj.field_of_study, data["field_of_study"]
+        )
+        self.assertEqual(
+            self.success_bachelor_degree_obj.university, data["university"]
+        )
 
         bachelor_degree_count = BachelorDegreeModel.objects.all().count()
         self.assertEqual(bachelor_degree_count, 1)

@@ -21,7 +21,10 @@ class UserProfileApiTestCase(TestUserSetUp):
             "email": "mail@mail.com",
             "password": "a1A23456",
         }
-        self.user_obj = UserModel.objects.register_user(email=self.success_profile['email'], password=self.success_profile['password'])
+        self.user_obj = UserModel.objects.register_user(
+            email=self.success_profile["email"],
+            password=self.success_profile["password"],
+        )
         self.user_obj.activate()
         self.user_token = Token.objects.get(user=self.user_obj)
 
@@ -29,22 +32,22 @@ class UserProfileApiTestCase(TestUserSetUp):
         languages = [value[0] for value in language_status_options]
 
         self.profile_data = {
-            'first_name': self.fake_data.first_name(),
-            'last_name': self.fake_data.last_name(),
-            'birth_date': self.fake_data.date_of_birth(),
-            'gender': self.fake_data.random_choices(gender, 1)[0],
-            'phone_number': self.fake_data.phone_number(),
-            'nationality': self.fake_data.country(),
-            'mother_language': self.fake_data.language_name(),
-            'other_languages': 'FR, ES',
-            'english_status': self.fake_data.random_choices(languages, 1)[0],
-            'persian_status': self.fake_data.random_choices(languages, 1)[0],
+            "first_name": self.fake_data.first_name(),
+            "last_name": self.fake_data.last_name(),
+            "birth_date": self.fake_data.date_of_birth(),
+            "gender": self.fake_data.random_choices(gender, 1)[0],
+            "phone_number": self.fake_data.phone_number(),
+            "nationality": self.fake_data.country(),
+            "mother_language": self.fake_data.language_name(),
+            "other_languages": "FR, ES",
+            "english_status": self.fake_data.random_choices(languages, 1)[0],
+            "persian_status": self.fake_data.random_choices(languages, 1)[0],
         }
         self.updated_profile_data = {
-            'first_name': self.fake_data.first_name(),
-            'last_name': self.fake_data.last_name(),
-            'mother_language': self.fake_data.language_name(),
-            'english_status': self.fake_data.random_choices(languages, 1)[0],
+            "first_name": self.fake_data.first_name(),
+            "last_name": self.fake_data.last_name(),
+            "mother_language": self.fake_data.language_name(),
+            "english_status": self.fake_data.random_choices(languages, 1)[0],
         }
 
     def test_methods(self):
@@ -56,58 +59,57 @@ class UserProfileApiTestCase(TestUserSetUp):
 
     def create_profile_missing_fields(self):
         response = self.client.post(
-            self.create_profile_api,
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            self.create_profile_api, HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
         self.assertEqual(
             response_json,
             {
-                'first_name': ['This field is required.'],
-                'last_name': ['This field is required.'],
-                'birth_date': ['This field is required.'],
-                'gender': ['This field is required.'],
-                'nationality': ['This field is required.'],
-                'mother_language': ['This field is required.'],
-                'english_status': ['This field is required.'],
-                'persian_status': ['This field is required.'],
-            }
+                "first_name": ["This field is required."],
+                "last_name": ["This field is required."],
+                "birth_date": ["This field is required."],
+                "gender": ["This field is required."],
+                "nationality": ["This field is required."],
+                "mother_language": ["This field is required."],
+                "english_status": ["This field is required."],
+                "persian_status": ["This field is required."],
+            },
         )
 
     def create_profile_invalid_choices(self):
         data = {
-            'first_name': 'Test',
-            'last_name': 'User',
-            'birth_date': '1990-01-01',
-            'gender': 'invalid',
-            'nationality': 'US',
-            'mother_language': 'EN',
-            'other_languages': '',
-            'english_status': 'invalid',
-            'persian_status': 'invalid',
+            "first_name": "Test",
+            "last_name": "User",
+            "birth_date": "1990-01-01",
+            "gender": "invalid",
+            "nationality": "US",
+            "mother_language": "EN",
+            "other_languages": "",
+            "english_status": "invalid",
+            "persian_status": "invalid",
         }
         response = self.client.post(
             self.create_profile_api,
             data,
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
         self.assertEqual(
             response_json,
             {
-                'gender': ['"invalid" is not a valid choice.'],
-                'english_status': ['"invalid" is not a valid choice.'],
-                'persian_status': ['"invalid" is not a valid choice.']
-            }
+                "gender": ['"invalid" is not a valid choice.'],
+                "english_status": ['"invalid" is not a valid choice.'],
+                "persian_status": ['"invalid" is not a valid choice.'],
+            },
         )
 
     def create_profile(self):
         response = self.client.post(
             self.create_profile_api,
             self.profile_data,
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ProfileModel.objects.count(), 1)
@@ -124,7 +126,7 @@ class UserProfileApiTestCase(TestUserSetUp):
     def retrieve_profile(self):
         response = self.client.get(
             self.detail_update_profile_api,
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_json = response.json()
@@ -137,7 +139,7 @@ class UserProfileApiTestCase(TestUserSetUp):
             self.detail_update_profile_api,
             self.updated_profile_data,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
-            content_type='application/json',
+            content_type="application/json",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         try:

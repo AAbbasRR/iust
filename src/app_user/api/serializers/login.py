@@ -18,8 +18,8 @@ class UserLoginSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
-        user_obj = UserModel.objects.find_by_email(email=attrs['email'])
-        if user_obj is None or user_obj.check_password(attrs['password']) is False:
+        user_obj = UserModel.objects.find_by_email(email=attrs["email"])
+        if user_obj is None or user_obj.check_password(attrs["password"]) is False:
             raise exceptions.ParseError(BaseErrors.invalid_email_or_password)
         else:
             if user_obj.is_active is False:
@@ -32,5 +32,5 @@ class UserLoginSerializer(serializers.Serializer):
                 return {
                     "id": user_obj.id,
                     "email": user_obj.email,
-                    "auth_token": user_token.key
+                    "auth_token": user_token.key,
                 }

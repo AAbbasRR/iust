@@ -7,8 +7,10 @@ from utils.permissions import IsAuthenticatedPermission
 
 
 class ProfileDetailUpdateView(generics.RetrieveUpdateAPIView):
-    allowed_methods = ['OPTIONS', 'GET', 'PUT']
-    permission_classes = [IsAuthenticatedPermission, ]
+    allowed_methods = ["OPTIONS", "GET", "PUT"]
+    permission_classes = [
+        IsAuthenticatedPermission,
+    ]
     versioning_class = BaseVersioning
     serializer_class = ProfileSerializer
 

@@ -10,29 +10,51 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('app_application', '0001_initial'),
+        ("app_application", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='timeline',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_timeline', to=settings.AUTH_USER_MODEL, verbose_name='User'),
+            model_name="timeline",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="user_timeline",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
         ),
         migrations.AddField(
-            model_name='document',
-            name='application',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='application_document', to='app_application.application', verbose_name='Application'),
+            model_name="document",
+            name="application",
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="application_document",
+                to="app_application.application",
+                verbose_name="Application",
+            ),
         ),
         migrations.AddField(
-            model_name='document',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_documents', to=settings.AUTH_USER_MODEL, verbose_name='User'),
+            model_name="document",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="user_documents",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
         ),
         migrations.AddField(
-            model_name='application',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_application', to=settings.AUTH_USER_MODEL, verbose_name='User'),
+            model_name="application",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="user_application",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
         ),
     ]

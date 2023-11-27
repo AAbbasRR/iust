@@ -8,7 +8,9 @@ from utils.permissions import AllowAnyPermission
 
 
 class AdminOauthLoginAPIView(generics.GenericAPIView):
-    permission_classes = [AllowAnyPermission, ]
+    permission_classes = [
+        AllowAnyPermission,
+    ]
     versioning_class = BaseVersioning
     serializer_class = AdminOauthLoginSerializer
 
@@ -16,4 +18,3 @@ class AdminOauthLoginAPIView(generics.GenericAPIView):
         ser = self.serializer_class(data=self.request.data)
         ser.is_valid(raise_exception=True)
         return Response(ser.validated_data)
-

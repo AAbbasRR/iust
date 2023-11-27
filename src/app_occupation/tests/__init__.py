@@ -1,3 +1,1 @@
-from .setup import (
-    TestOccupationSetUp
-)
+from .setup import TestOccupationSetUp

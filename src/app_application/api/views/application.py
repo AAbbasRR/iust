@@ -8,7 +8,9 @@ from utils.permissions import IsAuthenticatedPermission
 
 
 class ListAllApplicationsView(generics.ListAPIView):
-    permission_classes = [IsAuthenticatedPermission, ]
+    permission_classes = [
+        IsAuthenticatedPermission,
+    ]
     versioning_class = BaseVersioning
     pagination_class = BasePagination
     serializer_class = ApplicationSerializer
@@ -18,17 +20,21 @@ class ListAllApplicationsView(generics.ListAPIView):
 
 
 class ApplicationCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticatedPermission, ]
+    permission_classes = [
+        IsAuthenticatedPermission,
+    ]
     versioning_class = BaseVersioning
     serializer_class = ApplicationSerializer
 
 
 class ApplicationDetailUpdateView(generics.RetrieveUpdateAPIView):
-    allowed_methods = ['OPTIONS', 'GET', 'PUT']
-    permission_classes = [IsAuthenticatedPermission, ]
+    allowed_methods = ["OPTIONS", "GET", "PUT"]
+    permission_classes = [
+        IsAuthenticatedPermission,
+    ]
     versioning_class = BaseVersioning
     serializer_class = ApplicationSerializer
-    lookup_field = 'pk'
+    lookup_field = "pk"
 
     def get_queryset(self):
         return self.request.user.user_application.all()

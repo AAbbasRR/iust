@@ -14,7 +14,6 @@ UserModel = get_user_model()
 
 
 class UserAddressApiTestCase(TestUserSetUp):
-
     def setUp(self):
         super(UserAddressApiTestCase, self).setUp()
 
@@ -22,25 +21,28 @@ class UserAddressApiTestCase(TestUserSetUp):
             "email": "mail@mail.com",
             "password": "a1A23456",
         }
-        self.user_obj = UserModel.objects.register_user(email=self.success_profile['email'], password=self.success_profile['password'])
+        self.user_obj = UserModel.objects.register_user(
+            email=self.success_profile["email"],
+            password=self.success_profile["password"],
+        )
         self.user_obj.activate()
         self.user_token = Token.objects.get(user=self.user_obj)
 
         countries = [value[0] for value in country]
 
         self.address_data = {
-            'country': self.fake_data.random_choices(countries, 1)[0],
-            'city': self.fake_data.city(),
-            'country_code': self.fake_data.country_code(),
-            'postal_code': self.fake_data.postcode(),
-            'city_code': self.fake_data.country_code(),
-            'address': self.fake_data.address(),
+            "country": self.fake_data.random_choices(countries, 1)[0],
+            "city": self.fake_data.city(),
+            "country_code": self.fake_data.country_code(),
+            "postal_code": self.fake_data.postcode(),
+            "city_code": self.fake_data.country_code(),
+            "address": self.fake_data.address(),
         }
         self.updated_address_data = {
-            'country': self.fake_data.random_choices(countries, 1)[0],
-            'postal_code': self.fake_data.postcode(),
-            'city_code': self.fake_data.country_code(),
-            'address': self.fake_data.address(),
+            "country": self.fake_data.random_choices(countries, 1)[0],
+            "postal_code": self.fake_data.postcode(),
+            "city_code": self.fake_data.country_code(),
+            "address": self.fake_data.address(),
         }
 
     def test_methods(self):
@@ -52,42 +54,41 @@ class UserAddressApiTestCase(TestUserSetUp):
 
     def create_address_missing_fields(self):
         response = self.client.post(
-            self.create_address_api,
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            self.create_address_api, HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
         self.assertEqual(
             response_json,
             {
-                'country': ['This field is required.'],
-                'city': ['This field is required.'],
-                'postal_code': ['This field is required.'],
-                'address': ['This field is required.'],
-            }
+                "country": ["This field is required."],
+                "city": ["This field is required."],
+                "postal_code": ["This field is required."],
+                "address": ["This field is required."],
+            },
         )
 
     def create_address_invalid_country(self):
-        data = {**self.address_data, 'country': 'invalid'}
+        data = {**self.address_data, "country": "invalid"}
         response = self.client.post(
             self.create_address_api,
             data,
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response_json = response.json()
         self.assertEqual(
             response_json,
             {
-                'country': ['"invalid" is not a valid choice.'],
-            }
+                "country": ['"invalid" is not a valid choice.'],
+            },
         )
 
     def create_address(self):
         response = self.client.post(
             self.create_address_api,
             self.address_data,
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(AddressModel.objects.count(), 1)
@@ -104,7 +105,7 @@ class UserAddressApiTestCase(TestUserSetUp):
     def retrieve_address(self):
         response = self.client.get(
             self.detail_update_address_api,
-            HTTP_AUTHORIZATION=f"Token {self.user_token.key}"
+            HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_json = response.json()
@@ -117,7 +118,7 @@ class UserAddressApiTestCase(TestUserSetUp):
             self.detail_update_address_api,
             self.updated_address_data,
             HTTP_AUTHORIZATION=f"Token {self.user_token.key}",
-            content_type='application/json',
+            content_type="application/json",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         try:

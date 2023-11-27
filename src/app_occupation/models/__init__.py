@@ -1,3 +1,1 @@
-from .latest_occupation import (
-    LatestOccupation as LatestOccupationModel
-)
+from .latest_occupation import LatestOccupation as LatestOccupationModel

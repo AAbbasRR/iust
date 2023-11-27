@@ -16,8 +16,7 @@ class AddressTestCase(TestUserSetUp):
         }
 
         self.user_obj = UserModel.objects.register_user(
-            email=self.success_user['email'],
-            password=self.success_user['password']
+            email=self.success_user["email"], password=self.success_user["password"]
         )
         self.user_obj.activate()
 
@@ -37,15 +36,14 @@ class AddressTestCase(TestUserSetUp):
             "city": self.fake_data.city(),
         }
         self.success_address_obj = AddressModel.objects.create(
-            user=self.user_obj,
-            **data
+            user=self.user_obj, **data
         )
         self.assertIsNotNone(self.success_address_obj)
         self.assertEqual(self.success_address_obj.user.email, self.user_obj.email)
-        self.assertEqual(self.success_address_obj.address, data['address'])
-        self.assertEqual(self.success_address_obj.country, data['country'])
-        self.assertEqual(self.success_address_obj.postal_code, data['postal_code'])
-        self.assertEqual(self.success_address_obj.city, data['city'])
+        self.assertEqual(self.success_address_obj.address, data["address"])
+        self.assertEqual(self.success_address_obj.country, data["country"])
+        self.assertEqual(self.success_address_obj.postal_code, data["postal_code"])
+        self.assertEqual(self.success_address_obj.city, data["city"])
         address_count = AddressModel.objects.all().count()
         self.assertEqual(address_count, 1)
 
