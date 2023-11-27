@@ -14,12 +14,14 @@ django-jalali-date==1.0.2
 djangorestframework==3.14.0
 et-xmlfile==1.1.0
 filelock==3.13.1
+gunicorn==21.2.0
 identify==2.5.32
 idna==3.6
 jdatetime==4.1.1
 MarkupPy==1.14
 nodeenv==1.8.0
 openpyxl==3.1.2
+packaging==23.2
 Pillow==9.4.0
 platformdirs==4.0.0
 pre-commit==3.5.0

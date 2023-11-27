@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  back:
+    image: iust-backend
+    container_name: back_django
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      - back-network
+    volumes:
+      - ./src:/app
+    depends_on:
+      - db
+      - redis
+      - mailserver
+
+  db:
+    image: postgres:latest
+    container_name: back_postgres
+    env_file: .env.db
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - back-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: back_redis
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - back-network
+
+volumes:
+  postgres_data:
+
+networks:
+  back-network:
+    driver: bridge
