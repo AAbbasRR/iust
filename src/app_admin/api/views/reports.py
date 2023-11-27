@@ -46,14 +46,14 @@ class AdminReportApplicationsAPIView(generics.GenericAPIView):
     def get(self, *args, **kwargs):
         tab_filter = self.request.query_params.get("date", "all")
         if tab_filter == "all":
-            application_count = ApplicationModel.objects.exclude(university_status="NOCO").count()
+            application_count = ApplicationModel.objects.exclude(status="NOCO").count()
             return response.Response({
                 "application_count": application_count,
                 "report": {
-                    "crnt_count": ApplicationModel.objects.filter(university_status='CRNT').count(),
-                    "acpt_count": ApplicationModel.objects.filter(university_status='ACPT').count(),
-                    "rjct_count": ApplicationModel.objects.filter(university_status='RJCT').count(),
-                    "ntet_count": ApplicationModel.objects.filter(university_status='NTET').count(),
+                    "crnt_count": ApplicationModel.objects.filter(status='CRNT').count(),
+                    "acpt_count": ApplicationModel.objects.filter(status='ACPT').count(),
+                    "rjct_count": ApplicationModel.objects.filter(status='RJCT').count(),
+                    "ntet_count": ApplicationModel.objects.filter(status='NTET').count(),
                 }
             })
             # first_month = (

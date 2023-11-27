@@ -18,8 +18,7 @@ class AdminApplicationListSerializer(serializers.ModelSerializer):
     degree = serializers.CharField(source="get_degree_display", read_only=True)
     faculty = serializers.CharField(source="get_faculty_display", read_only=True)
     field_of_study = serializers.CharField(source="get_field_of_study_display", read_only=True)
-    university_status = serializers.CharField(source="get_university_status_display", read_only=True)
-    faculty_status = serializers.CharField(source="get_faculty_status_display", read_only=True)
+    status = serializers.CharField(source="get_status_display", read_only=True)
 
     user = serializers.SerializerMethodField(
         'get_user'
@@ -34,8 +33,7 @@ class AdminApplicationListSerializer(serializers.ModelSerializer):
             "degree",
             "faculty",
             "field_of_study",
-            "university_status",
-            "faculty_status",
+            "status",
 
             "jalali_created_at",
 
@@ -64,11 +62,8 @@ class AdminApplicationExportResource(resources.ModelResource):
     field_of_study = fields.Field(
         column_name=_('field_of_study')
     )
-    university_status = fields.Field(
-        column_name=_('university_status')
-    )
-    faculty_status = fields.Field(
-        column_name=_('faculty_status')
+    status = fields.Field(
+        column_name=_('status')
     )
     jalali_created_at = fields.Field(
         column_name=_('jalali_created_at')
@@ -104,8 +99,7 @@ class AdminApplicationExportResource(resources.ModelResource):
             "degree",
             "faculty",
             "field_of_study",
-            "university_status",
-            "faculty_status",
+            "status",
 
             "jalali_created_at",
 
@@ -241,8 +235,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
     degree = serializers.CharField(source="get_degree_display", read_only=True)
     faculty = serializers.CharField(source="get_faculty_display", read_only=True)
     field_of_study = serializers.CharField(source="get_field_of_study_display", read_only=True)
-    university_status = serializers.CharField(source="get_university_status_display", read_only=True)
-    faculty_status = serializers.CharField(source="get_faculty_status_display", read_only=True)
+    status = serializers.CharField(source="get_status_display", read_only=True)
     user = serializers.SerializerMethodField(
         'get_user'
     )
@@ -262,8 +255,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
             "degree",
             "faculty",
             "field_of_study",
-            "university_status",
-            "faculty_status",
+            "status",
 
             "jalali_created_at",
 

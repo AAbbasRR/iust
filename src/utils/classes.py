@@ -22,7 +22,7 @@ class Redis:
         db=settings.Redis_db
     )  # config redis system cache
     expire_times = {
-        "otp_code": 300,  # 5Min
+        "otp_code": 240,  # 4Min
         "forget_password": 900,  # 15Min
     }
 

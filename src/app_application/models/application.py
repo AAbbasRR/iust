@@ -55,17 +55,11 @@ class Application(GeneralDateModel):
         default=True,
         verbose_name=_('Financial Self Support')
     )
-    university_status = models.CharField(
+    status = models.CharField(
         max_length=4,
         choices=application_status_options,
         default=application_status_options[0][0],
-        verbose_name=_('University Status')
-    )
-    faculty_status = models.CharField(
-        max_length=4,
-        choices=application_status_options,
-        default=application_status_options[0][0],
-        verbose_name=_('Faculty Status')
+        verbose_name=_('Status')
     )
     degree = models.CharField(
         max_length=8,
@@ -84,6 +78,10 @@ class Application(GeneralDateModel):
         choices=field_of_study_options,
         default=degree_options[0][0],
         verbose_name=_('Field Of Study')
+    )
+    step = models.IntegerField(
+        default=0,
+        verbose_name=_("step")
     )
 
     objects = ApplicationManager()

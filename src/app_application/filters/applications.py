@@ -27,8 +27,7 @@ class ApplicationListFilter(FilterSet):
         model = ApplicationModel
         fields = [
             "age",
-            "university_status",
-            "faculty_status",
+            "status",
             "degree",
             "faculty",
             "field_of_study",
