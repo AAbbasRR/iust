@@ -27,6 +27,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
             "user_detail",
+            "step",
         )
         extra_kwargs = {
             "id": {"read_only": True},
