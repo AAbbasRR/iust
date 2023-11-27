@@ -166,7 +166,8 @@ CORS_ORIGIN_REGEX_WHITELIST = config(
 )
 
 # __Email Settings__ #
-if DEBUG:
+DEPENDENT_EMAIL_ON_DEBUG = config("DEPENDENT_EMAIL_ON_DEBUG", cast=bool, default=True)
+if DEBUG is True and DEPENDENT_EMAIL_ON_DEBUG is True:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     EMAIL_HOST_USER = ""
 else:

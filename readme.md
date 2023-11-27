@@ -25,6 +25,7 @@ env variables:
     EMAIL_USE_SSL = boolean *
     EMAIL_USE_TLS = boolean *
     DEFAULT_FROM_EMAIL = string *
+    DEPENDENT_EMAIL_ON_DEBUG = bool[default=True](in debug mode all email messages managing on console, if you want receiving email messages in debug mode setting this variable to False)
 
     # ___Database___ #
     USE_MYSQL = boolean[default=False]
