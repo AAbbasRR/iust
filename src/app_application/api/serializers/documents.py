@@ -78,12 +78,12 @@ class DocumentsSerializer(serializers.ModelSerializer):
         return obj.get_field_image_url("supporting_letter", self.request)
 
     def create(self, validated_data):
+        application_obj = validated_data.pop("tracking_id", None)
         try:
-            application_obj = validated_data.pop("tracking_id")
             if application_obj.application_document is not None:
                 application_obj.application_document.delete()
-        except Exception:
-            application_obj = None
+        except:
+            pass
         document_obj = DocumentModel.objects.create(
             application=application_obj, user=self.user, **validated_data
         )

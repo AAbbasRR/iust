@@ -37,14 +37,14 @@ class Application(GeneralDateModel):
         verbose_name=_("Tracking ID"),
     )
     full_name = models.CharField(
-        max_length=50, null=False, blank=False, verbose_name=_("Full Name")
+        max_length=50, null=True, blank=True, verbose_name=_("Full Name")
     )
     comments = models.TextField(null=True, blank=True, verbose_name=_("Comments"))
     applied_program = models.BooleanField(
-        default=False, verbose_name=_("Applied Program")
+        null=True, blank=True, verbose_name=_("Applied Program")
     )
     financial_self_support = models.BooleanField(
-        default=True, verbose_name=_("Financial Self Support")
+        null=True, blank=True, verbose_name=_("Financial Self Support")
     )
     status = models.CharField(
         max_length=4,
@@ -70,7 +70,7 @@ class Application(GeneralDateModel):
         default=degree_options[0][0],
         verbose_name=_("Field Of Study"),
     )
-    step = models.IntegerField(default=0, verbose_name=_("step"))
+    step = models.IntegerField(default=3, verbose_name=_("step"))
 
     objects = ApplicationManager()
 

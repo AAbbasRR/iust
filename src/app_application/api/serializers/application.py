@@ -67,6 +67,12 @@ class ApplicationSerializer(serializers.ModelSerializer):
         application_obj = ApplicationModel.objects.create(
             user=self.user, **validated_data
         )
+        have_document = False
+        try:
+            if application_obj.application_document is not None:
+                have_document = True
+        except:
+            pass
         if (
             application_obj.degree is not None
             and application_obj.field_of_study is not None
@@ -74,6 +80,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             and application_obj.financial_self_support is not None
             and application_obj.applied_program is not None
             and application_obj.full_name is not None
+            and have_document
         ):
             application_obj.status = "CRNT"
             application_obj.save()
@@ -82,6 +89,12 @@ class ApplicationSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         for field_name in validated_data:  # update application fields
             setattr(instance, field_name, validated_data[field_name])
+        have_document = False
+        try:
+            if instance.application_document is not None:
+                have_document = True
+        except:
+            pass
         if (
             instance.degree is not None
             and instance.field_of_study is not None
@@ -89,6 +102,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             and instance.financial_self_support is not None
             and instance.applied_program is not None
             and instance.full_name is not None
+            and have_document
         ):
             instance.status = "CRNT"
         instance.save()
