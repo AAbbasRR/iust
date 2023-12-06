@@ -82,6 +82,8 @@ class User(AbstractUser):
     )
     email = models.EmailField(
         unique=True,
+        null=True,
+        blank=True,
         verbose_name=_("Email"),
         max_length=256,
     )
