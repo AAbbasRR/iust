@@ -73,6 +73,7 @@ class User(AbstractUser):
 
     first_name = None
     last_name = None
+    username = models.CharField(max_length=150, unique=True, null=True, blank=True)
     sub = models.CharField(
         max_length=10, null=True, blank=True, verbose_name=_("Sub Code")
     )
@@ -102,7 +103,7 @@ class User(AbstractUser):
     objects = UserManager()
 
     def __str__(self):
-        return f"{self.username} {self.email}"
+        return f"{self.id} {self.username} {self.email}"
 
     def activate(self):
         """
