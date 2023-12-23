@@ -10,13 +10,13 @@ from app_application.api.serializers.application_admin import (
 )
 from app_application.filters.applications import ApplicationListFilter
 
-from utils.permissions import IsAuthenticatedPermission, IsAdminPermission
+from utils.permissions import IsAuthenticatedPermission, IsAdminUserPermission
 from utils.versioning import BaseVersioning
 from utils.paginations import BasePagination
 
 
 class AdminAllApplicationView(generics.ListAPIView):
-    permission_classes = [IsAuthenticatedPermission, IsAdminPermission]
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
     pagination_class = BasePagination
     serializer_class = AdminApplicationListSerializer
@@ -26,7 +26,7 @@ class AdminAllApplicationView(generics.ListAPIView):
 
 
 class AdminExportApplicationListView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticatedPermission, IsAdminPermission]
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
     ordering_fields = ["create_at"]
     filterset_class = ApplicationListFilter
@@ -42,7 +42,7 @@ class AdminExportApplicationListView(generics.GenericAPIView):
 
 
 class AdminDetailApplicationView(generics.RetrieveAPIView):
-    permission_classes = [IsAuthenticatedPermission, IsAdminPermission]
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
     serializer_class = AdminDetailApplicationSerializer
     queryset = ApplicationModel.objects.all()

@@ -8,7 +8,7 @@ from app_application.models import ApplicationModel
 from app_user.models import AddressModel, ProfileModel
 
 from utils.versioning import BaseVersioning
-from utils.permissions import IsAuthenticatedPermission, IsAdminPermission
+from utils.permissions import IsAuthenticatedPermission, IsAdminUserPermission
 
 from jdatetime import (
     datetime,
@@ -17,7 +17,7 @@ from jdatetime import (
 
 
 class AdminCountryRequestsCountAPIView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticatedPermission, IsAdminPermission]
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
 
     def get(self, *args, **kwargs):
@@ -49,7 +49,7 @@ class AdminCountryRequestsCountAPIView(generics.GenericAPIView):
 
 
 class AdminReportApplicationsAPIView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticatedPermission, IsAdminPermission]
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
 
     def get(self, *args, **kwargs):
@@ -84,7 +84,7 @@ class AdminReportApplicationsAPIView(generics.GenericAPIView):
 
 
 class AdminReportDiffrentBarAPIView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticatedPermission, IsAdminPermission]
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
 
     def get(self, *args, **kwargs):

@@ -5,3 +5,8 @@ from .reports import (
     AdminReportApplicationsAPIView,
     AdminReportDiffrentBarAPIView,
 )
+from .staffs_admin import (
+    AdminStaffsListAPIView,
+    AdminStaffsCreateAPIView,
+    AdminStaffsUpdateDeleteAPIView,
+)
