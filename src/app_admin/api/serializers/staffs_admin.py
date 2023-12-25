@@ -22,10 +22,35 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AdminStaffsListCreateUpdateSerializer(serializers.ModelSerializer):
+    role_display = serializers.CharField(source="get_role_display", read_only=True)
+    schools_display = serializers.CharField(
+        source="get_schools_display", read_only=True
+    )
+    fields_display = serializers.CharField(source="get_fields_display", read_only=True)
+
     class Meta:
         model = AdminModel
-        fields = ("id", "user", "role", "schools", "fields")
+        fields = (
+            "id",
+            "user",
+            "role",
+            "role_display",
+            "schools",
+            "schools_display",
+            "fields",
+            "fields_display",
+        )
         extra_kwargs = {"user": {"write_only": True}}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.request = self.context.get("request")
+        if self.request:
+            self.user = self.request.user
+            self.method = self.request.method
+            if self.method in ["PUT", "PATCH"]:
+                for field_name, field in self.fields.items():
+                    field.required = False
 
     def create(self, validated_data):
         return AdminModel.objects.create(**validated_data)

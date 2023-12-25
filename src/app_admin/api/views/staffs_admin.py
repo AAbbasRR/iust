@@ -33,3 +33,5 @@ class AdminStaffsUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedPermission, IsSuperUserPermission]
     versioning_class = BaseVersioning
     serializer_class = AdminStaffsListCreateUpdateSerializer
+    queryset = AdminModel.objects.all()
+    lookup_field = "pk"

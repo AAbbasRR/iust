@@ -218,7 +218,7 @@ data = {
             },
             {
                 "label": "دانشکده مهندسي پيشرفت",
-                "value": "School of Management, Economy and Progress Engineering",
+                "value": "School of Management Economy and Progress Engineering",
             },
             {
                 "label": "دانشکده مهندسي راه آهن",
@@ -582,7 +582,7 @@ data = {
                     "value": "Laser Optics Physics",
                 },
             ],
-            "School of Management, Economy and Progress Engineering": [
+            "School of Management Economy and Progress Engineering": [
                 {
                     "label": "کارشناس ارشد مدیریت بازرگانی (MBA) - بازاریابی",
                     "value": "Master of Business Administration (MBA) - Marketing",
@@ -704,7 +704,7 @@ data = {
             },
             {
                 "label": "دانشکده مهندسي پيشرفت",
-                "value": "School of Management, Economy and Progress Engineering",
+                "value": "School of Management Economy and Progress Engineering",
             },
             {
                 "label": "دانشکده مهندسي راه آهن",
@@ -936,7 +936,7 @@ data = {
                     "value": "Laser Optics Physics",
                 },
             ],
-            "School of Management, Economy and Progress Engineering": [
+            "School of Management Economy and Progress Engineering": [
                 {
                     "label": "مدیریت فناوری (MOT) - نوآوری فناوری",
                     "value": "Management of Technology (MOT) - Technological Innovation",
