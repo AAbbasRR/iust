@@ -21,6 +21,11 @@ class AdminAllApplicationView(generics.ListAPIView):
     pagination_class = BasePagination
     serializer_class = AdminApplicationListSerializer
     ordering_fields = ["create_at"]
+    search_fields = [
+        "tracking_id",
+        "user__user_profile__first_name",
+        "user__user_profile__last_name",
+    ]
     filterset_class = ApplicationListFilter
     queryset = ApplicationModel.objects.all()
 
@@ -29,6 +34,11 @@ class AdminExportApplicationListView(generics.GenericAPIView):
     permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
     ordering_fields = ["create_at"]
+    search_fields = [
+        "tracking_id",
+        "user__user_profile__first_name",
+        "user__user_profile__last_name",
+    ]
     filterset_class = ApplicationListFilter
     queryset = ApplicationModel.objects.all()
 
