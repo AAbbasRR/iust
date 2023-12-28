@@ -1,12 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext as _
-from django.utils import timezone
 
 from Abrat.settings import DEBUG
 from app_user.models import UserModel
 
 from utils.general_models import GeneralDateModel
-from utils.data_list import ticket_status_choices, ticket_priority_choices
 
 
 class ChatRoomManager(models.Manager):
@@ -16,6 +14,16 @@ class ChatRoomManager(models.Manager):
 class ChatRoom(GeneralDateModel):
     class Meta:
         ordering = ["-create_at"]
+
+    class ChatRoomPriorityOptions(models.TextChoices):
+        LOW = "LOW", _("LOW")
+        Medium = "Medium", _("Medium")
+        High = "High", _("High")
+
+    class ChatRoomStatusOptions(models.TextChoices):
+        Waiting_For_An_Answer = "Waiting_For_An_Answer", _("Waiting For An Answer")
+        Has_Been_Answered = "Has_Been_Answered", _("Has Been Answered")
+        Closed = "Closed", _("Closed")
 
     title = models.CharField(max_length=75, verbose_name=_("Title"))
     is_group = models.BooleanField(default=False, verbose_name=_("Is Group"))
@@ -27,15 +35,15 @@ class ChatRoom(GeneralDateModel):
         max_length=250, blank=True, null=True, verbose_name=_("Room Id")
     )
     status = models.CharField(
-        max_length=5,
-        choices=ticket_status_choices,
-        default=ticket_status_choices[0][0],
+        max_length=21,
+        choices=ChatRoomStatusOptions.choices,
+        default=ChatRoomStatusOptions.Waiting_For_An_Answer,
         verbose_name=_("Status"),
     )
     priority = models.CharField(
-        max_length=3,
-        choices=ticket_priority_choices,
-        default=ticket_priority_choices[0][0],
+        max_length=6,
+        choices=ChatRoomPriorityOptions.choices,
+        default=ChatRoomPriorityOptions.LOW,
         verbose_name=_("Priority"),
     )
 

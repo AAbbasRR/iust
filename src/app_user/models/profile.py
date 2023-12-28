@@ -6,7 +6,6 @@ from Abrat.settings import DEBUG
 from app_user.models import UserModel
 
 from utils.general_models import GeneralDateModel
-from utils.data_list import gender_options, language_status_options
 
 
 class ProfileManager(models.Manager):
@@ -22,6 +21,16 @@ class Profile(GeneralDateModel):
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
         ordering = ["-id"]
+
+    class ProfileGenderOptions(models.TextChoices):
+        Male = "Male", _("Male")
+        FeMale = "FeMale", _("FeMale")
+        Other = "Other", _("Other")
+
+    class ProfileLanguageOptions(models.TextChoices):
+        Weak = "Weak", _("Weak")
+        Good = "Good", _("Good")
+        Excellent = "Excellent", _("Excellent")
 
     user = models.OneToOneField(
         UserModel,
@@ -48,10 +57,10 @@ class Profile(GeneralDateModel):
     )
     age = models.PositiveIntegerField(default=1, verbose_name=_("Age"))
     gender = models.CharField(
-        max_length=3,
+        max_length=6,
         null=True,
-        choices=gender_options,
-        default=gender_options[0][0],
+        choices=ProfileGenderOptions.choices,
+        default=ProfileGenderOptions.Male,
         verbose_name=_("Gender"),
     )
     nationality = models.CharField(
@@ -66,17 +75,17 @@ class Profile(GeneralDateModel):
         verbose_name=_("Other Languages"),
     )
     english_status = models.CharField(
-        max_length=3,
+        max_length=9,
         null=True,
-        choices=language_status_options,
-        default=language_status_options[1][0],
+        choices=ProfileLanguageOptions.choices,
+        default=ProfileLanguageOptions.Good,
         verbose_name=_("English Status"),
     )
     persian_status = models.CharField(
-        max_length=3,
+        max_length=9,
         null=True,
-        choices=language_status_options,
-        default=language_status_options[1][0],
+        choices=ProfileLanguageOptions.choices,
+        default=ProfileLanguageOptions.Good,
         verbose_name=_("Persian Status"),
     )
 

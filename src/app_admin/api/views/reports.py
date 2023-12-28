@@ -55,22 +55,24 @@ class AdminReportApplicationsAPIView(generics.GenericAPIView):
     def get(self, *args, **kwargs):
         tab_filter = self.request.query_params.get("date", "all")
         if tab_filter == "all":
-            application_count = ApplicationModel.objects.exclude(status="NOCO").count()
+            application_count = ApplicationModel.objects.exclude(
+                status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+            ).count()
             return response.Response(
                 {
                     "application_count": application_count,
                     "report": {
                         "crnt_count": ApplicationModel.objects.filter(
-                            status="CRNT"
+                            status=ApplicationModel.ApplicationStatusOptions.Current
                         ).count(),
                         "acpt_count": ApplicationModel.objects.filter(
-                            status="ACPT"
+                            status=ApplicationModel.ApplicationStatusOptions.Accepted
                         ).count(),
                         "rjct_count": ApplicationModel.objects.filter(
-                            status="RJCT"
+                            status=ApplicationModel.ApplicationStatusOptions.Rejected
                         ).count(),
                         "ntet_count": ApplicationModel.objects.filter(
-                            status="NTET"
+                            status=ApplicationModel.ApplicationStatusOptions.NeedToEdit
                         ).count(),
                     },
                 }
@@ -96,20 +98,22 @@ class AdminReportDiffrentBarAPIView(generics.GenericAPIView):
                     "application_count": application_count,
                     "gender": {
                         "male": ApplicationModel.objects.filter(
-                            user__user_profile__gender="MAL"
+                            user__user_profile__gender=ProfileModel.ProfileGenderOptions.Male
                         ).count(),
                         "female": ApplicationModel.objects.filter(
-                            user__user_profile__gender="FML"
+                            user__user_profile__gender=ProfileModel.ProfileGenderOptions.FeMale
                         ).count(),
                     },
                     "education": {
                         "bachelor": ApplicationModel.objects.filter(
-                            degree="Bachelor"
+                            degree=ApplicationModel.ApplicationDegreeOptions.Bachelor
                         ).count(),
                         "master": ApplicationModel.objects.filter(
-                            degree="Master"
+                            degree=ApplicationModel.ApplicationDegreeOptions.Master
                         ).count(),
-                        "phd": ApplicationModel.objects.filter(degree="P.H.D").count(),
+                        "phd": ApplicationModel.objects.filter(
+                            degree=ApplicationModel.ApplicationDegreeOptions.PHD
+                        ).count(),
                     },
                 }
             )

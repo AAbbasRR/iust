@@ -82,7 +82,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             and application_obj.full_name is not None
             and have_document
         ):
-            application_obj.status = "CRNT"
+            application_obj.status = ApplicationModel.ApplicationStatusOptions.Current
             application_obj.save()
         return application_obj
 
@@ -104,6 +104,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
             and instance.full_name is not None
             and have_document
         ):
-            instance.status = "CRNT"
+            instance.status = ApplicationModel.ApplicationStatusOptions.Current
         instance.save()
         return instance

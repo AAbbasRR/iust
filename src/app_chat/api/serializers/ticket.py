@@ -61,7 +61,7 @@ class MessageSerializers(serializers.ModelSerializer):
         message_obj = MessageModel.objects.create(
             chat_room=chat_room_obj, user=self.user, **validated_data
         )
-        chat_room_obj.status = "AWF"
+        chat_room_obj.status = ChatRoomModel.ChatRoomStatusOptions.Waiting_For_An_Answer
         chat_room_obj.save()
         return message_obj
 

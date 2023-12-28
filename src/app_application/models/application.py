@@ -4,10 +4,6 @@ from django.utils.translation import gettext as _
 from app_user.models import UserModel
 
 from utils import GeneralDateModel
-from utils.data_list import (
-    application_status_options,
-    degree_options,
-)
 
 
 class ApplicationManager(models.Manager):
@@ -344,6 +340,18 @@ class Application(GeneralDateModel):
             "Science of Technology Policy"
         )
 
+    class ApplicationStatusOptions(models.TextChoices):
+        Not_Completed = "Not_Completed", _("Not Completed")
+        Current = "Current", _("Current")
+        Accepted = "Accepted", _("Accepted")
+        Rejected = "Rejected", _("Rejected")
+        NeedToEdit = "Need_To_Edit", _("Need To Edit")
+
+    class ApplicationDegreeOptions(models.TextChoices):
+        Bachelor = "Bachelor", _("Bachelor")
+        Master = "Master", _("Master")
+        PHD = "P.H.D", _("P.H.D")
+
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
@@ -368,15 +376,15 @@ class Application(GeneralDateModel):
         null=True, blank=True, verbose_name=_("Financial Self Support")
     )
     status = models.CharField(
-        max_length=4,
-        choices=application_status_options,
-        default=application_status_options[0][0],
+        max_length=13,
+        choices=ApplicationStatusOptions.choices,
+        default=ApplicationStatusOptions.Not_Completed,
         verbose_name=_("Status"),
     )
     degree = models.CharField(
         max_length=8,
-        choices=degree_options,
-        default=degree_options[0][0],
+        choices=ApplicationDegreeOptions.choices,
+        default=ApplicationDegreeOptions.Bachelor,
         verbose_name=_("Degree"),
     )
     faculty = models.CharField(

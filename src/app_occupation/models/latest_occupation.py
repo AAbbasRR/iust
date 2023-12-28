@@ -4,7 +4,6 @@ from django.utils.translation import gettext as _
 from app_user.models import UserModel
 
 from utils import GeneralDateModel, GeneralAddressModel
-from utils.data_list import occupation_options
 
 
 class LatestOccupationManager(models.Manager):
@@ -17,6 +16,13 @@ class LatestOccupation(GeneralDateModel, GeneralAddressModel):
         verbose_name_plural = _("Latest Occupations")
         ordering = ["-id"]
 
+    class LatestOccupationOptions(models.TextChoices):
+        Other = "Other", _("Other")
+        Academician = "Academician", _("Academician")
+        Government_Employee = "Government_Employee", _("Government Employee")
+        Industrial_Employee = "Industrial_Employee", _("Industrial Employee")
+        Student = "Student", _("Student")
+
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
@@ -24,9 +30,9 @@ class LatestOccupation(GeneralDateModel, GeneralAddressModel):
         verbose_name=_("User"),
     )
     occupation = models.CharField(
-        max_length=3,
-        choices=occupation_options,
-        default=occupation_options[0][0],
+        max_length=19,
+        choices=LatestOccupationOptions.choices,
+        default=LatestOccupationOptions.Other,
         verbose_name=_("Occupation"),
     )
     organization = models.CharField(

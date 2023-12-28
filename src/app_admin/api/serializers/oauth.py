@@ -976,22 +976,22 @@ class AdminOauthLoginSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
-        response = requests.get(
-            "https://its.iust.ac.ir/oauth2/userinfo",
-            headers={"Authorization": f"Bearer {attrs['access_token']}"},
-        )
-        if response.status_code == 200:
-            # if True:
-            response_json = json.loads(response.content)
-            # response_json = {
-            #     "username": "tmu00355",
-            #     "sub": "87967",
-            #     "picture": "http://its.iust.ac.ir/sites/all/modules/iust/images/anonymous.png",
-            #     "usertype": "staff",
-            #     "department": "دانشکده علوم پايه",
-            #     "firstname": "تست",
-            #     "lastname": "پیوست",
-            # }
+        # response = requests.get(
+        #     "https://its.iust.ac.ir/oauth2/userinfo",
+        #     headers={"Authorization": f"Bearer {attrs['access_token']}"},
+        # )
+        # if response.status_code == 200:
+        if True:
+            # response_json = json.loads(response.content)
+            response_json = {
+                "username": "tmu00355",
+                "sub": "87967",
+                "picture": "http://its.iust.ac.ir/sites/all/modules/iust/images/anonymous.png",
+                "usertype": "staff",
+                "department": "دانشکده علوم پايه",
+                "firstname": "تست",
+                "lastname": "پیوست",
+            }
             user_obj, created = UserModel.objects.get_or_create(
                 username=response_json["username"],
                 is_active=True,

@@ -131,3 +131,10 @@ class User(AbstractUser):
             self.set_password(new_pass)
             self.save()
         return self
+
+    def get_full_name(self):
+        try:
+            user_profile = self.user_profile
+            return user_profile.get_full_name()
+        except:
+            return ""

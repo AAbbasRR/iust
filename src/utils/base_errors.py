@@ -56,4 +56,15 @@ class BaseErrors:
     # notification
     message_success_viewed = _("Message Success Viewed")
 
-    # api views
+    # referral
+    user_do_not_have_rule_for_referral = _(
+        "You Do Not Have Permission For Referral This Application"
+    )
+    cant_referral_to_this_user = _("Cant Referral Application To User")
+
+    # admin
+    user_do_not_have_permission_for_application = _(
+        "You Do Not Have Permission For This Application"
+    )
+    user_cant_edit_application_status = _("You Cant Edit Application Status")
+    cant_create_comment_for_application = _("Cant Create Comment For This Application")

@@ -5,7 +5,6 @@ from app_application.models import ApplicationModel
 from app_user.models import UserModel
 
 from utils.general_models import GeneralDateModel
-from utils.data_list import application_timeline_status_options
 
 
 class TimeLineManager(models.Manager):
@@ -13,6 +12,11 @@ class TimeLineManager(models.Manager):
 
 
 class TimeLine(GeneralDateModel):
+    class TimeLineStatusOptions(models.TextChoices):
+        Confirmation = "Confirmation", _("Confirmation")
+        Rejection = "Rejection", _("Rejection")
+        Investigation = "Investigation", _("Investigation")
+
     application = models.ForeignKey(
         ApplicationModel,
         on_delete=models.CASCADE,
@@ -26,8 +30,9 @@ class TimeLine(GeneralDateModel):
         verbose_name=_("User"),
     )
     status = models.CharField(
-        max_length=4,
-        choices=application_timeline_status_options,
+        max_length=13,
+        choices=TimeLineStatusOptions.choices,
+        default=TimeLineStatusOptions.Investigation,
         verbose_name=_("Status"),
     )
     message = models.TextField(verbose_name=_("Message"))

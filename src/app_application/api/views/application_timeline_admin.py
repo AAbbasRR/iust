@@ -6,7 +6,6 @@ from app_application.api.serializers.application_timeline_admin import (
 
 from utils.permissions import IsAuthenticatedPermission, IsAdminUserPermission
 from utils.versioning import BaseVersioning
-from utils.paginations import BasePagination
 
 
 class AdminCreateApplicationTimeLineView(generics.CreateAPIView):

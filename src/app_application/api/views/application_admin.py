@@ -7,8 +7,10 @@ from app_application.api.serializers.application_admin import (
     AdminApplicationListSerializer,
     AdminApplicationExportResource,
     AdminDetailApplicationSerializer,
+    AdminUpdateApplicationSerializer,
 )
 from app_application.filters.applications import ApplicationListFilter
+from app_admin.models import AdminModel
 
 from utils.permissions import IsAuthenticatedPermission, IsAdminUserPermission
 from utils.versioning import BaseVersioning
@@ -27,7 +29,40 @@ class AdminAllApplicationView(generics.ListAPIView):
         "user__user_profile__last_name",
     ]
     filterset_class = ApplicationListFilter
-    queryset = ApplicationModel.objects.all()
+
+    def get_queryset(self):
+        if self.request.user.is_superuser is True:
+            return ApplicationModel.objects.all().exclude(
+                status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+            )
+        else:
+            user_faculty = (
+                AdminModel.objects.filter(
+                    user=self.request.user,
+                    role=AdminModel.AdminRoleOptions.faculty_director,
+                )
+                .values_list("schools", flat=True)
+                .distinct()
+            )
+            director_applications = ApplicationModel.objects.filter(
+                faculty__in=list(user_faculty)
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            user_member_rules = AdminModel.objects.filter(
+                user=self.request.user,
+                role__exact=AdminModel.AdminRoleOptions.faculty_director,
+            )
+            schools_list = list(
+                user_member_rules.values_list("schools", flat=True).distinct()
+            )
+            fields_list = list(
+                user_member_rules.values_list("fields", flat=True).distinct()
+            )
+            member_applications = ApplicationModel.objects.filter(
+                faculty__in=schools_list, field_of_study__in=fields_list
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            merged_queryset = director_applications.union(member_applications)
+            merged_queryset = merged_queryset.distinct()
+            return merged_queryset
 
 
 class AdminExportApplicationListView(generics.GenericAPIView):
@@ -40,7 +75,86 @@ class AdminExportApplicationListView(generics.GenericAPIView):
         "user__user_profile__last_name",
     ]
     filterset_class = ApplicationListFilter
-    queryset = ApplicationModel.objects.all()
+
+    def get_queryset(self):
+        if self.request.user.is_superuser is True:
+            return ApplicationModel.objects.all().exclude(
+                status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+            )
+        else:
+            user_faculty = (
+                AdminModel.objects.filter(
+                    user=self.request.user,
+                    role=AdminModel.AdminRoleOptions.faculty_director,
+                )
+                .values_list("schools", flat=True)
+                .distinct()
+            )
+            director_applications = ApplicationModel.objects.filter(
+                faculty__in=list(user_faculty)
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            user_member_rules = AdminModel.objects.filter(
+                user=self.request.user,
+                role__exact=AdminModel.AdminRoleOptions.faculty_director,
+            )
+            schools_list = list(
+                user_member_rules.values_list("schools", flat=True).distinct()
+            )
+            fields_list = list(
+                user_member_rules.values_list("fields", flat=True).distinct()
+            )
+            member_applications = ApplicationModel.objects.filter(
+                faculty__in=schools_list, field_of_study__in=fields_list
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            merged_queryset = director_applications.union(member_applications)
+            merged_queryset = merged_queryset.distinct()
+            return merged_queryset
+
+    def get(self, *args, **kwargs):
+        resource_class = AdminApplicationExportResource()
+        dataset = resource_class.export(self.get_queryset())
+
+        response = HttpResponse(dataset.xlsx, content_type="text/xlsx")
+        response["Content-Disposition"] = 'attachment; filename="export_orders.xlsx"'
+        return response
+
+
+class AdminReferralApplicationListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
+    versioning_class = BaseVersioning
+    pagination_class = BasePagination
+    serializer_class = AdminApplicationListSerializer
+    ordering_fields = ["create_at"]
+    search_fields = [
+        "tracking_id",
+        "user__user_profile__first_name",
+        "user__user_profile__last_name",
+    ]
+    filterset_class = ApplicationListFilter
+
+    def get_queryset(self):
+        return ApplicationModel.objects.filter(
+            application_referral__destination_user=self.request.user,
+            application_referral__is_enabled=True,
+        ).distinct()
+
+
+class AdminExportReferralApplicationListView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
+    versioning_class = BaseVersioning
+    ordering_fields = ["create_at"]
+    search_fields = [
+        "tracking_id",
+        "user__user_profile__first_name",
+        "user__user_profile__last_name",
+    ]
+    filterset_class = ApplicationListFilter
+
+    def get_queryset(self):
+        return ApplicationModel.objects.filter(
+            application_referral__destination_user=self.request.user,
+            application_referral__is_enabled=True,
+        ).distinct()
 
     def get(self, *args, **kwargs):
         resource_class = AdminApplicationExportResource()
@@ -55,5 +169,63 @@ class AdminDetailApplicationView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
     serializer_class = AdminDetailApplicationSerializer
-    queryset = ApplicationModel.objects.all()
     lookup_field = "pk"
+
+    def get_queryset(self):
+        if self.request.user.is_superuser is True:
+            return ApplicationModel.objects.all().exclude(
+                status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+            )
+        else:
+            user_faculty = (
+                AdminModel.objects.filter(
+                    user=self.request.user,
+                    role=AdminModel.AdminRoleOptions.faculty_director,
+                )
+                .values_list("schools", flat=True)
+                .distinct()
+            )
+            director_applications = ApplicationModel.objects.filter(
+                faculty__in=list(user_faculty)
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            user_member_rules = AdminModel.objects.filter(
+                user=self.request.user,
+                role__exact=AdminModel.AdminRoleOptions.faculty_director,
+            )
+            schools_list = list(
+                user_member_rules.values_list("schools", flat=True).distinct()
+            )
+            fields_list = list(
+                user_member_rules.values_list("fields", flat=True).distinct()
+            )
+            member_applications = ApplicationModel.objects.filter(
+                faculty__in=schools_list, field_of_study__in=fields_list
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            merged_queryset = director_applications.union(member_applications)
+            merged_queryset = merged_queryset.distinct()
+            return merged_queryset
+
+
+class AdminUpdateApplicationView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
+    versioning_class = BaseVersioning
+    serializer_class = AdminUpdateApplicationSerializer
+    lookup_field = "pk"
+
+    def get_queryset(self):
+        if self.request.user.is_superuser is True:
+            return ApplicationModel.objects.all().exclude(
+                status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+            )
+        else:
+            user_faculty = (
+                AdminModel.objects.filter(
+                    user=self.request.user,
+                    role=AdminModel.AdminRoleOptions.faculty_director,
+                )
+                .values_list("schools", flat=True)
+                .distinct()
+            )
+            return ApplicationModel.objects.filter(
+                faculty__in=list(user_faculty)
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)

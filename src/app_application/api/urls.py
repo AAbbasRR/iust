@@ -33,6 +33,16 @@ urlpatterns = [
         name="admin_export_all_application_list",
     ),
     path(
+        "admin/referral-application/list/",
+        AdminReferralApplicationListView.as_view(),
+        name="admin_referral_application_list",
+    ),
+    path(
+        "admin/referral-application/list/export/",
+        AdminExportReferralApplicationListView.as_view(),
+        name="admin_export_referral_application_list",
+    ),
+    path(
         "admin/all-application/detail/<int:pk>/",
         AdminDetailApplicationView.as_view(),
         name="admin_application_detail",
@@ -41,5 +51,15 @@ urlpatterns = [
         "admin/application/timeline/",
         AdminCreateApplicationTimeLineView.as_view(),
         name="admin_application_timeline_create",
+    ),
+    path(
+        "admin/application/referral/create/",
+        AdminCreateReferralAPIView.as_view(),
+        name="admin_application_referral_create",
+    ),
+    path(
+        "admin/application/update/<int:pk>/",
+        AdminUpdateApplicationView.as_view(),
+        name="admin_application_update_status",
     ),
 ]
