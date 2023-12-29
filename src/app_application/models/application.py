@@ -60,8 +60,8 @@ class Application(GeneralDateModel):
         )
         School_of_Physics = "School of Physics", _("School of Physics")
         School_of_Management_Economy_and_Progress_Engineering = (
-            "School of Management, Economy and Progress Engineering",
-            _("School of Management, Economy and Progress Engineering"),
+            "School of Management Economy and Progress Engineering",
+            _("School of Management Economy and Progress Engineering"),
         )
         School_of_Railway_Engineering = "School of Railway Engineering", _(
             "School of Railway Engineering"
@@ -267,8 +267,8 @@ class Application(GeneralDateModel):
         Metals_Forming = "Metals Forming", _("Metals Forming")
         Nanotechnology = "Nanotechnology - Materials", _("Nanotechnology - Materials")
         Energy_Systems_Energy_and_Environment = (
-            "Energy Systems - Energy and Environment|",
-            _("Energy Systems - Energy and Environment|"),
+            "Energy Systems - Energy and Environment",
+            _("Energy Systems - Energy and Environment"),
         )
         Satellite_Engineering = "Satellite Engineering", _("Satellite Engineering")
         Photonics = "Photonics", _("Photonics")

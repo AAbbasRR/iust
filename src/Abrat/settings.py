@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+
 from pathlib import Path
 from decouple import config
 
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # multi language
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     # cors-headers
     "corsheaders.middleware.CorsMiddleware",
@@ -48,6 +52,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # custom middlewares
     "utils.middleware.TransactionMiddleware",
+    # "utils.middleware.LanguageMiddleware",
 ]
 
 ROOT_URLCONF = "Abrat.urls"
@@ -134,7 +139,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Internationalization
-LANGUAGE_CODE = "en-us"
+LANGUAGES = [
+    ("en", _("English")),
+    ("fa", _("Persian")),
+]
+LANGUAGE_CODE = "fa"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
@@ -164,6 +173,11 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_REGEX_WHITELIST = config(
     "CORS_ORIGIN_REGEX_WHITELIST", cast=lambda v: [s.strip() for s in v.split(",")]
 )
+
+# __django multi language settings__ #
+LOCALE_PATHS = [
+    BASE_DIR / "locale/",
+]
 
 # __Email Settings__ #
 DEPENDENT_EMAIL_ON_DEBUG = config("DEPENDENT_EMAIL_ON_DEBUG", cast=bool, default=True)
