@@ -6,7 +6,12 @@ from rest_framework import serializers, exceptions
 
 from import_export import resources, fields
 
-from app_application.models import ApplicationModel, DocumentModel, TimeLineModel
+from app_application.models import (
+    ApplicationModel,
+    ReferralModel,
+    DocumentModel,
+    TimeLineModel,
+)
 from app_user.models import UserModel
 from app_admin.models import AdminModel
 
@@ -20,6 +25,7 @@ class AdminApplicationListSerializer(serializers.ModelSerializer):
         source="get_field_of_study_display", read_only=True
     )
     status = serializers.CharField(source="get_status_display", read_only=True)
+    status_value = serializers.CharField(source="status", read_only=True)
 
     user = serializers.SerializerMethodField("get_user")
 
@@ -32,6 +38,7 @@ class AdminApplicationListSerializer(serializers.ModelSerializer):
             "faculty",
             "field_of_study",
             "status",
+            "status_value",
             "jalali_created_at",
             "user",
         )
@@ -49,6 +56,7 @@ class AdminApplicationListSerializer(serializers.ModelSerializer):
 
 
 class AdminApplicationExportResource(resources.ModelResource):
+    tracking_id = fields.Field(column_name=_("tracking_id"))
     degree = fields.Field(column_name=_("degree"))
     faculty = fields.Field(column_name=_("faculty"))
     field_of_study = fields.Field(column_name=_("field_of_study"))
@@ -65,7 +73,6 @@ class AdminApplicationExportResource(resources.ModelResource):
     class Meta:
         model = ApplicationModel
         fields = (
-            "id",
             "tracking_id",
             "degree",
             "faculty",
@@ -86,6 +93,9 @@ class AdminApplicationExportResource(resources.ModelResource):
 
     def dehydrate_faculty(self, obj):
         return obj.get_faculty_display()
+
+    def dehydrate_tracking_id(self, obj):
+        return obj.tracking_id
 
     def dehydrate_field_of_study(self, obj):
         return obj.get_field_of_study_display()
@@ -109,7 +119,7 @@ class AdminApplicationExportResource(resources.ModelResource):
         return obj.user.user_profile.get_full_name()
 
     def dehydrate_user_gender(self, obj):
-        return obj.user.user_profile.gender
+        return obj.user.user_profile.get_gender_display()
 
     def dehydrate_user_country(self, obj):
         return obj.user.user_address.country
@@ -236,6 +246,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
     can_submit_application = serializers.SerializerMethodField(
         "get_can_submit_application"
     )
+    status_value = serializers.CharField(source="status", read_only=True)
 
     class Meta:
         model = ApplicationModel
@@ -246,6 +257,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
             "faculty",
             "field_of_study",
             "status",
+            "status_value",
             "jalali_created_at",
             "application_document",
             "application_timeline",
@@ -268,7 +280,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
     def get_user(self, obj):
         return {
             "full_name": obj.user.user_profile.get_full_name(),
-            "gender": obj.user.user_profile.gender,
+            "gender": obj.user.user_profile.get_gender_display(),
             "country": obj.user.user_address.country,
             "city": obj.user.user_address.city,
             "age": obj.user.user_profile.age,
@@ -313,28 +325,33 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
         return self.user.is_superuser or user_rule is not None
 
     def get_staffs(self, obj):
+        user_faculty_rule = self.user.user_admin.filter(
+            role=AdminModel.AdminRoleOptions.faculty_director,
+            schools=obj.faculty,
+        ).first()
         superusers_data = []
-        superusers = UserModel.objects.filter(is_superuser=True).exclude(
-            pk=self.user.id
-        )
-        for user in superusers:
-            superusers_data.append(
-                {
-                    "id": user.id,
-                    "role": "superuser",
-                    "role_display": _("Superuser"),
-                    "sub": user.sub,
-                    "username": user.username,
-                    "full_name": user.get_full_name(),
-                }
+        if self.user.is_superuser or user_faculty_rule is not None:
+            superusers = UserModel.objects.filter(is_superuser=True).exclude(
+                pk=self.user.id
             )
+            for user in superusers:
+                superusers_data.append(
+                    {
+                        "id": user.id,
+                        "role": "superuser",
+                        "role_display": _("Superuser"),
+                        "sub": user.sub,
+                        "username": user.username,
+                        "full_name": user.get_full_name(),
+                    }
+                )
         staffs = (
             AdminModel.objects.filter(
                 Q(schools=obj.faculty)
                 & Q(role=AdminModel.AdminRoleOptions.faculty_director)
                 | Q(fields=obj.field_of_study)
             )
-            .exclude(pk=self.user.id)
+            .exclude(user__pk=self.user.id)
             .annotate(
                 custom_order=Case(
                     *[
@@ -366,7 +383,13 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
 
 
 class AdminUpdateApplicationSerializer(serializers.ModelSerializer):
-    message = serializers.CharField(max_length=500, required=False, write_only=True)
+    message = serializers.CharField(
+        max_length=500,
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+        write_only=True,
+    )
 
     class Meta:
         model = ApplicationModel
@@ -399,6 +422,10 @@ class AdminUpdateApplicationSerializer(serializers.ModelSerializer):
                 else TimeLineModel.TimeLineStatusOptions.Rejection,
                 message=validated_data.pop("message", "ثبت نهایی وضعیت پرونده"),
             )
+            ReferralModel.objects.filter(
+                application=instance,
+                is_enabled=True,
+            ).update(is_enabled=False)
             return instance
         else:
             raise exceptions.ParseError(BaseErrors.user_cant_edit_application_status)

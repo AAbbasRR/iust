@@ -2,6 +2,7 @@ from rest_framework import serializers, exceptions
 
 from app_admin.models import AdminModel
 from app_application.models import ReferralModel, TimeLineModel
+from app_user.models import UserModel
 
 from utils.base_errors import BaseErrors
 
@@ -148,6 +149,15 @@ class AdminCreateReferralSerializer(serializers.ModelSerializer):
                             status=TimeLineModel.TimeLineStatusOptions.Investigation,
                             message=f"ارجاع به مدیر دانشکده ({attrs['destination_user'].get_full_name()}) با کد پرسنلی {attrs['destination_user'].sub}",
                         )
+                        members = UserModel.objects.filter(
+                            user_admin__schools=attrs["application"].faculty,
+                            user_admin__fields=attrs["application"].field_of_study,
+                        )
+                        ReferralModel.objects.filter(
+                            destination_user__in=members,
+                            application=attrs["application"],
+                            is_enabled=True,
+                        ).update(is_enabled=False)
                     else:
                         raise exceptions.ParseError(
                             BaseErrors.cant_referral_to_this_user

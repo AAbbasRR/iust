@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path
 
 from .views import *
 
@@ -46,4 +46,6 @@ urlpatterns = [
     ),
     # user details
     path("user/detail/", UserProfileDetailView.as_view(), name="user_detail"),
+    # admin details
+    path("admin/detail/", AdminDetailDataView.as_view(), name="admin_detail"),
 ]

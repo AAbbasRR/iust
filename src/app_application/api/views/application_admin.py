@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.db.models import Q
 
 from rest_framework import generics
 
@@ -44,12 +45,8 @@ class AdminAllApplicationView(generics.ListAPIView):
                 .values_list("schools", flat=True)
                 .distinct()
             )
-            director_applications = ApplicationModel.objects.filter(
-                faculty__in=list(user_faculty)
-            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
             user_member_rules = AdminModel.objects.filter(
                 user=self.request.user,
-                role__exact=AdminModel.AdminRoleOptions.faculty_director,
             )
             schools_list = list(
                 user_member_rules.values_list("schools", flat=True).distinct()
@@ -57,11 +54,13 @@ class AdminAllApplicationView(generics.ListAPIView):
             fields_list = list(
                 user_member_rules.values_list("fields", flat=True).distinct()
             )
-            member_applications = ApplicationModel.objects.filter(
-                faculty__in=schools_list, field_of_study__in=fields_list
+            director_applications = ApplicationModel.objects.filter(
+                faculty__in=list(user_faculty)
             ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            merged_queryset = director_applications.union(member_applications)
-            merged_queryset = merged_queryset.distinct()
+            member_applications = ApplicationModel.objects.filter(
+                Q(faculty__in=schools_list) & Q(field_of_study__in=fields_list)
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            merged_queryset = director_applications | member_applications
             return merged_queryset
 
 
@@ -90,12 +89,8 @@ class AdminExportApplicationListView(generics.GenericAPIView):
                 .values_list("schools", flat=True)
                 .distinct()
             )
-            director_applications = ApplicationModel.objects.filter(
-                faculty__in=list(user_faculty)
-            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
             user_member_rules = AdminModel.objects.filter(
                 user=self.request.user,
-                role__exact=AdminModel.AdminRoleOptions.faculty_director,
             )
             schools_list = list(
                 user_member_rules.values_list("schools", flat=True).distinct()
@@ -103,11 +98,13 @@ class AdminExportApplicationListView(generics.GenericAPIView):
             fields_list = list(
                 user_member_rules.values_list("fields", flat=True).distinct()
             )
-            member_applications = ApplicationModel.objects.filter(
-                faculty__in=schools_list, field_of_study__in=fields_list
+            director_applications = ApplicationModel.objects.filter(
+                faculty__in=list(user_faculty)
             ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            merged_queryset = director_applications.union(member_applications)
-            merged_queryset = merged_queryset.distinct()
+            member_applications = ApplicationModel.objects.filter(
+                Q(faculty__in=schools_list) & Q(field_of_study__in=fields_list)
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            merged_queryset = director_applications | member_applications
             return merged_queryset
 
     def get(self, *args, **kwargs):
@@ -185,12 +182,8 @@ class AdminDetailApplicationView(generics.RetrieveAPIView):
                 .values_list("schools", flat=True)
                 .distinct()
             )
-            director_applications = ApplicationModel.objects.filter(
-                faculty__in=list(user_faculty)
-            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
             user_member_rules = AdminModel.objects.filter(
                 user=self.request.user,
-                role__exact=AdminModel.AdminRoleOptions.faculty_director,
             )
             schools_list = list(
                 user_member_rules.values_list("schools", flat=True).distinct()
@@ -198,11 +191,13 @@ class AdminDetailApplicationView(generics.RetrieveAPIView):
             fields_list = list(
                 user_member_rules.values_list("fields", flat=True).distinct()
             )
-            member_applications = ApplicationModel.objects.filter(
-                faculty__in=schools_list, field_of_study__in=fields_list
+            director_applications = ApplicationModel.objects.filter(
+                faculty__in=list(user_faculty)
             ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            merged_queryset = director_applications.union(member_applications)
-            merged_queryset = merged_queryset.distinct()
+            member_applications = ApplicationModel.objects.filter(
+                Q(faculty__in=schools_list) & Q(field_of_study__in=fields_list)
+            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+            merged_queryset = director_applications | member_applications
             return merged_queryset
 
 

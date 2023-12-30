@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-29 13:49+0330\n"
+"POT-Creation-Date: 2023-12-31 00:00+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: Abrat/settings.py:142
+#: Abrat/settings.py:143
 #, fuzzy
 #| msgid "English Status"
 msgid "English"
 msgstr "وضعیت بلد بودن زبان انگلیسی"
 
-#: Abrat/settings.py:143
+#: Abrat/settings.py:144
 #, fuzzy
 #| msgid "Persian Status"
 msgid "Persian"
@@ -243,15 +243,11 @@ msgid "Land Spaces Architecture"
 msgstr "معماری فضاهای زمین"
 
 #: app_admin/models/admin.py:133 app_application/models/application.py:135
-msgid ""
-"Conservation and Restoration of Historical Buildings and Fabrics – "
-"Conservation and Restoration of Urban Heritage"
+msgid "Conservation and Restoration of Historical Buildings and Fabrics – Conservation and Restoration of Urban Heritage"
 msgstr "حفاظت و مرمت ابنیه و پارچه های تاریخی - حفاظت و احیای میراث شهری"
 
 #: app_admin/models/admin.py:139 app_application/models/application.py:141
-msgid ""
-"Conservation and Restoration of Historical Buildings and Fabrics – "
-"Conservation and Restoration of Architectural Heritage"
+msgid "Conservation and Restoration of Historical Buildings and Fabrics – Conservation and Restoration of Architectural Heritage"
 msgstr "حفاظت و مرمت ابنیه و پارچه های تاریخی - حفاظت و احیای میراث شهری"
 
 #: app_admin/models/admin.py:141 app_application/models/application.py:143
@@ -275,8 +271,7 @@ msgid "Automotive Engineering - Body and Structure"
 msgstr "مهندسی خودرو - بدنه و سازه"
 
 #: app_admin/models/admin.py:157 app_application/models/application.py:159
-msgid ""
-"Automotive Engineering - Automotive Electronics & Electrical Engineering"
+msgid "Automotive Engineering - Automotive Electronics & Electrical Engineering"
 msgstr "مهندسی خودرو - الکترونیک خودرو و مهندسی برق"
 
 #: app_admin/models/admin.py:159 app_application/models/application.py:161
@@ -606,55 +601,61 @@ msgstr "دانشکده ها"
 msgid "Fields"
 msgstr "درس های تحصیلی"
 
-#: app_application/api/serializers/application_admin.py:52
+#: app_application/api/serializers/application_admin.py:54
+#, fuzzy
+#| msgid "Tracking ID"
+msgid "tracking_id"
+msgstr "کد پیگیری"
+
+#: app_application/api/serializers/application_admin.py:55
 msgid "degree"
 msgstr "مدرک"
 
-#: app_application/api/serializers/application_admin.py:53
+#: app_application/api/serializers/application_admin.py:56
 msgid "faculty"
 msgstr "دانشکده"
 
-#: app_application/api/serializers/application_admin.py:54
+#: app_application/api/serializers/application_admin.py:57
 msgid "field_of_study"
 msgstr "رشته تحصییلی"
 
-#: app_application/api/serializers/application_admin.py:55
+#: app_application/api/serializers/application_admin.py:58
 msgid "status"
 msgstr "وضعیت"
 
-#: app_application/api/serializers/application_admin.py:56
+#: app_application/api/serializers/application_admin.py:59
 msgid "jalali_created_at"
 msgstr "جلالی کد ایجاد"
 
-#: app_application/api/serializers/application_admin.py:57
+#: app_application/api/serializers/application_admin.py:60
 msgid "user_id"
 msgstr "آیدی"
 
-#: app_application/api/serializers/application_admin.py:58
+#: app_application/api/serializers/application_admin.py:61
 msgid "user_agent"
 msgstr "ایجنت"
 
-#: app_application/api/serializers/application_admin.py:59
+#: app_application/api/serializers/application_admin.py:62
 msgid "user_full_name"
 msgstr "نام و نام خانوادگی"
 
-#: app_application/api/serializers/application_admin.py:60
+#: app_application/api/serializers/application_admin.py:63
 msgid "user_gender"
 msgstr "جنسیت"
 
-#: app_application/api/serializers/application_admin.py:61
+#: app_application/api/serializers/application_admin.py:64
 msgid "user_country"
 msgstr "کشور"
 
-#: app_application/api/serializers/application_admin.py:62
+#: app_application/api/serializers/application_admin.py:65
 msgid "user_age"
 msgstr "سن"
 
-#: app_application/api/serializers/application_admin.py:63
+#: app_application/api/serializers/application_admin.py:66
 msgid "user_applications_count"
 msgstr "تعداد پرونده های کاربر"
 
-#: app_application/api/serializers/application_admin.py:325
+#: app_application/api/serializers/application_admin.py:337
 msgid "Superuser"
 msgstr "مدیر اصلی"
 
@@ -1220,8 +1221,7 @@ msgid "User Not Found"
 msgstr "کاربر پیدا نشد"
 
 #: utils/base_errors.py:34
-msgid ""
-"You Do Not Have Access To Change The Password, Please Try Again First Step."
+msgid "You Do Not Have Access To Change The Password, Please Try Again First Step."
 msgstr "شما نمیتوانید رمز عبور خود را تغییر دهید، لطفا از مرحله اول تلاش کنید"
 
 #: utils/base_errors.py:36
@@ -1234,8 +1234,7 @@ msgstr "رمزعبور قبلی اشتباه است"
 
 #: utils/base_errors.py:41
 msgid "OTP Code Expired, Please Try To Resend New OTP Code."
-msgstr ""
-"کد یکبار مصرف منقضی شده است، لطفا برای درخواست ارسال کد جدید اقدام کنید"
+msgstr "کد یکبار مصرف منقضی شده است، لطفا برای درخواست ارسال کد جدید اقدام کنید"
 
 #: utils/base_errors.py:42
 msgid "Invalid OTP Code, Please Try Again."

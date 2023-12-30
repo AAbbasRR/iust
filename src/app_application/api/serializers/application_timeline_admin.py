@@ -2,7 +2,7 @@ from django.db.models import Q
 
 from rest_framework import serializers, exceptions
 
-from app_application.models import TimeLineModel, ReferralModel, ApplicationModel
+from app_application.models import TimeLineModel, ApplicationModel
 from app_admin.models import AdminModel
 
 from utils.base_errors import BaseErrors
@@ -43,10 +43,4 @@ class AdminApplicationTimeLineSerializer(serializers.ModelSerializer):
             raise exceptions.ParseError(BaseErrors.cant_create_comment_for_application)
 
     def create(self, validated_data):
-        timeline_obj = TimeLineModel.objects.create(user=self.user, **validated_data)
-        ReferralModel.objects.filter(
-            destination_user=self.user,
-            application=validated_data["application"],
-            is_enabled=True,
-        ).update(is_enabled=False)
-        return timeline_obj
+        return TimeLineModel.objects.create(user=self.user, **validated_data)
