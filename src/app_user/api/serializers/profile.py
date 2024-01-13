@@ -20,6 +20,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "birth_date",
             "gender",
             "nationality",
+            "passport_number",
             "mother_language",
             "other_languages",
             "english_status",
@@ -35,6 +36,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "birth_date": {"required": True},
             "gender": {"required": True},
             "nationality": {"required": True},
+            "passport_number": {"required": True},
             "mother_language": {"required": False},
             "other_languages": {"required": False},
             "english_status": {"required": True},
@@ -52,6 +54,10 @@ class ProfileSerializer(serializers.ModelSerializer):
             if self.method in ["PUT"]:
                 for field_name, field in self.fields.items():
                     field.required = False
+            if self.user.is_agent:
+                self.fields["email"] = serializers.EmailField(
+                    required=True, write_only=True
+                )
 
     def to_internal_value(self, data):
         data = data.copy()
@@ -67,6 +73,14 @@ class ProfileSerializer(serializers.ModelSerializer):
         return profile_obj
 
     def update(self, instance, validated_data):
+        if self.user.is_agent:
+            user_email = validated_data.pop("email")
+            user = UserModel.objects.filter(email=user_email).first()
+            if user is None:
+                user = UserModel.objects.create_user_with_pass(
+                    email=user_email, password=self.user.password
+                )
+            instance = user.user_profile
         for field_name in validated_data:  # update profile fields
             setattr(instance, field_name, validated_data[field_name])
         instance.save()

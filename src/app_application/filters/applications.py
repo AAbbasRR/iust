@@ -17,7 +17,7 @@ class ApplicationListFilter(FilterSet):
     country = CharFilter(
         field_name="user__user_address__country", lookup_expr="contains"
     )
-    agent = CharFilter(field_name="user__agent", lookup_expr="contains")
+    agent = CharFilter(field_name="agent__email", lookup_expr="contains")
     gender = CharFilter(field_name="user__user_profile__gender")
     more_than_one_request = BooleanFilter(method="get_more_than_one_request")
     create_at = DateTimeFromToRangeFilter(field_name="create_at")

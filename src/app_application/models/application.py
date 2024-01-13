@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from app_user.models import UserModel
 
@@ -357,6 +357,14 @@ class Application(GeneralDateModel):
         on_delete=models.CASCADE,
         related_name="user_application",
         verbose_name=_("User"),
+    )
+    agent = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+        related_name="agent_applications",
+        null=True,
+        blank=True,
+        verbose_name=_("Agent Email"),
     )
     tracking_id = models.CharField(
         max_length=12,

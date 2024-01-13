@@ -1,4 +1,4 @@
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 
 class BaseErrors:
@@ -28,6 +28,7 @@ class BaseErrors:
     # login
     invalid_email_or_password = _("Invalid Email or Password.")
     user_account_not_active = _("User Account Not Active.")
+    user_account_is_locked = _("Your Account Is Locked")
     # forget pass
     user_not_found = _("User Not Found")
     user_dont_have_forget_password_permission = _(
@@ -44,8 +45,11 @@ class BaseErrors:
 
     # api serializer
     tracking_id_not_found = _('"tracking_id" Not Found Or Is Invalid')
-
+    cant_create_duplicate_application = _(
+        "cant create this application with field of study, you have already application"
+    )
     invalid_file_formats = _('Only "{formats}" formats are allowed.')
+    invalid_file_size = _("The File Size Is To Many Large")
 
     # admin
     user_is_not_admin = _("User Is Not Admin")

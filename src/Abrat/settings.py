@@ -143,7 +143,7 @@ LANGUAGES = [
     ("en", _("English")),
     ("fa", _("Persian")),
 ]
-LANGUAGE_CODE = "fa"
+LANGUAGE_CODE = "en"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True

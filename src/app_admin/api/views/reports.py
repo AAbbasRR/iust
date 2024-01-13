@@ -10,11 +10,6 @@ from app_user.models import AddressModel, ProfileModel
 from utils.versioning import BaseVersioning
 from utils.permissions import IsAuthenticatedPermission, IsAdminUserPermission
 
-from jdatetime import (
-    datetime,
-    timedelta,
-)
-
 
 class AdminCountryRequestsCountAPIView(generics.GenericAPIView):
     permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from app_occupation.models import LatestOccupationModel
+from app_user.models import UserModel
 
 
 class LatestOccupationSerializer(serializers.ModelSerializer):
@@ -36,8 +37,20 @@ class LatestOccupationSerializer(serializers.ModelSerializer):
             if self.method in ["PUT", "PATCH"]:
                 for field_name, field in self.fields.items():
                     field.required = False
+            if self.user.is_agent:
+                self.fields["email"] = serializers.EmailField(
+                    required=True, write_only=True
+                )
 
     def update(self, instance, validated_data):
+        if self.user.is_agent:
+            user_email = validated_data.pop("email")
+            user = UserModel.objects.filter(email=user_email).first()
+            if user is None:
+                user = UserModel.objects.create_user_with_pass(
+                    email=user_email, password=self.user.password
+                )
+            instance = user.user_latest_occupation
         for field_name in validated_data:  # update latest occupation fields
             setattr(instance, field_name, validated_data[field_name])
         instance.save()

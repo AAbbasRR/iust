@@ -24,4 +24,7 @@ class DocumentsDetailUpdateView(generics.RetrieveUpdateAPIView):
     lookup_field = "pk"
 
     def get_queryset(self):
-        return self.request.user.user_documents.all()
+        if self.request.user.is_agent:
+            return self.request.user.agent_applications.application_document.all()
+        else:
+            return self.request.user.user_documents.all()

@@ -19,8 +19,4 @@ def validate_image_file(value):
         )
 
     if value.size > MAX_DOCUMENTS_SIZE:
-        raise ValidationError(
-            BaseErrors._change_error_variable(
-                "invalid_file_formats", size=MAX_DOCUMENTS_SIZE
-            )
-        )
+        raise ValidationError(BaseErrors._change_error_variable("invalid_file_size"))

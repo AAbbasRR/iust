@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
 from Abrat.settings import DEBUG
@@ -87,6 +87,9 @@ class Profile(GeneralDateModel):
         choices=ProfileLanguageOptions.choices,
         default=ProfileLanguageOptions.Good,
         verbose_name=_("Persian Status"),
+    )
+    passport_number = models.CharField(
+        max_length=10, null=True, blank=True, verbose_name=_("Passport Number")
     )
 
     objects = ProfileManager()

@@ -16,7 +16,10 @@ class ListAllApplicationsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
 
     def get_queryset(self):
-        return self.request.user.user_application.all()
+        if self.request.user.is_agent:
+            return self.request.user.agent_applications.all()
+        else:
+            return self.request.user.user_application.all()
 
 
 class ApplicationCreateView(generics.CreateAPIView):
@@ -37,4 +40,7 @@ class ApplicationDetailUpdateView(generics.RetrieveUpdateAPIView):
     lookup_field = "pk"
 
     def get_queryset(self):
-        return self.request.user.user_application.all()
+        if self.request.user.is_agent:
+            return self.request.user.agent_applications.all()
+        else:
+            return self.request.user.user_application.all()

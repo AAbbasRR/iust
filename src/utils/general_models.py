@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from Abrat.settings import DATE_INPUT_FORMATS, TIME_INPUT_FORMATS
 
@@ -66,6 +66,10 @@ class GeneralEducationModel(GeneralAddressModel):
         blank=True,
         verbose_name=_("Field Of Study"),
     )
+
+    def save(self, *args, **kwargs):
+        self.gpa = round(self.gpa, 2)
+        return super().save(*args, **kwargs)
 
     class Meta:
         abstract = True

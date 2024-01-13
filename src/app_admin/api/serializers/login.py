@@ -3,7 +3,7 @@ from rest_framework.authtoken.models import Token
 
 from app_user.models import UserModel
 
-from utils import Redis, BaseErrors, ManageMailService, RedisKeys
+from utils import BaseErrors
 
 
 class AdminLoginSerializer(serializers.Serializer):
@@ -23,7 +23,11 @@ class AdminLoginSerializer(serializers.Serializer):
             user_obj.set_last_login()
             user_token = Token.objects.get(user=user_obj)
             return {
-                "id": user_obj.id,
-                "email": user_obj.email,
+                "sub": user_obj.sub,
+                "is_superuser": user_obj.is_superuser,
+                "is_staff": user_obj.is_staff,
+                "username": user_obj.username,
+                "picurl": user_obj.picurl,
+                "full_name": user_obj.get_full_name(),
                 "auth_token": user_token.key,
             }

@@ -39,8 +39,16 @@ class DocumentsSerializer(serializers.ModelSerializer):
                     field.required = False
 
     def validate_tracking_id(self, value):
-        application_obj = ApplicationModel.objects.find_with_tracking_id(value)
+        if self.user.is_agent:
+            application_obj = ApplicationModel.objects.filter(
+                tracking_id=value, agent=self.user
+            ).first()
+        else:
+            application_obj = ApplicationModel.objects.filter(
+                tracking_id=value, user=self.user
+            ).first()
         if application_obj is not None:
+            self.user = application_obj.user
             return application_obj
         else:
             raise exceptions.NotFound(BaseErrors.tracking_id_not_found)

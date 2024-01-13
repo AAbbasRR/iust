@@ -20,6 +20,9 @@ UserModel = get_user_model()
 @receiver(post_save, sender=UserModel)
 def create_user_handler(sender, instance, **kwargs):
     if kwargs["created"]:
+        if instance.is_agent:
+            instance.locked = True
+            instance.save()
         Token.objects.create(user=instance)
         ProfileModel.objects.create(user=instance)
         AddressModel.objects.create(user=instance)
