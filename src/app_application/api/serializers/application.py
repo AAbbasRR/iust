@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers, exceptions
 
-from app_application.models import ApplicationModel, TimeLineModel
+from app_application.models import ApplicationModel, TimeLineModel, ReferralModel
 from app_user.api.serializers.profile import ProfileSerializer
 from app_user.api.serializers.address import AddressSerializer
 from app_education.api.serializers.high_school import HighSchoolSerializer
@@ -104,7 +104,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
         if obj.status == ApplicationModel.ApplicationStatusOptions.NeedToEdit:
             last_timeline = TimeLineModel.objects.filter(
                 application=obj,
-                status=TimeLineModel.TimeLineStatusOptions.Investigation,
+                status=TimeLineModel.TimeLineStatusOptions.NeedToEdit,
             ).last()
             return last_timeline.message
         else:
@@ -188,6 +188,26 @@ class ApplicationSerializer(serializers.ModelSerializer):
                 and instance.full_name is not None
                 and have_document
             ):
+                if (
+                    instance.status
+                    == ApplicationModel.ApplicationStatusOptions.NeedToEdit
+                ):
+                    last_comment_in_application = TimeLineModel.objects.filter(
+                        application=instance,
+                        status=TimeLineModel.TimeLineStatusOptions.Investigation,
+                    ).last()
+                    if last_comment_in_application is not None:
+                        ReferralModel.objects.create(
+                            application=instance,
+                            origin_user=instance.user,
+                            destination_user=last_comment_in_application.user,
+                        )
+                        TimeLineModel.objects.create(
+                            application=instance,
+                            user=instance.user,
+                            status=TimeLineModel.TimeLineStatusOptions.Referral,
+                            message="رفع ایرادات از سمت کاربر",
+                        )
                 instance.status = ApplicationModel.ApplicationStatusOptions.Current
             instance.save()
             return instance

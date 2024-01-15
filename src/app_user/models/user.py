@@ -1,8 +1,13 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager, update_last_login
 from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
+from django.core.management import settings
+
+from jalali_date import datetime2jalali
 
 from utils import BaseErrors
+
+from datetime import timedelta
 
 
 class UserManager(BaseUserManager):
@@ -124,6 +129,16 @@ class User(AbstractUser):
             self.is_active = True
             self.save()
         return self
+
+    def jalali_date_joined(self, tehran_time=True):
+        if tehran_time is True:
+            return datetime2jalali(
+                self.date_joined + timedelta(hours=3, minutes=30)
+            ).strftime(f"{settings.DATE_INPUT_FORMATS} - {settings.TIME_INPUT_FORMATS}")
+        else:
+            return datetime2jalali(self.date_joined).strftime(
+                f"{settings.DATE_INPUT_FORMATS} - {settings.TIME_INPUT_FORMATS}"
+            )
 
     def set_last_login(self):
         """

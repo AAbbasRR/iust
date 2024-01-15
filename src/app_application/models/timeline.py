@@ -16,6 +16,8 @@ class TimeLine(GeneralDateModel):
         Confirmation = "Confirmation", _("Confirmation")
         Rejection = "Rejection", _("Rejection")
         Investigation = "Investigation", _("Investigation")
+        Referral = "Referral", _("Referral")
+        NeedToEdit = "NeedToEdit", _("Need To Edit")
 
     application = models.ForeignKey(
         ApplicationModel,

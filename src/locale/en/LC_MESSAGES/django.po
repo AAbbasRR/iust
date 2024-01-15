@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-14 00:35+0330\n"
+"POT-Creation-Date: 2024-01-16 01:12+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -580,13 +580,13 @@ msgid "Science of Technology Policy"
 msgstr ""
 
 #: app_admin/models/admin.py:345 app_application/models/application.py:359
-#: app_application/models/documents.py:41 app_application/models/timeline.py:30
+#: app_application/models/documents.py:41 app_application/models/timeline.py:32
 #: app_chat/models/chat_room.py:71 app_education/models/bachelor_degree.py:19
 #: app_education/models/high_school.py:19
 #: app_education/models/master_degree.py:19
 #: app_notification/models/notification.py:24
 #: app_occupation/models/latest_occupation.py:30 app_user/models/address.py:23
-#: app_user/models/profile.py:39 app_user/models/user.py:72
+#: app_user/models/profile.py:39 app_user/models/user.py:77
 msgid "User"
 msgstr ""
 
@@ -668,7 +668,7 @@ msgstr ""
 
 #: app_application/models/application.py:16
 #: app_application/models/documents.py:35 app_application/models/referral.py:19
-#: app_application/models/timeline.py:24
+#: app_application/models/timeline.py:26
 msgid "Application"
 msgstr ""
 
@@ -693,6 +693,7 @@ msgid "Rejected"
 msgstr ""
 
 #: app_application/models/application.py:348
+#: app_application/models/timeline.py:20
 msgid "Need To Edit"
 msgstr ""
 
@@ -733,7 +734,7 @@ msgid "Financial Self Support"
 msgstr ""
 
 #: app_application/models/application.py:390
-#: app_application/models/timeline.py:36 app_chat/models/chat_room.py:41
+#: app_application/models/timeline.py:38 app_chat/models/chat_room.py:41
 #: app_notification/models/notification.py:33
 msgid "Status"
 msgstr ""
@@ -827,7 +828,11 @@ msgstr ""
 msgid "Investigation"
 msgstr ""
 
-#: app_application/models/timeline.py:38 app_chat/models/chat_room.py:73
+#: app_application/models/timeline.py:19
+msgid "Referral"
+msgstr ""
+
+#: app_application/models/timeline.py:40 app_chat/models/chat_room.py:73
 #: app_notification/models/notification.py:27
 msgid "Message"
 msgstr ""
@@ -1145,39 +1150,39 @@ msgstr ""
 msgid "Persian Status"
 msgstr ""
 
-#: app_user/models/profile.py:95
+#: app_user/models/profile.py:92
 msgid "Passport Number"
 msgstr ""
 
-#: app_user/models/user.py:73
+#: app_user/models/user.py:78
 msgid "Users"
 msgstr ""
 
-#: app_user/models/user.py:86
+#: app_user/models/user.py:91
 msgid "Sub Code"
 msgstr ""
 
-#: app_user/models/user.py:89
+#: app_user/models/user.py:94
 msgid "Picture URL"
 msgstr ""
 
-#: app_user/models/user.py:95
+#: app_user/models/user.py:100
 msgid "Email"
 msgstr ""
 
-#: app_user/models/user.py:100
+#: app_user/models/user.py:105
 msgid "Is Active"
 msgstr ""
 
-#: app_user/models/user.py:102
+#: app_user/models/user.py:107
 msgid "Is Agent"
 msgstr ""
 
-#: app_user/models/user.py:103
+#: app_user/models/user.py:108
 msgid "Is Locked"
 msgstr ""
 
-#: app_user/models/user.py:108
+#: app_user/models/user.py:113
 msgid "Admin Role"
 msgstr ""
 
@@ -1270,40 +1275,40 @@ msgid ""
 "application"
 msgstr ""
 
-#: utils/base_errors.py:50
+#: utils/base_errors.py:51
 #, python-brace-format
 msgid "Only \"{formats}\" formats are allowed."
 msgstr ""
 
-#: utils/base_errors.py:51
+#: utils/base_errors.py:52
 msgid "The File Size Is To Many Large"
 msgstr ""
 
-#: utils/base_errors.py:54
+#: utils/base_errors.py:55
 msgid "User Is Not Admin"
 msgstr ""
 
-#: utils/base_errors.py:57
+#: utils/base_errors.py:58
 msgid "Message Success Viewed"
 msgstr ""
 
-#: utils/base_errors.py:61
+#: utils/base_errors.py:62
 msgid "You Do Not Have Permission For Referral This Application"
 msgstr ""
 
-#: utils/base_errors.py:63
+#: utils/base_errors.py:64
 msgid "Cant Referral Application To User"
 msgstr ""
 
-#: utils/base_errors.py:67
+#: utils/base_errors.py:68
 msgid "You Do Not Have Permission For This Application"
 msgstr ""
 
-#: utils/base_errors.py:69
+#: utils/base_errors.py:70
 msgid "You Cant Edit Application Status"
 msgstr ""
 
-#: utils/base_errors.py:70
+#: utils/base_errors.py:71
 msgid "Cant Create Comment For This Application"
 msgstr ""
 

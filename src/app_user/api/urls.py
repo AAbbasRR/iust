@@ -30,6 +30,18 @@ urlpatterns = [
         CompleteForgetPasswordView.as_view(),
         name="user_complete_forget_password",
     ),
+    # admin staffs
+    path("agents/list/", AdminAgentsListAPIView.as_view(), name="admin_agents_list"),
+    path(
+        "agents/update/<int:pk>/",
+        AdminAgentUpdateAPIView.as_view(),
+        name="admin_agents_update",
+    ),
+    path(
+        "agents/list_applications/",
+        AdminAgentListApplicationsAPIView.as_view(),
+        name="admin_agents_applications_list",
+    ),
     # change password
     path("change_password/", ChangePasswordView.as_view(), name="user_change_password"),
     # manage profile account

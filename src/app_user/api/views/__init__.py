@@ -14,3 +14,8 @@ from .profile import ProfileDetailUpdateView
 from .address import AddressDetailUpdateView
 from .user import UserProfileDetailView
 from .admin_detail import AdminDetailDataView
+from .agents_admin import (
+    AdminAgentsListAPIView,
+    AdminAgentUpdateAPIView,
+    AdminAgentListApplicationsAPIView,
+)

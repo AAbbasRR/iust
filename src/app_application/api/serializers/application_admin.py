@@ -413,13 +413,21 @@ class AdminUpdateApplicationSerializer(serializers.ModelSerializer):
         if self.user.is_superuser or user_rule is not None:
             instance.status = validated_data["status"]
             instance.save()
+            time_line_status = TimeLineModel.TimeLineStatusOptions.NeedToEdit
+            if (
+                validated_data["status"]
+                == ApplicationModel.ApplicationStatusOptions.Accepted
+            ):
+                time_line_status = TimeLineModel.TimeLineStatusOptions.Confirmation
+            elif (
+                validated_data["status"]
+                == ApplicationModel.ApplicationStatusOptions.Rejected
+            ):
+                time_line_status = TimeLineModel.TimeLineStatusOptions.Rejection
             TimeLineModel.objects.create(
                 user=self.user,
                 application=instance,
-                status=TimeLineModel.TimeLineStatusOptions.Confirmation
-                if validated_data["status"]
-                == ApplicationModel.ApplicationStatusOptions.Accepted
-                else TimeLineModel.TimeLineStatusOptions.Rejection,
+                status=time_line_status,
                 message=validated_data.pop("message", "ثبت نهایی وضعیت پرونده"),
             )
             ReferralModel.objects.filter(
