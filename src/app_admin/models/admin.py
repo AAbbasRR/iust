@@ -174,8 +174,8 @@ class Admin(models.Model):
         Earthquake_Engineering = "Earthquake Engineering", _("Earthquake Engineering")
         Construction_Management_and_Engineering = (
             "Construction Management and Engineering",
+            _("Construction Management and Engineering"),
         )
-        _("Construction Management and Engineering"),
         Geotechnical_Engineering = "Geotechnical Engineering", _(
             "Geotechnical Engineering"
         )

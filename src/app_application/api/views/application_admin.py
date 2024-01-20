@@ -32,31 +32,9 @@ class AdminAllApplicationView(generics.ListAPIView):
                 status=ApplicationModel.ApplicationStatusOptions.Not_Completed
             )
         else:
-            user_faculty = (
-                AdminModel.objects.filter(
-                    user=self.request.user,
-                    role=AdminModel.AdminRoleOptions.faculty_director,
-                )
-                .values_list("schools", flat=True)
-                .distinct()
-            )
-            user_member_rules = AdminModel.objects.filter(
-                user=self.request.user,
-            )
-            schools_list = list(
-                user_member_rules.values_list("schools", flat=True).distinct()
-            )
-            fields_list = list(
-                user_member_rules.values_list("fields", flat=True).distinct()
-            )
-            director_applications = ApplicationModel.objects.filter(
-                faculty__in=list(user_faculty)
+            return ApplicationModel.objects.filter(
+                application_referral__destination_user=self.request.user
             ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            member_applications = ApplicationModel.objects.filter(
-                Q(faculty__in=schools_list) & Q(field_of_study__in=fields_list)
-            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            merged_queryset = director_applications | member_applications
-            return merged_queryset
 
 
 class AdminExportApplicationListView(generics.GenericAPIView):
@@ -71,31 +49,9 @@ class AdminExportApplicationListView(generics.GenericAPIView):
                 status=ApplicationModel.ApplicationStatusOptions.Not_Completed
             )
         else:
-            user_faculty = (
-                AdminModel.objects.filter(
-                    user=self.request.user,
-                    role=AdminModel.AdminRoleOptions.faculty_director,
-                )
-                .values_list("schools", flat=True)
-                .distinct()
-            )
-            user_member_rules = AdminModel.objects.filter(
-                user=self.request.user,
-            )
-            schools_list = list(
-                user_member_rules.values_list("schools", flat=True).distinct()
-            )
-            fields_list = list(
-                user_member_rules.values_list("fields", flat=True).distinct()
-            )
-            director_applications = ApplicationModel.objects.filter(
-                faculty__in=list(user_faculty)
+            return ApplicationModel.objects.filter(
+                application_referral__destination_user=self.request.user
             ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            member_applications = ApplicationModel.objects.filter(
-                Q(faculty__in=schools_list) & Q(field_of_study__in=fields_list)
-            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            merged_queryset = director_applications | member_applications
-            return merged_queryset
 
     def get(self, *args, **kwargs):
         resource_class = AdminApplicationExportResource()
@@ -154,31 +110,9 @@ class AdminDetailApplicationView(generics.RetrieveAPIView):
                 status=ApplicationModel.ApplicationStatusOptions.Not_Completed
             )
         else:
-            user_faculty = (
-                AdminModel.objects.filter(
-                    user=self.request.user,
-                    role=AdminModel.AdminRoleOptions.faculty_director,
-                )
-                .values_list("schools", flat=True)
-                .distinct()
-            )
-            user_member_rules = AdminModel.objects.filter(
-                user=self.request.user,
-            )
-            schools_list = list(
-                user_member_rules.values_list("schools", flat=True).distinct()
-            )
-            fields_list = list(
-                user_member_rules.values_list("fields", flat=True).distinct()
-            )
-            director_applications = ApplicationModel.objects.filter(
-                faculty__in=list(user_faculty)
+            return ApplicationModel.objects.filter(
+                application_referral__destination_user=self.request.user
             ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            member_applications = ApplicationModel.objects.filter(
-                Q(faculty__in=schools_list) & Q(field_of_study__in=fields_list)
-            ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
-            merged_queryset = director_applications | member_applications
-            return merged_queryset
 
 
 class AdminUpdateApplicationView(generics.UpdateAPIView):
@@ -202,5 +136,6 @@ class AdminUpdateApplicationView(generics.UpdateAPIView):
                 .distinct()
             )
             return ApplicationModel.objects.filter(
-                faculty__in=list(user_faculty)
+                faculty__in=list(user_faculty),
+                application_referral__destination_user=self.request.user,
             ).exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)

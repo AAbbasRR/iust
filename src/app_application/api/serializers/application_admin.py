@@ -203,6 +203,7 @@ class AdminApplicationTimeLineSerializer(serializers.ModelSerializer):
 class AdminRuleSerializer(serializers.ModelSerializer):
     id = serializers.SerializerMethodField("get_id")
     role_display = serializers.CharField(source="get_role_display", read_only=True)
+    fields_display = serializers.CharField(source="get_fields_display", read_only=True)
     sub = serializers.SerializerMethodField("get_sub")
     username = serializers.SerializerMethodField("get_username")
     full_name = serializers.SerializerMethodField("get_full_name")
@@ -216,6 +217,7 @@ class AdminRuleSerializer(serializers.ModelSerializer):
             "sub",
             "username",
             "full_name",
+            "fields_display",
         )
 
     def get_id(self, obj):
@@ -242,6 +244,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
     application_document = serializers.SerializerMethodField("get_application_document")
     application_timeline = serializers.SerializerMethodField("get_application_timeline")
     staffs = serializers.SerializerMethodField("get_staffs")
+    can_signature = serializers.SerializerMethodField("get_can_signature")
     can_referral = serializers.SerializerMethodField("get_can_referral")
     can_submit_application = serializers.SerializerMethodField(
         "get_can_submit_application"
@@ -265,6 +268,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
             "staffs",
             "can_referral",
             "can_submit_application",
+            "can_signature",
         )
 
     def __init__(self, *args, **kwargs):
@@ -324,6 +328,9 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
         ).first()
         return self.user.is_superuser or user_rule is not None
 
+    def get_can_signature(self, obj):
+        return self.user.is_superuser
+
     def get_staffs(self, obj):
         user_faculty_rule = self.user.user_admin.filter(
             role=AdminModel.AdminRoleOptions.faculty_director,
@@ -343,43 +350,26 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
                         "sub": user.sub,
                         "username": user.username,
                         "full_name": user.get_full_name(),
+                        "fields_display": _("Superuser"),
                     }
                 )
+        faculty_director = AdminModel.objects.filter(
+            schools=obj.faculty, role=AdminModel.AdminRoleOptions.faculty_director
+        ).exclude(user__pk=self.user.id)
+        faculty_director_data = AdminRuleSerializer(faculty_director, many=True).data
         staffs = (
             AdminModel.objects.filter(
-                Q(schools=obj.faculty)
-                & Q(role=AdminModel.AdminRoleOptions.faculty_director)
-                | Q(fields=obj.field_of_study)
+                schools=obj.faculty,
+                role__in=[
+                    AdminModel.AdminRoleOptions.department_head,
+                    AdminModel.AdminRoleOptions.department_member,
+                ],
             )
             .exclude(user__pk=self.user.id)
-            .annotate(
-                custom_order=Case(
-                    *[
-                        When(role=value, then=Value(index))
-                        for index, value in enumerate(
-                            [
-                                AdminModel.AdminRoleOptions.faculty_director,
-                                AdminModel.AdminRoleOptions.department_head,
-                                AdminModel.AdminRoleOptions.department_member,
-                            ]
-                        )
-                    ],
-                    default=Value(
-                        len(
-                            [
-                                AdminModel.AdminRoleOptions.faculty_director,
-                                AdminModel.AdminRoleOptions.department_head,
-                                AdminModel.AdminRoleOptions.department_member,
-                            ]
-                        )
-                    ),
-                    output_field=CharField()
-                )
-            )
-            .order_by("custom_order")
+            .order_by("fields", "role")
         )
-        merged_users_data = AdminRuleSerializer(staffs, many=True).data
-        return superusers_data + merged_users_data
+        staffs_data = AdminRuleSerializer(staffs, many=True).data
+        return superusers_data + faculty_director_data + staffs_data
 
 
 class AdminUpdateApplicationSerializer(serializers.ModelSerializer):
