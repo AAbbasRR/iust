@@ -52,7 +52,7 @@ class AdminCreateReferralSerializer(serializers.ModelSerializer):
             TimeLineModel.objects.create(
                 application=attrs["application"],
                 user=self.user,
-                status=TimeLineModel.TimeLineStatusOptions.Investigation,
+                status=TimeLineModel.TimeLineStatusOptions.Referral,
                 message=message,
             )
         else:
@@ -74,7 +74,7 @@ class AdminCreateReferralSerializer(serializers.ModelSerializer):
                 TimeLineModel.objects.create(
                     application=attrs["application"],
                     user=self.user,
-                    status=TimeLineModel.TimeLineStatusOptions.Investigation,
+                    status=TimeLineModel.TimeLineStatusOptions.Referral,
                     message=message,
                 )
             else:
@@ -100,7 +100,7 @@ class AdminCreateReferralSerializer(serializers.ModelSerializer):
                     TimeLineModel.objects.create(
                         application=attrs["application"],
                         user=self.user,
-                        status=TimeLineModel.TimeLineStatusOptions.Investigation,
+                        status=TimeLineModel.TimeLineStatusOptions.Referral,
                         message=message,
                     )
                 else:
