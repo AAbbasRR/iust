@@ -26,8 +26,6 @@ class ChatRoom(GeneralDateModel):
         Closed = "Closed", _("Closed")
 
     title = models.CharField(max_length=75, verbose_name=_("Title"))
-    is_group = models.BooleanField(default=False, verbose_name=_("Is Group"))
-    is_ticket = models.BooleanField(default=True, verbose_name=_("Is Ticket"))
     members = models.ManyToManyField(
         UserModel, related_name="user_chat_rooms", verbose_name=_("Members")
     )

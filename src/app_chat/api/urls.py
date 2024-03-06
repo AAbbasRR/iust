@@ -20,4 +20,24 @@ urlpatterns = [
         CreateMessageOnChatRoomView.as_view(),
         name="user_create_message_chatroom",
     ),
+    path(
+        "admin/list/",
+        AdminListTicketView.as_view(),
+        name="admin_list_ticket_chatroom",
+    ),
+    path(
+        "admin/retrieve/",
+        AdminRetrieveTicketMessagesView.as_view(),
+        name="admin_retrieve_ticket_chatroom",
+    ),
+    path(
+        "admin/message/create/",
+        AdminCreateMessageOnChatRoomView.as_view(),
+        name="admin_create_message_chatroom",
+    ),
+    path(
+        "admin/close/",
+        AdminCloseTicketView.as_view(),
+        name="admin_close_chatroom",
+    ),
 ]

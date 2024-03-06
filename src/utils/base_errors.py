@@ -6,7 +6,7 @@ class BaseErrors:
     def _change_error_variable(cls, error_name, **kwargs):
         message = getattr(cls, error_name)
         for key, value in kwargs.items():
-            message = message.replace("{%s}" % key, value)
+            message = message.replace("{%s}" % key, str(value))
         return message
 
     # global

@@ -14,6 +14,7 @@ from app_application.models import (
 )
 from app_user.models import UserModel
 from app_admin.models import AdminModel
+from app_notification.models import NotificationModel
 
 from utils.base_errors import BaseErrors
 
@@ -414,16 +415,35 @@ class AdminUpdateApplicationSerializer(serializers.ModelSerializer):
                 == ApplicationModel.ApplicationStatusOptions.Rejected
             ):
                 time_line_status = TimeLineModel.TimeLineStatusOptions.Rejection
+            message = validated_data.pop(
+                "message", "Final record of application status"
+            )
             TimeLineModel.objects.create(
                 user=self.user,
                 application=instance,
                 status=time_line_status,
-                message=validated_data.pop("message", "ثبت نهایی وضعیت پرونده"),
+                message=message,
             )
             ReferralModel.objects.filter(
                 application=instance,
                 is_enabled=True,
             ).update(is_enabled=False)
+            notification_status = NotificationModel.NotificationStatusOptions.Warning
+            notification_message = f"your application need to edit because: {message}"
+            if instance.status == ApplicationModel.ApplicationStatusOptions.Accepted:
+                notification_status = (
+                    NotificationModel.NotificationStatusOptions.Success
+                )
+                notification_message = f"congratulations, your application approved"
+            elif instance.status == ApplicationModel.ApplicationStatusOptions.Rejected:
+                notification_status = NotificationModel.NotificationStatusOptions.Error
+                notification_message = f"Unfortunately, your request has been rejected, due to: {notification_message}"
+            NotificationModel.objects.create(
+                user=instance.user,
+                title=f"application {instance.tracking_id}",
+                status=notification_status,
+                message=notification_message,
+            )
             return instance
         else:
             raise exceptions.ParseError(BaseErrors.user_cant_edit_application_status)

@@ -3,3 +3,9 @@ from .ticket import (
     RetrieveTicketMessagesView,
     CreateMessageOnChatRoomView,
 )
+from .tickets_admin import (
+    AdminListTicketView,
+    AdminRetrieveTicketMessagesView,
+    AdminCreateMessageOnChatRoomView,
+    AdminCloseTicketView,
+)
