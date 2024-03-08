@@ -68,7 +68,7 @@ class Message(GeneralDateModel):
         related_name="user_messages",
         verbose_name=_("User"),
     )
-    message = models.TextField(verbose_name=_("Message"))
+    message = models.TextField(null=True, blank=True, verbose_name=_("Message"))
     file = models.FileField(
         upload_to=ticket_image_directory_path, verbose_name=_("Image")
     )

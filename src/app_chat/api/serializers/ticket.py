@@ -29,7 +29,7 @@ class MessageSerializers(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             "id": {"read_only": True},
-            "message": {"required": True},
+            "message": {"required": False},
             "file": {"required": False, "write_only": True},
         }
 
