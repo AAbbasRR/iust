@@ -3,6 +3,7 @@ async-timeout==4.0.2
 certifi==2023.11.17
 cfgv==3.4.0
 charset-normalizer==3.3.2
+defusedxml==0.7.1
 diff-match-patch==20230430
 distlib==0.3.7
 Django==4.1.5
@@ -12,14 +13,17 @@ django-filter==23.2
 django-import-export==3.3.3
 django-jalali-date==1.0.2
 djangorestframework==3.14.0
+docx-mailmerge==0.5.0
 et-xmlfile==1.1.0
 filelock==3.13.1
 gunicorn==21.2.0
 identify==2.5.32
 idna==3.6
 jdatetime==4.1.1
+lxml==5.1.0
 MarkupPy==1.14
 nodeenv==1.8.0
+odfpy==1.4.1
 openpyxl==3.1.2
 packaging==23.2
 Pillow==9.4.0

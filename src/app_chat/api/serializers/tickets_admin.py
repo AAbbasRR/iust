@@ -40,7 +40,7 @@ class AdminMessageSerializers(serializers.ModelSerializer):
             self.user = self.request.user
 
     def validate_chatroom_id(self, value):
-        chatroom_obj = self.user.user_chat_rooms.filter(pk=value).first()
+        chatroom_obj = ChatRoomModel.objects.filter(pk=value).first()
         if chatroom_obj:
             return chatroom_obj
         else:
