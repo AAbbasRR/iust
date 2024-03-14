@@ -243,7 +243,7 @@ class AdminReportBarChartAPIView(generics.GenericAPIView):
 
                 counts_per_day_and_degree[date_str][degree] = count
 
-            response.Response(
+            return response.Response(
                 [
                     {
                         "date": date_str,
