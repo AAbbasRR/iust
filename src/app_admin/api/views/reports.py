@@ -131,21 +131,23 @@ class AdminReportHitMapAPIView(generics.GenericAPIView):
             thirty_days_ago = timezone.now() - timedelta(days=30)
             applications_last_30_days = (
                 ApplicationModel.objects.filter(create_at__gte=thirty_days_ago)
-                .annotate(date=timezone.trunc("day", "create_at"))
-                .values("date")
+                .values("create_at__date")
                 .annotate(count=Count("id"))
-                .order_by("-date")
+                .order_by("-create_at__date")
             )
-            data_dict = {}
-            for application in applications_last_30_days:
-                date = application["date"].strftime("%Y-%m-%d")
-                count = application["count"]
-                data_dict[date] = count
-            date_range = [thirty_days_ago + timedelta(days=x) for x in range(30)]
-            for date in date_range:
-                date_str = date.strftime("%Y-%m-%d")
-                if date_str not in data_dict:
-                    data_dict[date_str] = 0
-            return response.Response(
-                [{"value": count, "day": day} for day, count in data_dict.items()]
-            )
+
+            serialized_data = []
+            for single_date in (thirty_days_ago + timedelta(n) for n in range(30)):
+                day_str = single_date.strftime("%Y-%m-%d")
+                count_dict = next(
+                    (
+                        item
+                        for item in applications_last_30_days
+                        if item["create_at__date"] == single_date
+                    ),
+                    None,
+                )
+
+                count = count_dict["count"] if count_dict else 0
+                serialized_data.append({"value": count, "day": day_str})
+            return response.Response(serialized_data)
