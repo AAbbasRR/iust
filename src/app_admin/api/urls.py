@@ -35,4 +35,9 @@ urlpatterns = [
         AdminReportDiffrentBarAPIView.as_view(),
         name="admin_diffrent_report",
     ),
+    path(
+        "report/hieatmap/",
+        AdminReportHitMapAPIView.as_view(),
+        name="admin_heatmap_report",
+    ),
 ]

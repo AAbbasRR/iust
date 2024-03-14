@@ -4,6 +4,7 @@ from .reports import (
     AdminCountryRequestsCountAPIView,
     AdminReportApplicationsAPIView,
     AdminReportDiffrentBarAPIView,
+    AdminReportHitMapAPIView,
 )
 from .staffs_admin import (
     AdminStaffsListAPIView,

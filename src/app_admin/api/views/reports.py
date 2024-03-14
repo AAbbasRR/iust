@@ -1,6 +1,5 @@
-from django.db.models import (
-    Count,
-)
+from django.db.models import Count
+from django.utils import timezone
 
 from rest_framework import generics, response
 
@@ -9,6 +8,8 @@ from app_user.models import AddressModel, ProfileModel
 
 from utils.versioning import BaseVersioning
 from utils.permissions import IsAuthenticatedPermission, IsAdminUserPermission
+
+from datetime import timedelta
 
 
 class AdminCountryRequestsCountAPIView(generics.GenericAPIView):
@@ -118,3 +119,33 @@ class AdminReportDiffrentBarAPIView(generics.GenericAPIView):
             #     .togregorian()
             # )
             # date_filter = date_filter - timedelta(days=365)
+
+
+class AdminReportHitMapAPIView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedPermission]
+    versioning_class = BaseVersioning
+
+    def get(self, *args, **kwargs):
+        tab_filter = self.request.query_params.get("date", "month")
+        if tab_filter == "month":
+            thirty_days_ago = timezone.now() - timedelta(days=30)
+            applications_last_30_days = (
+                ApplicationModel.objects.filter(create_at__gte=thirty_days_ago)
+                .annotate(date=timezone.trunc("day", "create_at"))
+                .values("date")
+                .annotate(count=Count("id"))
+                .order_by("-date")
+            )
+            data_dict = {}
+            for application in applications_last_30_days:
+                date = application["date"].strftime("%Y-%m-%d")
+                count = application["count"]
+                data_dict[date] = count
+            date_range = [thirty_days_ago + timedelta(days=x) for x in range(30)]
+            for date in date_range:
+                date_str = date.strftime("%Y-%m-%d")
+                if date_str not in data_dict:
+                    data_dict[date_str] = 0
+            return response.Response(
+                [{"value": count, "day": day} for day, count in data_dict.items()]
+            )
