@@ -217,15 +217,6 @@ class AdminReportBarChartAPIView(generics.GenericAPIView):
             faculty_filter = self.request.query_params.get("faculty")
             thirty_days_ago = timezone.now() - timedelta(days=30)
 
-            counts_per_day_and_degree = {}
-            for i in range(30):
-                date_str = (thirty_days_ago + timedelta(days=i)).strftime("%Y-%m-%d")
-                counts_per_day_and_degree[date_str] = {
-                    "phd": 0,
-                    "bachelor": 0,
-                    "master": 0,
-                }
-
             applications_last_30_days = (
                 ApplicationModel.objects.filter(
                     create_at__gte=thirty_days_ago, faculty=faculty_filter
@@ -235,11 +226,31 @@ class AdminReportBarChartAPIView(generics.GenericAPIView):
                 .annotate(count=Count("id"))
             )
 
+            counts_per_day_and_degree = {}
+
+            for single_date in (thirty_days_ago + timedelta(n) for n in range(30)):
+                date_str = single_date.strftime("%Y-%m-%d")
+                counts_per_day_and_degree[date_str] = {
+                    "phd": 0,
+                    "bachelor": 0,
+                    "master": 0,
+                }
+
             for entry in applications_last_30_days:
                 date_str = entry["create_at__date"].strftime("%Y-%m-%d")
-                degree = entry["degree"]
+                degree = entry["degree"].lower()
                 count = entry["count"]
 
-                counts_per_day_and_degree[date_str][degree.lower()] += count
+                counts_per_day_and_degree[date_str][degree] = count
 
-            return response.Response(counts_per_day_and_degree)
+            response.Response(
+                [
+                    {
+                        "date": date_str,
+                        "phd": counts["phd"],
+                        "bachelor": counts["bachelor"],
+                        "master": counts["master"],
+                    }
+                    for date_str, counts in counts_per_day_and_degree.items()
+                ]
+            )
