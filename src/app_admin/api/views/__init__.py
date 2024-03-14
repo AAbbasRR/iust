@@ -6,6 +6,7 @@ from .reports import (
     AdminReportDiffrentBarAPIView,
     AdminReportHitMapAPIView,
     AdminReportCountryAPIView,
+    AdminReportBarChartAPIView,
 )
 from .staffs_admin import (
     AdminStaffsListAPIView,

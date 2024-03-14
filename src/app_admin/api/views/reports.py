@@ -205,3 +205,39 @@ class AdminReportCountryAPIView(generics.GenericAPIView):
                     for entry in applications_by_country
                 ]
             )
+
+
+class AdminReportBarChartAPIView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
+    versioning_class = BaseVersioning
+
+    def get(self, *args, **kwargs):
+        tab_filter = self.request.query_params.get("date", "month")
+        if tab_filter == "month":
+            faculty_filter = self.request.query_params.get("faculty")
+            thirty_days_ago = timezone.now() - timedelta(days=30)
+            applications_last_30_days = (
+                ApplicationModel.objects.filter(
+                    create_at__gte=thirty_days_ago, faculty=faculty_filter
+                )
+                .exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
+                .values("create_at__date", "degree")
+                .annotate(count=Count("id"))
+            )
+
+            counts_per_day_and_degree = {}
+            for entry in applications_last_30_days:
+                date_str = entry["create_at__date"].strftime("%Y-%m-%d")
+                degree = entry["degree"]
+                count = entry["count"]
+
+                if date_str not in counts_per_day_and_degree:
+                    counts_per_day_and_degree[date_str] = {
+                        "phd": 0,
+                        "bachelor": 0,
+                        "master": 0,
+                    }
+
+                counts_per_day_and_degree[date_str][degree.lower()] = count
+
+            return response.Response(counts_per_day_and_degree)

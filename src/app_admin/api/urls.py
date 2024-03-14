@@ -45,4 +45,9 @@ urlpatterns = [
         AdminReportCountryAPIView.as_view(),
         name="admin_choropleth_report",
     ),
+    path(
+        "report/barchart/",
+        AdminReportBarChartAPIView.as_view(),
+        name="admin_barchart_report",
+    ),
 ]
