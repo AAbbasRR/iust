@@ -40,4 +40,9 @@ urlpatterns = [
         AdminReportHitMapAPIView.as_view(),
         name="admin_heatmap_report",
     ),
+    path(
+        "report/countries/",
+        AdminReportCountryAPIView.as_view(),
+        name="admin_countries_report",
+    ),
 ]

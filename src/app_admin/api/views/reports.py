@@ -8,6 +8,7 @@ from app_user.models import AddressModel, ProfileModel
 
 from utils.versioning import BaseVersioning
 from utils.permissions import IsAuthenticatedPermission, IsAdminUserPermission
+from utils.data_list import countries
 
 from datetime import timedelta
 
@@ -122,7 +123,7 @@ class AdminReportDiffrentBarAPIView(generics.GenericAPIView):
 
 
 class AdminReportHitMapAPIView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticatedPermission]
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
     versioning_class = BaseVersioning
 
     def get(self, *args, **kwargs):
@@ -151,3 +152,28 @@ class AdminReportHitMapAPIView(generics.GenericAPIView):
                 count = count_dict["count"] if count_dict else 0
                 serialized_data.append({"value": count, "day": day_str})
             return response.Response(serialized_data)
+
+
+class AdminReportCountryAPIView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
+    versioning_class = BaseVersioning
+
+    def get(self, *args, **kwargs):
+        tab_filter = self.request.query_params.get("date", "all")
+        if tab_filter == "all":
+            applications_by_country = list(
+                ApplicationModel.objects.select_related("user__address")
+                .values("user__address__country")
+                .annotate(application_count=Count("id"))
+                .order_by("-application_count")
+            )
+
+            return response.Response(
+                [
+                    {
+                        "id": countries[entry["user__address__country"]],
+                        "value": entry["application_count"],
+                    }
+                    for entry in applications_by_country
+                ]
+            )
