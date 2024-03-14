@@ -20,7 +20,9 @@ class AdminCountryRequestsCountAPIView(generics.GenericAPIView):
     def get(self, *args, **kwargs):
         tab_filter = self.request.query_params.get("date", "all")
         if tab_filter == "all":
-            application_count = ApplicationModel.objects.all().count()
+            application_count = ApplicationModel.objects.exclude(
+                status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+            ).count()
             applications_by_country = (
                 AddressModel.objects.exclude(country=None)
                 .values("country")
@@ -89,28 +91,50 @@ class AdminReportDiffrentBarAPIView(generics.GenericAPIView):
     def get(self, *args, **kwargs):
         tab_filter = self.request.query_params.get("date", "all")
         if tab_filter == "all":
-            application_count = ApplicationModel.objects.all().count()
+            application_count = ApplicationModel.objects.exclude(
+                status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+            ).count()
             return response.Response(
                 {
                     "application_count": application_count,
                     "gender": {
                         "male": ApplicationModel.objects.filter(
                             user__user_profile__gender=ProfileModel.ProfileGenderOptions.Male
-                        ).count(),
+                        )
+                        .exclude(
+                            status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+                        )
+                        .count(),
                         "female": ApplicationModel.objects.filter(
                             user__user_profile__gender=ProfileModel.ProfileGenderOptions.FeMale
-                        ).count(),
+                        )
+                        .exclude(
+                            status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+                        )
+                        .count(),
                     },
                     "education": {
                         "bachelor": ApplicationModel.objects.filter(
                             degree=ApplicationModel.ApplicationDegreeOptions.Bachelor
-                        ).count(),
+                        )
+                        .exclude(
+                            status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+                        )
+                        .count(),
                         "master": ApplicationModel.objects.filter(
                             degree=ApplicationModel.ApplicationDegreeOptions.Master
-                        ).count(),
+                        )
+                        .exclude(
+                            status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+                        )
+                        .count(),
                         "phd": ApplicationModel.objects.filter(
                             degree=ApplicationModel.ApplicationDegreeOptions.PHD
-                        ).count(),
+                        )
+                        .exclude(
+                            status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+                        )
+                        .count(),
                     },
                 }
             )
@@ -132,6 +156,7 @@ class AdminReportHitMapAPIView(generics.GenericAPIView):
             thirty_days_ago = timezone.now() - timedelta(days=30)
             applications_last_30_days = (
                 ApplicationModel.objects.filter(create_at__gte=thirty_days_ago)
+                .exclude(status=ApplicationModel.ApplicationStatusOptions.Not_Completed)
                 .values("create_at__date")
                 .annotate(count=Count("id"))
                 .order_by("-create_at__date")
@@ -162,8 +187,11 @@ class AdminReportCountryAPIView(generics.GenericAPIView):
         tab_filter = self.request.query_params.get("date", "all")
         if tab_filter == "all":
             applications_by_country = list(
-                ApplicationModel.objects.select_related("user__address")
-                .values("user__address__country")
+                ApplicationModel.objects.exclude(
+                    status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+                )
+                .select_related("user__user_address")
+                .values("user__user_address__country")
                 .annotate(application_count=Count("id"))
                 .order_by("-application_count")
             )
@@ -171,7 +199,7 @@ class AdminReportCountryAPIView(generics.GenericAPIView):
             return response.Response(
                 [
                     {
-                        "id": countries[entry["user__address__country"]],
+                        "id": countries[entry["user__user_address__country"]],
                         "value": entry["application_count"],
                     }
                     for entry in applications_by_country

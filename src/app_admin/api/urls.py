@@ -41,8 +41,8 @@ urlpatterns = [
         name="admin_heatmap_report",
     ),
     path(
-        "report/countries/",
+        "report/choropleth/",
         AdminReportCountryAPIView.as_view(),
-        name="admin_countries_report",
+        name="admin_choropleth_report",
     ),
 ]
