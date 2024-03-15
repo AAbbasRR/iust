@@ -50,4 +50,9 @@ urlpatterns = [
         AdminReportBarChartAPIView.as_view(),
         name="admin_barchart_report",
     ),
+    path(
+        "report/averagetimeline/",
+        AdminReportAverageReviewTimeAPIView.as_view(),
+        name="admin_average_timeline_report",
+    ),
 ]

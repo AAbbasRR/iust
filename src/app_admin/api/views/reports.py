@@ -1,9 +1,10 @@
-from django.db.models import Count
+from django.db.models import Count, F, Avg, Max, Subquery
+from django.db.models.functions import Coalesce
 from django.utils import timezone
 
 from rest_framework import generics, response
 
-from app_application.models import ApplicationModel
+from app_application.models import ApplicationModel, TimeLineModel
 from app_user.models import AddressModel, ProfileModel
 
 from utils.versioning import BaseVersioning
@@ -254,3 +255,49 @@ class AdminReportBarChartAPIView(generics.GenericAPIView):
                     for date_str, counts in counts_per_day_and_degree.items()
                 ]
             )
+
+
+class AdminReportAverageReviewTimeAPIView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedPermission, IsAdminUserPermission]
+    versioning_class = BaseVersioning
+
+    def get(self, *args, **kwargs):
+        tab_filter = self.request.query_params.get("date", "all")
+        if tab_filter == "all":
+            applications = ApplicationModel.objects.exclude(
+                status=ApplicationModel.ApplicationStatusOptions.Not_Completed
+            )
+
+            last_timeline_create_at = (
+                TimeLineModel.objects.filter(application_id=F("application_id"))
+                .values("application_id")
+                .annotate(last_created_at=Max("created_at"))
+            )
+
+            applications_with_last_timeline_create_at = applications.annotate(
+                last_timeline_create_at=Coalesce(
+                    Subquery(last_timeline_create_at.values("last_created_at")),
+                    timezone.now(),
+                )
+            )
+
+            applications_with_timediff = (
+                applications_with_last_timeline_create_at.annotate(
+                    timediff=F("last_timeline_create_at") - F("create_at")
+                )
+            )
+
+            average_timediff_by_field_of_study = applications_with_timediff.values(
+                "field_of_study"
+            ).annotate(average_timediff=Avg("timediff"))
+
+            response_data = {}
+            for entry in average_timediff_by_field_of_study:
+                field_of_study = entry["field_of_study"]
+                average_timediff = entry["average_timediff"]
+
+                formatted_timediff = str(average_timediff)
+
+                response_data[field_of_study] = formatted_timediff
+
+            return response.Response(response_data)
