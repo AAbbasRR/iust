@@ -1,6 +1,7 @@
 from django.db.models import Count, F, Avg, Max, Subquery
 from django.db.models.functions import Coalesce
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from rest_framework import generics, response
 
@@ -291,7 +292,7 @@ class AdminReportAverageReviewTimeAPIView(generics.GenericAPIView):
                 "field_of_study"
             ).annotate(average_timediff=Avg("timediff"))
 
-            response_data = {}
+            response_data = []
             for entry in average_timediff_by_field_of_study:
                 field_of_study = entry["field_of_study"]
                 average_timediff = entry["average_timediff"]
@@ -305,8 +306,8 @@ class AdminReportAverageReviewTimeAPIView(generics.GenericAPIView):
                     if hours == 24:
                         hours = 0
 
-                formatted_timediff = f"{days}:{hours:02}"
+                response_data.append(
+                    {"field_of_study": _(field_of_study), "days": days, "hours": hours}
+                )
 
-                response_data[field_of_study] = formatted_timediff
-
-            return response.Response(response_data)
+                return response.Response(response_data)
