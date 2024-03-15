@@ -310,4 +310,4 @@ class AdminReportAverageReviewTimeAPIView(generics.GenericAPIView):
                     {"field_of_study": _(field_of_study), "days": days, "hours": hours}
                 )
 
-                return response.Response(response_data)
+            return response.Response(response_data)
