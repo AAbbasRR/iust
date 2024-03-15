@@ -271,12 +271,12 @@ class AdminReportAverageReviewTimeAPIView(generics.GenericAPIView):
             last_timeline_create_at = (
                 TimeLineModel.objects.filter(application_id=F("application_id"))
                 .values("application_id")
-                .annotate(last_created_at=Max("created_at"))
+                .annotate(last_create_at=Max("create_at"))
             )
 
             applications_with_last_timeline_create_at = applications.annotate(
                 last_timeline_create_at=Coalesce(
-                    Subquery(last_timeline_create_at.values("last_created_at")),
+                    Subquery(last_timeline_create_at.values("last_create_at")),
                     timezone.now(),
                 )
             )
@@ -296,7 +296,16 @@ class AdminReportAverageReviewTimeAPIView(generics.GenericAPIView):
                 field_of_study = entry["field_of_study"]
                 average_timediff = entry["average_timediff"]
 
-                formatted_timediff = str(average_timediff)
+                days = average_timediff.days
+                hours = average_timediff.seconds // 3600
+
+                if days < 0:
+                    days = abs(days)
+                    hours = 24 - hours
+                    if hours == 24:
+                        hours = 0
+
+                formatted_timediff = f"{days}:{hours:02}"
 
                 response_data[field_of_study] = formatted_timediff
 
