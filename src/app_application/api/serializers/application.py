@@ -150,6 +150,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
                     ApplicationModel.ApplicationStatusOptions.Current
                 )
                 application_obj.save()
+                application_obj.update_application_file()
             return application_obj
         else:
             raise exceptions.ParseError(BaseErrors.cant_create_duplicate_application)
@@ -210,6 +211,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
                         )
                 instance.status = ApplicationModel.ApplicationStatusOptions.Current
             instance.save()
+            instance.update_application_file()
             return instance
         else:
             raise exceptions.ParseError(BaseErrors.cant_create_duplicate_application)

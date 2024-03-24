@@ -50,5 +50,5 @@ class AdminAgentListApplicationsAPIView(generics.ListAPIView):
     versioning_class = BaseVersioning
     pagination_class = BasePagination
     serializer_class = AdminApplicationListSerializer
-    filter_fields = ["agent"]
+    filterset_fields = ["agent"]
     queryset = ApplicationModel.objects.filter()

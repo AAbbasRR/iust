@@ -251,6 +251,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
         "get_can_submit_application"
     )
     status_value = serializers.CharField(source="status", read_only=True)
+    application_file_url = serializers.SerializerMethodField("get_application_file_url")
 
     class Meta:
         model = ApplicationModel
@@ -264,6 +265,7 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
             "status_value",
             "jalali_created_at",
             "application_document",
+            "application_file_url",
             "application_timeline",
             "user",
             "staffs",
@@ -281,6 +283,9 @@ class AdminDetailApplicationSerializer(serializers.ModelSerializer):
             if self.method in ["PUT", "PATCH"]:
                 for field_name, field in self.fields.items():
                     field.required = False
+
+    def get_application_file_url(self, obj):
+        return obj.application_file_url(self.request)
 
     def get_user(self, obj):
         return {

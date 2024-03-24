@@ -95,6 +95,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
         document_obj = DocumentModel.objects.create(
             application=application_obj, user=self.user, **validated_data
         )
+        application_obj.update_application_file()
         return document_obj
 
     def update(self, instance, validated_data):
@@ -106,4 +107,5 @@ class DocumentsSerializer(serializers.ModelSerializer):
         for field_name in validated_data:  # update document fields
             setattr(instance, field_name, validated_data[field_name])
         instance.save()
+        application_obj.update_application_file()
         return instance
